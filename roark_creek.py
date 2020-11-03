@@ -15,7 +15,7 @@
 	#Need to gain the ability to rotate through books as the stream progresses
 import math
 #libraries
-version_number = "0.0.1"
+version_number = "0.0.1b"
 cryptLib=open('cryptLib1.txt','rb')
 refLib=open('readLib1.txt','rb')
 keyHashLib='mHUa_?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
@@ -29,7 +29,7 @@ seed = "A"
 
 def greeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek v1.0             |\n|              \"Albatross\"               |\n|                                         |\n-------------------------------------------")
-	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit")
+	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit\n[e2] and [d2] for unstable algorithms")
 def acceptKey():
 	userKey=input("Enter 4-bit key: ")
 	print("Hashing key and finding books...")
@@ -60,51 +60,6 @@ def acceptKey():
 			i+=1
 			continue
 	print("Key accepted: "+str(userKey))
-
-def encryptAries():
-	#assigns numerical value for each character in given plaintext, storing them in the ptList
-	userPlaintext = str(input("Enter plaintext to be encrypted: "))
-	print("\nProcessing plaintext...")
-	i = 0
-	for x in range(len(userPlaintext)):
-		parse = chosenRefBook.index(userPlaintext[i])
-		ptList.append(parse)
-		i += 1
-	print("Plaintext accepted: "+userPlaintext)
-	#print(ptList)
-	#loops through the numerical values stored in ptList, finds the cooresponding characters in the chosen cryptographic library, and stores the found characters in cryptList
-	print("\nEncrypting plaintext...")
-	for x in ptList:
-		parse = chosenCryptBook[x]
-		cryptList.append(parse)
-	print("Encryption complete.")
-	print(cryptList)
-	#loops through the characters stored in cryptList and prints them in a string
-	sep = ""
-	for x in cryptList:
-		encryptedText = sep.join(cryptList)
-	print("Here's your encrypted text: "+encryptedText)
-
-def decryptAries():
-	userCiphertext = str(input("Enter ciphertext to be decrypted: "))
-	print("\nProcessing ciphertext...")
-	i = 0
-	for x in range(len(userCiphertext)):
-		parse = chosenCryptBook.index(userCiphertext[i])
-		ctList.append(parse)
-		i += 1
-	print("Ciphertext accepted: "+userCiphertext)
-	#print(ctList)
-	print("\nDecrypting ciphertext...")
-	for x in ctList:
-		parse = chosenRefBook[x]
-		decryptList.append(parse)
-	print("Decryption complete.")
-	#print(decryptList)
-	sep = ""
-	for x in decryptList:
-		decryptedText = sep.join(decryptList)
-	print("Here's your decrypted text: "+decryptedText)
 
 def downstreamDecryptAlbatross():
 	userCiphertext = str(input("Enter ciphertext to be decrypted: "))
@@ -170,11 +125,11 @@ def task(selected_task):
 	if selected_task == "key":
 		acceptKey()
 	elif selected_task == "encrypt":
-		encryptAries()
+		downstreamEncryptAlbatross()
 	elif selected_task == "encrypt2":
 		downstreamEncryptAlbatross()
 	elif selected_task == "decrypt":
-		decryptAries()
+		downstreamDecryptAlbatross()
 	elif selected_task == "decrypt2":
 		downstreamDecryptAlbatross()
 	elif selected_task == "quit":
