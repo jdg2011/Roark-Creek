@@ -24,7 +24,7 @@ seed = "A"
 
 def greeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek v1.0             |\n|              \"Albatross\"                |\n|                                         |\n-------------------------------------------")
-	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit\n[e2] and [d2] for unstable algorithms")
+	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit")
 def acceptKey():
 	userKey=input("Enter 4-bit key: ")
 	print("Hashing key and finding books...")
@@ -133,12 +133,8 @@ def get_command():
 			return "key"
 		elif command == "e" or command == "encrypt":
 			return "encrypt"
-		elif command == "e2" or command == "encrypt2":
-			return "encrypt2"
 		elif command == "d" or command == "decrypt":
 			return "decrypt"
-		elif command == "d2" or command == "decrypt2":
-			return "decrypt2"
 		elif command == "q" or command == "quit" or command == "exit":
 			return "quit"
 		else:
@@ -150,11 +146,7 @@ def task(selected_task):
 		acceptKey()
 	elif selected_task == "encrypt":
 		downstreamEncryptAlbatross()
-	elif selected_task == "encrypt2":
-		downstreamEncryptAlbatross()
 	elif selected_task == "decrypt":
-		downstreamDecryptAlbatross()
-	elif selected_task == "decrypt2":
 		downstreamDecryptAlbatross()
 	elif selected_task == "quit":
 		global T
