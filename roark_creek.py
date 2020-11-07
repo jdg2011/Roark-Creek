@@ -15,20 +15,15 @@
 	#Need to gain the ability to rotate through books as the stream progresses
 import math
 #libraries
-version_number = "0.0.1b"
-cryptLib=open('cryptLib1.txt','rb')
-refLib=open('readLib1.txt','rb')
+version_number = "0.0.1c"
+cryptLib=open('cryptLib1.txt','r')
 keyHashLib='mHUa_?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
 #lists for processing text
-ptList=[]
-cryptList=[]
-ctList=[]
-decryptList=[]
 seed = "A"
 #In the future this^ should be a variable defined by the key
 
 def greeting():
-	print("-------------------------------------------\n|                                         |\n|            Roark Creek v1.0             |\n|              \"Albatross\"               |\n|                                         |\n-------------------------------------------")
+	print("-------------------------------------------\n|                                         |\n|            Roark Creek v1.0             |\n|              \"Albatross\"                |\n|                                         |\n-------------------------------------------")
 	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit\n[e2] and [d2] for unstable algorithms")
 def acceptKey():
 	userKey=input("Enter 4-bit key: ")
@@ -44,21 +39,23 @@ def acceptKey():
 		if i == keyHash_cryptBook:
 			global chosenCryptBook
 			chosenCryptBook=str(cryptLib.readline())
-			#print("The chosen cryptographic book is: "+chosenCryptBook)
+			print("The chosen cryptographic book is: "+chosenCryptBook)
 			break
 		else:
 			i+=1
 			continue
 	i=0
+	refLib=open('readLib1.txt','r')
 	for x in refLib:
 		if i == keyHash_refBook:
-			global chosenRefBook
-			chosenRefBook = str(refLib.readline())
-			#print("The chosen reference book is: "+chosenRefBook)
+			global initialRefBook
+			initialRefBook = str(refLib.readline())
+			print("The chosen reference book is: "+initialRefBook)
 			break
 		else:
 			i+=1
 			continue
+	refLib.close()
 	print("Key accepted: "+str(userKey))
 
 def downstreamDecryptAlbatross():
@@ -70,15 +67,28 @@ def downstreamDecryptAlbatross():
 			p=seed
 		else:
 			p=userCiphertext[x-1]
-		z=decryptAlbatross(userCiphertext[x],p)
+		i+=1
+		preLeafNum=chosenCryptBook.index(p)
+		z=decryptAlbatross(userCiphertext[x],preLeafNum)
 		decryptedText=str(decryptedText)+str(z)
 	print("Decryption complete: "+decryptedText)
 
-def decryptAlbatross(leaf,preLeaf):
-	preLeafNum=chosenRefBook.index(preLeaf)
+def decryptAlbatross(leaf,preLeafNum):
 	#This variable should be used to change the current RefBook
+	i=0
+	global dRefBook
+	refLib=open('readLib1.txt','r')
+	for x in refLib:
+		if i==preLeafNum:
+			dRefBook=str(refLib.readline())
+			print("The chosen reference book is: "+dRefBook)
+			break
+		else:
+			i+=1
+			continue
+	refLib.close()
 	cryptNum=chosenCryptBook.index(leaf)
-	output=chosenRefBook[cryptNum]
+	output=dRefBook[cryptNum]
 	return output
 
 def downstreamEncryptAlbatross():
@@ -90,13 +100,27 @@ def downstreamEncryptAlbatross():
 			p=seed
 		else:
 			p=encryptedText[x-1]
-		z=encryptAlbatross(userPlaintext[x],p)
+		i+=1
+		preLeafNum=chosenCryptBook.index(p)
+		z=encryptAlbatross(userPlaintext[x],preLeafNum)
 		encryptedText=str(encryptedText)+str(z)
 	print("Encryption complete: "+encryptedText)
 
-def encryptAlbatross(leaf,preLeaf):
-	preLeafNum=chosenRefBook.index(preLeaf)
+def encryptAlbatross(leaf,preLeafNum):
+	print("preLeafNum="+str(preLeafNum))
 	#This variable should be used to change the current RefBook
+	i=0
+	global chosenRefBook
+	refLib=open('readLib1.txt','r')
+	for x in refLib:
+		if i==preLeafNum:
+			chosenRefBook=str(refLib.readline())
+			print("The chosen reference book is: "+chosenRefBook)
+			break
+		else:
+			i+=1
+			continue
+	refLib.close()
 	refNum=chosenRefBook.index(leaf)
 	output=chosenCryptBook[refNum]
 	return output
@@ -115,7 +139,7 @@ def get_command():
 			return "decrypt"
 		elif command == "d2" or command == "decrypt2":
 			return "decrypt2"
-		elif command == "q" or command == "quit":
+		elif command == "q" or command == "quit" or command == "exit":
 			return "quit"
 		else:
 			print("\""+command+"\" bad input. Try again.")
@@ -142,4 +166,3 @@ while T == 0:
 	choice = get_command()
 	task(choice)
 cryptLib.close()
-refLib.close()
