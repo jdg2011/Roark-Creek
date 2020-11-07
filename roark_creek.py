@@ -15,7 +15,7 @@
 	#Need to gain the ability to rotate through books as the stream progresses
 import math
 #libraries
-version_number = "0.0.1c"
+version_number = "0.0.1d"
 cryptLib=open('cryptLib1.txt','r')
 keyHashLib='mHUa_?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
 #lists for processing text
@@ -34,12 +34,13 @@ def acceptKey():
 	keyBit3=keyHashLib.index(userKey[3])
 	keyHash_cryptBook=int(math.fmod(keyBit0*keyBit1+keyBit2*keyBit3,30))
 	keyHash_refBook=int(math.fmod(keyBit0+keyBit1*keyBit2+keyBit3,30))
+	keyHash_leafBook=int(math.fmod(keyBit0*keyBit3,30))
 	i=0
 	for x in cryptLib:
 		if i == keyHash_cryptBook:
 			global chosenCryptBook
 			chosenCryptBook=str(cryptLib.readline())
-			print("The chosen cryptographic book is: "+chosenCryptBook)
+			#print("The chosen cryptographic book is: "+chosenCryptBook)
 			break
 		else:
 			i+=1
@@ -50,12 +51,23 @@ def acceptKey():
 		if i == keyHash_refBook:
 			global initialRefBook
 			initialRefBook = str(refLib.readline())
-			print("The chosen reference book is: "+initialRefBook)
+			#print("The chosen reference book is: "+initialRefBook)
 			break
 		else:
 			i+=1
 			continue
 	refLib.close()
+	leafLib=open('leafLib1.txt', 'r')
+	i=0
+	for x in leafLib:
+		if i == keyHash_leafBook:
+			global leafRefBook
+			leafRefBook = str(leafLib.readline())
+			break
+		else:
+			i+=1
+			continue
+	leafLib.close()
 	print("Key accepted: "+str(userKey))
 
 def downstreamDecryptAlbatross():
@@ -68,20 +80,18 @@ def downstreamDecryptAlbatross():
 		else:
 			p=userCiphertext[x-1]
 		i+=1
-		preLeafNum=chosenCryptBook.index(p)
+		preLeafNum=hashLeaf(p)
 		z=decryptAlbatross(userCiphertext[x],preLeafNum)
 		decryptedText=str(decryptedText)+str(z)
 	print("Decryption complete: "+decryptedText)
 
 def decryptAlbatross(leaf,preLeafNum):
-	#This variable should be used to change the current RefBook
 	i=0
 	global dRefBook
 	refLib=open('readLib1.txt','r')
 	for x in refLib:
 		if i==preLeafNum:
 			dRefBook=str(refLib.readline())
-			print("The chosen reference book is: "+dRefBook)
 			break
 		else:
 			i+=1
@@ -90,6 +100,10 @@ def decryptAlbatross(leaf,preLeafNum):
 	cryptNum=chosenCryptBook.index(leaf)
 	output=dRefBook[cryptNum]
 	return output
+
+def hashLeaf(leaf):
+	hashProduct=leafRefBook.index(leaf)
+	return hashProduct
 
 def downstreamEncryptAlbatross():
 	userPlaintext = str(input("Enter plaintext to be encrypted: "))
@@ -101,21 +115,18 @@ def downstreamEncryptAlbatross():
 		else:
 			p=encryptedText[x-1]
 		i+=1
-		preLeafNum=chosenCryptBook.index(p)
+		preLeafNum=hashLeaf(p)
 		z=encryptAlbatross(userPlaintext[x],preLeafNum)
 		encryptedText=str(encryptedText)+str(z)
 	print("Encryption complete: "+encryptedText)
 
 def encryptAlbatross(leaf,preLeafNum):
-	print("preLeafNum="+str(preLeafNum))
-	#This variable should be used to change the current RefBook
 	i=0
 	global chosenRefBook
 	refLib=open('readLib1.txt','r')
 	for x in refLib:
 		if i==preLeafNum:
 			chosenRefBook=str(refLib.readline())
-			print("The chosen reference book is: "+chosenRefBook)
 			break
 		else:
 			i+=1
