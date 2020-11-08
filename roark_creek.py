@@ -45,6 +45,7 @@ def acceptKey():
 		else:
 			i+=1
 			continue
+	cryptLib.close()
 	i=0
 	refLib=open('readLib1.txt','r')
 	for x in refLib:
@@ -70,7 +71,7 @@ def acceptKey():
 	leafLib.close()
 	print("Key accepted: "+str(userKey))
 
-def downstreamDecryptAlbatross():
+def downstreamDecrypt():
 	userCiphertext = str(input("Enter ciphertext to be decrypted: "))
 	decryptedText=""
 	i=0
@@ -81,14 +82,13 @@ def downstreamDecryptAlbatross():
 			p=userCiphertext[x-1]
 		i+=1
 		preLeafNum=hashLeaf(p)
-		z=decryptAlbatross(userCiphertext[x],preLeafNum)
+		z=decryptLeaf(userCiphertext[x],preLeafNum)
 		decryptedText=str(decryptedText)+str(z)
 	print("Decryption complete: "+decryptedText)
 
-def decryptAlbatross(leaf,preLeafNum):
-	i=0
-	global dRefBook
+def decryptLeaf(leaf,preLeafNum):
 	refLib=open('readLib1.txt','r')
+	i=0
 	for x in refLib:
 		if i==preLeafNum:
 			dRefBook=str(refLib.readline())
@@ -105,7 +105,7 @@ def hashLeaf(leaf):
 	hashProduct=leafRefBook.index(leaf)
 	return hashProduct
 
-def downstreamEncryptAlbatross():
+def downstreamEncrypt():
 	userPlaintext = str(input("Enter plaintext to be encrypted: "))
 	encryptedText=""
 	i=0
@@ -116,23 +116,22 @@ def downstreamEncryptAlbatross():
 			p=encryptedText[x-1]
 		i+=1
 		preLeafNum=hashLeaf(p)
-		z=encryptAlbatross(userPlaintext[x],preLeafNum)
+		z=encryptLeaf(userPlaintext[x],preLeafNum)
 		encryptedText=str(encryptedText)+str(z)
 	print("Encryption complete: "+encryptedText)
 
-def encryptAlbatross(leaf,preLeafNum):
-	i=0
-	global chosenRefBook
+def encryptLeaf(leaf,preLeafNum):
 	refLib=open('readLib1.txt','r')
+	i=0
 	for x in refLib:
 		if i==preLeafNum:
-			chosenRefBook=str(refLib.readline())
+			eRefBook=str(refLib.readline())
 			break
 		else:
 			i+=1
 			continue
 	refLib.close()
-	refNum=chosenRefBook.index(leaf)
+	refNum=eRefBook.index(leaf)
 	output=chosenCryptBook[refNum]
 	return output
 
@@ -156,9 +155,9 @@ def task(selected_task):
 	if selected_task == "key":
 		acceptKey()
 	elif selected_task == "encrypt":
-		downstreamEncryptAlbatross()
+		downstreamEncrypt()
 	elif selected_task == "decrypt":
-		downstreamDecryptAlbatross()
+		downstreamDecrypt()
 	elif selected_task == "quit":
 		global T
 		T = 1
@@ -168,4 +167,3 @@ T = 0
 while T == 0:
 	choice = get_command()
 	task(choice)
-cryptLib.close()
