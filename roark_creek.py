@@ -37,7 +37,7 @@ def processKey(userKey):
 		keyHash_seed1=int(math.fmod(keyBit[2]*keyBit[5],91))
 		keyHash_seed2=int(math.fmod(keyBit[3]*keyBit[6],91))
 		i=0
-		cryptLib=open('cryptLib1.txt','r')
+		cryptLib=open('libraries/cryptLib1.txt','r')
 		for x in cryptLib:
 			if i == keyHash_cryptBook:
 				global initialCryptBook
@@ -49,7 +49,7 @@ def processKey(userKey):
 				continue
 		cryptLib.close()
 		i=0
-		refLib=open('refLib1.txt','r')
+		refLib=open('libraries/refLib1.txt','r')
 		for x in refLib:
 			if i == keyHash_refBook:
 				global initialRefBook
@@ -60,7 +60,7 @@ def processKey(userKey):
 				i+=1
 				continue
 		refLib.close()
-		leafLib=open('leafLib1.txt', 'r')
+		leafLib=open('libraries/leafLib1.txt', 'r')
 		i=0
 		for x in leafLib:
 			if i == keyHash_leafBook:
@@ -109,7 +109,7 @@ def downstreamDecrypt():
 	print("Decryption complete: "+decryptedText)
 
 def decryptLeaf(leaf,preLeafNum):
-	refLib=open('refLib1.txt','r')
+	refLib=open('libraries/refLib1.txt','r')
 	i=0
 	for x in refLib:
 		if i==preLeafNum:
@@ -143,7 +143,7 @@ def downstreamEncrypt():
 	print("Encryption complete: "+encryptedText)
 
 def encryptLeaf(leaf,preLeafNum):
-	refLib=open('refLib1.txt','r')
+	refLib=open('libraries/refLib1.txt','r')
 	i=0
 	for x in refLib:
 		if i==preLeafNum:
