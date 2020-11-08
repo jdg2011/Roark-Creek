@@ -10,6 +10,9 @@
 
 #Notes
 	#A "sub-string not found" error typically means you used a character not included in the libraries.
+	#Need to add a random key generator
+	#Need to add clipboard commands with pyperclip
+	#Need to add command options like "e -c Jordan" to encrypt the phrase "Jordan" and immediately copy the ciphertext to the clipboard.
 import math
 version_number = "0.0.1e"
 
@@ -40,9 +43,9 @@ def processKey(userKey):
 		cryptLib=open('cryptLib1.txt','r')
 		for x in cryptLib:
 			if i == keyHash_cryptBook:
-				global chosenCryptBook
-				chosenCryptBook=str(cryptLib.readline())
-				#print("The chosen cryptographic book is: "+chosenCryptBook)
+				global initialCryptBook
+				initialCryptBook=str(cryptLib.readline())
+				#print("The chosen cryptographic book is: "+initialCryptBook)
 				break
 			else:
 				i+=1
@@ -119,7 +122,7 @@ def decryptLeaf(leaf,preLeafNum):
 			i+=1
 			continue
 	refLib.close()
-	cryptNum=chosenCryptBook.index(leaf)
+	cryptNum=initialCryptBook.index(leaf)
 	output=dRefBook[cryptNum]
 	return output
 
@@ -154,7 +157,7 @@ def encryptLeaf(leaf,preLeafNum):
 			continue
 	refLib.close()
 	refNum=eRefBook.index(leaf)
-	output=chosenCryptBook[refNum]
+	output=initialCryptBook[refNum]
 	return output
 
 def get_command():
