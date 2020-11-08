@@ -49,7 +49,7 @@ def processKey(userKey):
 				continue
 		cryptLib.close()
 		i=0
-		refLib=open('readLib1.txt','r')
+		refLib=open('refLib1.txt','r')
 		for x in refLib:
 			if i == keyHash_refBook:
 				global initialRefBook
@@ -109,7 +109,7 @@ def downstreamDecrypt():
 	print("Decryption complete: "+decryptedText)
 
 def decryptLeaf(leaf,preLeafNum):
-	refLib=open('readLib1.txt','r')
+	refLib=open('refLib1.txt','r')
 	i=0
 	for x in refLib:
 		if i==preLeafNum:
@@ -143,7 +143,7 @@ def downstreamEncrypt():
 	print("Encryption complete: "+encryptedText)
 
 def encryptLeaf(leaf,preLeafNum):
-	refLib=open('readLib1.txt','r')
+	refLib=open('refLib1.txt','r')
 	i=0
 	for x in refLib:
 		if i==preLeafNum:
