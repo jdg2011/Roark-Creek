@@ -6,21 +6,12 @@
 #
 # Created:     25/08/2020
 # Copyright:   (c) Jordan Gloor 2020
-# Licence:     <your licence>
 #-------------------------------------------------------------------------------
 
 #Notes
 	#A "sub-string not found" error typically means you used a character not included in the libraries.
-	#Need error handling for unacceptable keys and the like
 import math
-#libraries
 version_number = "0.0.1e"
-cryptLib=open('cryptLib1.txt','r')
-keyHashLib='mHUa_?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
-#lists for processing text
-seed1 = 'A'
-seed2 = 'B'
-#In the future these^ should be a variable assigned by the key
 
 def greeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek v1.0             |\n|              \"Albatross\"                |\n|                                         |\n-------------------------------------------")
@@ -37,11 +28,15 @@ def processKey(userKey):
 		print('Error! Bad key entered.')
 	else:
 		keyBit=[]
+		keyHashLib='mHUa_?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
 		for x in userKey: keyBit.append(keyHashLib.index(x))
 		keyHash_cryptBook=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]*keyBit[3],99))
 		keyHash_refBook=int(math.fmod(keyBit[0]+keyBit[1]*keyBit[2]+keyBit[3],99))
 		keyHash_leafBook=int(math.fmod(keyBit[0]*keyBit[3],99))
+		keyHash_seed1=int(math.fmod(keyBit[2]*keyBit[5],91))
+		keyHash_seed2=int(math.fmod(keyBit[3]*keyBit[6],91))
 		i=0
+		cryptLib=open('cryptLib1.txt','r')
 		for x in cryptLib:
 			if i == keyHash_cryptBook:
 				global chosenCryptBook
@@ -75,6 +70,26 @@ def processKey(userKey):
 				i+=1
 				continue
 		leafLib.close()
+		i=0
+		seedHashLib1='Z RbQc3fjBuPÑ~Gv{Y7sXLF%-|Ck)S(q&_<^JTMNi0:KEH6!p5.OI1VAa,W*+?>}$n8gñox@edDzwlrU2h=t`94y#m'
+		for x in seedHashLib1:
+			if i==keyHash_seed1:
+				global seed1
+				seed1=x
+				break
+			else:
+				i+=1
+				continue
+		i=0
+		seedHashLib2='+|Gb6iñ!05jUdpJ%lVy3Oo`x(nIkE91~RTuDPLZYNQF84*-S=g#&2.Ht>_,WmÑf?esKrA7zMvh X$^Cwq@}Bc{a<):'
+		for x in seedHashLib2:
+			if i==keyHash_seed2:
+				global seed2
+				seed2=x
+				break
+			else:
+				i+=1
+				continue
 		print("Key accepted: "+str(userKey))
 
 def downstreamDecrypt():
