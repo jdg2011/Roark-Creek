@@ -10,27 +10,24 @@
 
 #Notes
 	#A "sub-string not found" error typically means you used a character not included in the libraries.
-	#Need to add a random key generator
-	#Need to add clipboard commands with pyperclip
-	#Need to add command options like "e -c Jordan" to encrypt the phrase "Jordan" and immediately copy the ciphertext to the clipboard.
 import math
-version_number = "0.0.1e"
+version_number = "0.1.0a"
 
 def greeting():
-	print("-------------------------------------------\n|                                         |\n|            Roark Creek v1.0             |\n|              \"Albatross\"                |\n|                                         |\n-------------------------------------------")
+	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                                         |\n-------------------------------------------")
 	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit")
 	#This sets a default key to save time when time
 	processKey("111111111111111111111111")
 
 def acceptKey():
 	userKey=input("Enter 24-bit key: ")
-	print("Hashing key and finding books...")
 	processKey(userKey)
 
 def processKey(userKey):
 	if len(userKey)!=24:
 		print('Error! Bad key entered.')
 	else:
+		print("Hashing key and finding books...")
 		keyBit=[]
 		keyHashLib='mHUa_?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
 		for x in userKey: keyBit.append(keyHashLib.index(x))
