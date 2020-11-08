@@ -16,6 +16,7 @@ version_number = "0.0.1e"
 def greeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek v1.0             |\n|              \"Albatross\"                |\n|                                         |\n-------------------------------------------")
 	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit")
+	#This sets a default key to save time when time
 	processKey("111111111111111111111111")
 
 def acceptKey():
