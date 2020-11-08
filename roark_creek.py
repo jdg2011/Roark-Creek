@@ -12,64 +12,70 @@
 #Notes
 	#A "sub-string not found" error typically means you used a character not included in the libraries.
 	#Need error handling for unacceptable keys and the like
-	#Need to gain the ability to rotate through books as the stream progresses
 import math
 #libraries
-version_number = "0.0.1d"
+version_number = "0.0.1e"
 cryptLib=open('cryptLib1.txt','r')
 keyHashLib='mHUa_?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
 #lists for processing text
-seed = "A"
-#In the future this^ should be a variable defined by the key
+seed1 = 'A'
+seed2 = 'B'
+#In the future these^ should be a variable assigned by the key
 
 def greeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek v1.0             |\n|              \"Albatross\"                |\n|                                         |\n-------------------------------------------")
 	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit")
+	processKey("111111111111111111111111")
+
 def acceptKey():
-	userKey=input("Enter 4-bit key: ")
+	userKey=input("Enter 24-bit key: ")
 	print("Hashing key and finding books...")
-	keyBit0=keyHashLib.index(userKey[0])
-	keyBit1=keyHashLib.index(userKey[1])
-	keyBit2=keyHashLib.index(userKey[2])
-	keyBit3=keyHashLib.index(userKey[3])
-	keyHash_cryptBook=int(math.fmod(keyBit0*keyBit1+keyBit2*keyBit3,30))
-	keyHash_refBook=int(math.fmod(keyBit0+keyBit1*keyBit2+keyBit3,30))
-	keyHash_leafBook=int(math.fmod(keyBit0*keyBit3,30))
-	i=0
-	for x in cryptLib:
-		if i == keyHash_cryptBook:
-			global chosenCryptBook
-			chosenCryptBook=str(cryptLib.readline())
-			#print("The chosen cryptographic book is: "+chosenCryptBook)
-			break
-		else:
-			i+=1
-			continue
-	cryptLib.close()
-	i=0
-	refLib=open('readLib1.txt','r')
-	for x in refLib:
-		if i == keyHash_refBook:
-			global initialRefBook
-			initialRefBook = str(refLib.readline())
-			#print("The chosen reference book is: "+initialRefBook)
-			break
-		else:
-			i+=1
-			continue
-	refLib.close()
-	leafLib=open('leafLib1.txt', 'r')
-	i=0
-	for x in leafLib:
-		if i == keyHash_leafBook:
-			global leafRefBook
-			leafRefBook = str(leafLib.readline())
-			break
-		else:
-			i+=1
-			continue
-	leafLib.close()
-	print("Key accepted: "+str(userKey))
+	processKey(userKey)
+
+def processKey(userKey):
+	if len(userKey)!=24:
+		print('Error! Bad key entered.')
+	else:
+		keyBit=[]
+		for x in userKey: keyBit.append(keyHashLib.index(x))
+		keyHash_cryptBook=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]*keyBit[3],99))
+		keyHash_refBook=int(math.fmod(keyBit[0]+keyBit[1]*keyBit[2]+keyBit[3],99))
+		keyHash_leafBook=int(math.fmod(keyBit[0]*keyBit[3],99))
+		i=0
+		for x in cryptLib:
+			if i == keyHash_cryptBook:
+				global chosenCryptBook
+				chosenCryptBook=str(cryptLib.readline())
+				#print("The chosen cryptographic book is: "+chosenCryptBook)
+				break
+			else:
+				i+=1
+				continue
+		cryptLib.close()
+		i=0
+		refLib=open('readLib1.txt','r')
+		for x in refLib:
+			if i == keyHash_refBook:
+				global initialRefBook
+				initialRefBook = str(refLib.readline())
+				#print("The chosen reference book is: "+initialRefBook)
+				break
+			else:
+				i+=1
+				continue
+		refLib.close()
+		leafLib=open('leafLib1.txt', 'r')
+		i=0
+		for x in leafLib:
+			if i == keyHash_leafBook:
+				global leafRefBook
+				leafRefBook = str(leafLib.readline())
+				break
+			else:
+				i+=1
+				continue
+		leafLib.close()
+		print("Key accepted: "+str(userKey))
 
 def downstreamDecrypt():
 	userCiphertext = str(input("Enter ciphertext to be decrypted: "))
@@ -77,7 +83,7 @@ def downstreamDecrypt():
 	i=0
 	for x in range(len(userCiphertext)):
 		if i==0:
-			p=seed
+			p=seed1
 		else:
 			p=userCiphertext[x-1]
 		i+=1
@@ -111,7 +117,7 @@ def downstreamEncrypt():
 	i=0
 	for x in range(len(userPlaintext)):
 		if i==0:
-			p=seed
+			p=seed1
 		else:
 			p=encryptedText[x-1]
 		i+=1
