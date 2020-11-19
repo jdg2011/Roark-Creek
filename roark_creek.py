@@ -36,41 +36,12 @@ def processKey(userKey):
 		keyHash_leafBook=int(math.fmod(keyBit[0]*keyBit[3],99))
 		keyHash_seed1=int(math.fmod(keyBit[2]*keyBit[5],91))
 		keyHash_seed2=int(math.fmod(keyBit[3]*keyBit[6],91))
-		i=0
-		cryptLib=open('libraries/cryptLib1.txt','r')
-		for x in cryptLib:
-			if i == keyHash_cryptBook:
-				global initialCryptBook
-				initialCryptBook=str(cryptLib.readline())
-				#print("The chosen cryptographic book is: "+initialCryptBook)
-				break
-			else:
-				i+=1
-				continue
-		cryptLib.close()
-		i=0
-		refLib=open('libraries/refLib1.txt','r')
-		for x in refLib:
-			if i == keyHash_refBook:
-				global initialRefBook
-				initialRefBook = str(refLib.readline())
-				#print("The chosen reference book is: "+initialRefBook)
-				break
-			else:
-				i+=1
-				continue
-		refLib.close()
-		leafLib=open('libraries/leafLib1.txt', 'r')
-		i=0
-		for x in leafLib:
-			if i == keyHash_leafBook:
-				global leafRefBook
-				leafRefBook = str(leafLib.readline())
-				break
-			else:
-				i+=1
-				continue
-		leafLib.close()
+		global initialCryptBook
+		initialCryptBook=findNewBook(keyHash_cryptBook,'crypt')
+		global initialRefBook
+		initialRefBook=findNewBook(keyHash_refBook,'ref')
+		global leafBook
+		leafBook=findNewBook(keyHash_leafBook,'leaf')
 		i=0
 		seedHashLib1='Z RbQc3fjBuPÑ~Gv{Y7sXLF%-|Ck)S(q&_<^JTMNi0:KEH6!p5.OI1VAa,W*+?>}$n8gñox@edDzwlrU2h=t`94y#m'
 		for x in seedHashLib1:
@@ -108,28 +79,32 @@ def downstreamDecrypt():
 			p1=userCiphertext[x-2]
 			p2=userCiphertext[x-1]
 		i+=1
-		preLeafNum=math.fmod(hashLeaf(p1)*hashLeaf(p2),99)
-		z=decryptLeaf(userCiphertext[x],preLeafNum)
+		leafKey=math.fmod(hashLeaf(p1)*hashLeaf(p2),99)
+		z=decryptLeaf(userCiphertext[x],leafKey)
 		decryptedText=str(decryptedText)+str(z)
 	print("Decryption complete: "+decryptedText)
 
-def decryptLeaf(leaf,preLeafNum):
-	refLib=open('libraries/refLib1.txt','r')
-	i=0
-	for x in refLib:
-		if i==preLeafNum:
-			dRefBook=str(refLib.readline())
-			break
-		else:
-			i+=1
-			continue
-	refLib.close()
+def decryptLeaf(leaf,leafKey):
+	dRefBook = findNewBook(leafKey,'ref')
 	cryptNum=initialCryptBook.index(leaf)
 	output=dRefBook[cryptNum]
 	return output
 
+def findNewBook(leafKey,library):
+	openLib=open('libraries/'+library+'Lib1.txt','r')
+	i=0
+	for x in openLib:
+		if i==leafKey:
+			foundBook=str(openLib.readline())
+			break
+		else:
+			i+=1
+			continue
+	openLib.close()
+	return foundBook
+
 def hashLeaf(leaf):
-	hashProduct=leafRefBook.index(leaf)
+	hashProduct=leafBook.index(leaf)
 	return hashProduct
 
 def downstreamEncrypt():
@@ -147,22 +122,13 @@ def downstreamEncrypt():
 			p1=encryptedText[x-2]
 			p2=encryptedText[x-1]
 		i+=1
-		preLeafNum=math.fmod(hashLeaf(p1)*hashLeaf(p2),99)
-		z=encryptLeaf(userPlaintext[x],preLeafNum)
+		leafKey=math.fmod(hashLeaf(p1)*hashLeaf(p2),99)
+		z=encryptLeaf(userPlaintext[x],leafKey)
 		encryptedText=str(encryptedText)+str(z)
 	print("Encryption complete: "+encryptedText)
 
-def encryptLeaf(leaf,preLeafNum):
-	refLib=open('libraries/refLib1.txt','r')
-	i=0
-	for x in refLib:
-		if i==preLeafNum:
-			eRefBook=str(refLib.readline())
-			break
-		else:
-			i+=1
-			continue
-	refLib.close()
+def encryptLeaf(leaf,leafKey):
+	eRefBook = findNewBook(leafKey,'ref')
 	refNum=eRefBook.index(leaf)
 	output=initialCryptBook[refNum]
 	return output
