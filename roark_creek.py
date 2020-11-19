@@ -11,7 +11,7 @@
 #Notes
 	#A "sub-string not found" error typically means you used a character not included in the libraries.
 import math
-version_number = "0.1.1a"
+version_number = "0.1.1b"
 
 def greeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                                         |\n-------------------------------------------")
@@ -38,8 +38,6 @@ def processKey(userKey):
 		keyHash_seed2=int(math.fmod(keyBit[3]*keyBit[6],91))
 		global initialCryptBook
 		initialCryptBook=findNewBook(keyHash_cryptBook,'crypt')
-		global initialRefBook
-		initialRefBook=findNewBook(keyHash_refBook,'ref')
 		global leafBook
 		leafBook=findNewBook(keyHash_leafBook,'leaf')
 		i=0
