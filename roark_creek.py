@@ -38,27 +38,23 @@ def processKey(userKey):
 		keyHash_seed2=int(math.fmod(keyBit[3]*keyBit[6],91))
 		global leafBook
 		leafBook=findNewBook(keyHash_leafBook,'leaf')
-		i=0
-		seedHashLib1='Z RbQc3fjBuPÑ~Gv{Y7sXLF%-|Ck)S(q&_<^JTMNi0:KEH6!p5.OI1VAa,W*+?>}$n8gñox@edDzwlrU2h=t`94y#m'
-		for x in seedHashLib1:
-			if i==keyHash_seed1:
-				global seed1
-				seed1=x
-				break
-			else:
-				i+=1
-				continue
-		i=0
-		seedHashLib2='+|Gb6iñ!05jUdpJ%lVy3Oo`x(nIkE91~RTuDPLZYNQF84*-S=g#&2.Ht>_,WmÑf?esKrA7zMvh X$^Cwq@}Bc{a<):'
-		for x in seedHashLib2:
-			if i==keyHash_seed2:
-				global seed2
-				seed2=x
-				break
-			else:
-				i+=1
-				continue
+		global seed1
+		seed1=findSeedValue(keyHash_seed1,'Z RbQc3fjBuPÑ~Gv{Y7sXLF%-|Ck)S(q&_<^JTMNi0:KEH6!p5.OI1VAa,W*+?>}$n8gñox@edDzwlrU2h=t`94y#m')
+		global seed2
+		seed2=findSeedValue(keyHash_seed2,'+|Gb6iñ!05jUdpJ%lVy3Oo`x(nIkE91~RTuDPLZYNQF84*-S=g#&2.Ht>_,WmÑf?esKrA7zMvh X$^Cwq@}Bc{a<):')
 		print("Key accepted: "+str(userKey))
+
+def findSeedValue(keyHash,library):
+	i=0
+	for x in library:
+		if i==keyHash:
+			global seed
+			seed=x
+			break
+		else:
+			i+=1
+			continue
+	return seed
 
 def downstreamDecrypt():
 	userCiphertext = str(input("Enter ciphertext to be decrypted: "))
@@ -80,23 +76,6 @@ def downstreamDecrypt():
 		z=decryptLeaf(userCiphertext[x],leafKey1,leafKey2)
 		decryptedText=str(decryptedText)+str(z)
 	print("Decryption complete: "+decryptedText)
-
-def findNewBook(leafKey,library):
-	openLib=open('libraries/'+library+'Lib1.txt','r')
-	i=0
-	for x in openLib:
-		if i==leafKey:
-			foundBook=str(openLib.readline())
-			break
-		else:
-			i+=1
-			continue
-	openLib.close()
-	return foundBook
-
-def hashLeaf(leaf):
-	hashProduct=leafBook.index(leaf)
-	return hashProduct
 
 def downstreamEncrypt():
 	userPlaintext = str(input("Enter plaintext to be encrypted: "))
@@ -132,6 +111,23 @@ def decryptLeaf(leaf,leafKey1,leafKey2):
 	cryptNum=CryptBook.index(leaf)
 	output=RefBook[cryptNum]
 	return output
+
+def findNewBook(leafKey,library):
+	openLib=open('libraries/'+library+'Lib1.txt','r')
+	i=0
+	for x in openLib:
+		if i==leafKey:
+			foundBook=str(openLib.readline())
+			break
+		else:
+			i+=1
+			continue
+	openLib.close()
+	return foundBook
+
+def hashLeaf(leaf):
+	hashProduct=leafBook.index(leaf)
+	return hashProduct
 
 def get_command():
 	x = 0
