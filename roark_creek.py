@@ -31,6 +31,10 @@ def processKey(userKey):
 		keyBit=[]
 		keyHashLib='mHUa_?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
 		for x in userKey: keyBit.append(keyHashLib.index(x))
+		global keyHash_cryptMult
+		keyHash_cryptMult=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]*keyBit[3]+keyBit[4]*keyBit[5]+keyBit[6]*keyBit[7]+keyBit[8]*keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]*keyBit[13]+keyBit[14]*keyBit[15]+keyBit[16]*keyBit[17]+keyBit[18]*keyBit[19]+keyBit[20]*keyBit[21]+keyBit[22]*keyBit[23],211))
+		global keyHash_refMult
+		keyHash_refMult=int(math.fmod(keyBit[0]+keyBit[1]*keyBit[2]+keyBit[3]*keyBit[4]+keyBit[5]*keyBit[6]+keyBit[7]*keyBit[8]+keyBit[9]*keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]*keyBit[14]+keyBit[15]*keyBit[16]+keyBit[17]*keyBit[18]+keyBit[19]*keyBit[20]+keyBit[21]*keyBit[22]+keyBit[23],211))
 		keyHash_leafBook=int(math.fmod(keyBit[0]*keyBit[3],99))
 		keyHash_seed1=int(math.fmod(keyBit[2]*keyBit[5],91))
 		keyHash_seed2=int(math.fmod(keyBit[3]*keyBit[6],91))
@@ -69,9 +73,9 @@ def downstreamDecrypt():
 			p1=userCiphertext[x-2]
 			p2=userCiphertext[x-1]
 		i+=1
-		leafKey1=math.fmod(hashLeaf(p1)*hashLeaf(p2),99)
-		leafKey2=math.fmod(hashLeaf(p1)+hashLeaf(p2),99)
-		z=decryptLeaf(userCiphertext[x],leafKey1,leafKey2)
+		refKey=math.fmod(hashLeaf(p1)*hashLeaf(p2)*keyHash_refMult,99)
+		cryptKey=math.fmod(hashLeaf(p1)+hashLeaf(p2)*keyHash_cryptMult,99)
+		z=decryptLeaf(userCiphertext[x],refKey,cryptKey)
 		decryptedText=str(decryptedText)+str(z)
 	print("Decryption complete: "+decryptedText)
 
@@ -90,9 +94,9 @@ def downstreamEncrypt():
 			p1=encryptedText[x-2]
 			p2=encryptedText[x-1]
 		i+=1
-		leafKey1=math.fmod(hashLeaf(p1)*hashLeaf(p2),99)
-		leafKey2=math.fmod(hashLeaf(p1)+hashLeaf(p2),99)
-		z=encryptLeaf(userPlaintext[x],leafKey1,leafKey2)
+		refKey=math.fmod(hashLeaf(p1)*hashLeaf(p2)*keyHash_refMult,99)
+		cryptKey=math.fmod(hashLeaf(p1)+hashLeaf(p2)*keyHash_cryptMult,99)
+		z=encryptLeaf(userPlaintext[x],refKey,cryptKey)
 		encryptedText=str(encryptedText)+str(z)
 	print("Encryption complete: "+encryptedText)
 
