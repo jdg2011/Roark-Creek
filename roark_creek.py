@@ -100,6 +100,29 @@ def downstreamEncrypt():
 		encryptedText=str(encryptedText)+str(z)
 	print("Encryption complete: "+encryptedText)
 
+def downstream(userInput,action):
+	outputText=""
+	if action=='decrypt':staticText=userInput
+	i=0
+	for x in range(len(userInput)):
+		if i==0:
+			p1=seed1
+			p2=seed2
+		elif i==1:
+			p1=staticText[x-1]
+			p2=seed1
+		else:
+			p1=staticText[x-2]
+			p2=staticText[x-1]
+		i+=1
+		refKey=math.fmod(hashLeaf(p1)*hashLeaf(p2)*keyHash_refMult,99)
+		cryptKey=math.fmod(hashLeaf(p1)+hashLeaf(p2)*keyHash_cryptMult,99)
+		if action=='encrypt': z=encryptLeaf(userInput[x],refKey,cryptKey)
+		if action=='decrypt': z=decryptLeaf(userInput[x],refKey,cryptKey)
+		outputText=str(outputText)+str(z)
+		if action=='encrypt':staticText=outputText
+	return outputText
+
 def encryptLeaf(leaf,leafKey1,leafKey2):
 	refBook=findNewBook(leafKey1,'ref')
 	cryptBook=findNewBook(leafKey2,'crypt')
@@ -151,9 +174,13 @@ def task(selected_task):
 	if selected_task == "key":
 		acceptKey()
 	elif selected_task == "encrypt":
-		downstreamEncrypt()
+		userPlaintext = str(input("Enter plaintext to be encrypted: "))
+		encryptedText=downstream(userPlaintext,'encrypt')
+		print("Encryption complete: "+encryptedText)
 	elif selected_task == "decrypt":
-		downstreamDecrypt()
+		userCiphertext = str(input("Enter ciphertext to be decrypted: "))
+		decryptedText=downstream(userCiphertext,'decrypt')
+		print("Decryption complete: "+decryptedText)
 	elif selected_task == "quit":
 		global T
 		T = 1
