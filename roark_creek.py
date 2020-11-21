@@ -16,7 +16,7 @@ version_number = "0.2.0b"
 def greeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                                         |\n-------------------------------------------")
 	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit")
-	#This sets a default key to save time when time
+	#This sets a default key to save time when testing
 	processKey("111111111111111111111111")
 
 def acceptKey():
@@ -25,14 +25,12 @@ def acceptKey():
 
 def processKey(userKey):
 	if len(userKey)!=24:
-		print('Error! Bad key entered.')
+		print('Error! Key must be exactly 24 characters long.')
 	else:
 		print("Hashing key and finding books...")
 		keyBit=[]
 		keyHashLib='mHUa_?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
 		for x in userKey: keyBit.append(keyHashLib.index(x))
-		keyHash_cryptBook=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]*keyBit[3],99))
-		keyHash_refBook=int(math.fmod(keyBit[0]+keyBit[1]*keyBit[2]+keyBit[3],99))
 		keyHash_leafBook=int(math.fmod(keyBit[0]*keyBit[3],99))
 		keyHash_seed1=int(math.fmod(keyBit[2]*keyBit[5],91))
 		keyHash_seed2=int(math.fmod(keyBit[3]*keyBit[6],91))
