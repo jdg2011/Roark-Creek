@@ -25,7 +25,7 @@ def acceptKey():
 
 def processKey(userKey):
 	if len(userKey)!=24:
-		print('Error! Key must be exactly 24 characters long.')
+		print("Error! Key must be exactly 24 characters long.")
 	else:
 		print("Hashing key and finding books...")
 		keyBit=[]
@@ -116,30 +116,30 @@ def get_command():
 	x = 0
 	while x == 0:
 		command = str(input("\nEnter command: "))
-		if command == "k" or command == "key":
-			return "key"
-		elif command == "e" or command == "encrypt":
-			return "encrypt"
-		elif command == "d" or command == "decrypt":
-			return "decrypt"
-		elif command == "q" or command == "quit" or command == "exit":
-			return "quit"
+		if command == 'k' or command == 'key':
+			return 'key'
+		elif command == 'e' or command == 'encrypt':
+			return 'encrypt'
+		elif command == 'd' or command == 'decrypt':
+			return 'decrypt'
+		elif command == 'q' or command == 'quit' or command == 'exit':
+			return 'quit'
 		else:
 			print("\""+command+"\" bad input. Try again.")
 			continue
 
 def task(selected_task):
-	if selected_task == "key":
+	if selected_task == 'key':
 		acceptKey()
-	elif selected_task == "encrypt":
+	elif selected_task == 'encrypt':
 		userPlaintext = str(input("Enter plaintext to be encrypted: "))
 		encryptedText=downstream(userPlaintext,'encrypt')
 		print("Encryption complete: "+encryptedText)
-	elif selected_task == "decrypt":
+	elif selected_task == 'decrypt':
 		userCiphertext = str(input("Enter ciphertext to be decrypted: "))
 		decryptedText=downstream(userCiphertext,'decrypt')
 		print("Decryption complete: "+decryptedText)
-	elif selected_task == "quit":
+	elif selected_task == 'quit':
 		global T
 		T = 1
 
