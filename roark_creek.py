@@ -11,7 +11,7 @@
 #Notes
 	#A "sub-string not found" error typically means you used a character not included in the libraries.
 import math
-version_number = "0.2.1a"
+version_number = "0.2.0b"
 
 def greeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                                         |\n-------------------------------------------")
