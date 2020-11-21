@@ -11,7 +11,7 @@
 #Notes
 	#A "sub-string not found" error typically means you used a character not included in the libraries.
 import math
-version_number = "0.1.1b"
+version_number = "0.2.1a"
 
 def greeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                                         |\n-------------------------------------------")
@@ -36,8 +36,6 @@ def processKey(userKey):
 		keyHash_leafBook=int(math.fmod(keyBit[0]*keyBit[3],99))
 		keyHash_seed1=int(math.fmod(keyBit[2]*keyBit[5],91))
 		keyHash_seed2=int(math.fmod(keyBit[3]*keyBit[6],91))
-		global initialCryptBook
-		initialCryptBook=findNewBook(keyHash_cryptBook,'crypt')
 		global leafBook
 		leafBook=findNewBook(keyHash_leafBook,'leaf')
 		i=0
@@ -77,16 +75,11 @@ def downstreamDecrypt():
 			p1=userCiphertext[x-2]
 			p2=userCiphertext[x-1]
 		i+=1
-		leafKey=math.fmod(hashLeaf(p1)*hashLeaf(p2),99)
-		z=decryptLeaf(userCiphertext[x],leafKey)
+		leafKey1=math.fmod(hashLeaf(p1)*hashLeaf(p2),99)
+		leafKey2=math.fmod(hashLeaf(p1)+hashLeaf(p2),99)
+		z=decryptLeaf(userCiphertext[x],leafKey1,leafKey2)
 		decryptedText=str(decryptedText)+str(z)
 	print("Decryption complete: "+decryptedText)
-
-def decryptLeaf(leaf,leafKey):
-	dRefBook = findNewBook(leafKey,'ref')
-	cryptNum=initialCryptBook.index(leaf)
-	output=dRefBook[cryptNum]
-	return output
 
 def findNewBook(leafKey,library):
 	openLib=open('libraries/'+library+'Lib1.txt','r')
@@ -120,15 +113,24 @@ def downstreamEncrypt():
 			p1=encryptedText[x-2]
 			p2=encryptedText[x-1]
 		i+=1
-		leafKey=math.fmod(hashLeaf(p1)*hashLeaf(p2),99)
-		z=encryptLeaf(userPlaintext[x],leafKey)
+		leafKey1=math.fmod(hashLeaf(p1)*hashLeaf(p2),99)
+		leafKey2=math.fmod(hashLeaf(p1)+hashLeaf(p2),99)
+		z=encryptLeaf(userPlaintext[x],leafKey1,leafKey2)
 		encryptedText=str(encryptedText)+str(z)
 	print("Encryption complete: "+encryptedText)
 
-def encryptLeaf(leaf,leafKey):
-	eRefBook = findNewBook(leafKey,'ref')
-	refNum=eRefBook.index(leaf)
-	output=initialCryptBook[refNum]
+def encryptLeaf(leaf,leafKey1,leafKey2):
+	refBook=findNewBook(leafKey1,'ref')
+	cryptBook=findNewBook(leafKey2,'crypt')
+	refNum=refBook.index(leaf)
+	output=cryptBook[refNum]
+	return output
+
+def decryptLeaf(leaf,leafKey1,leafKey2):
+	RefBook=findNewBook(leafKey1,'ref')
+	CryptBook=findNewBook(leafKey2,'crypt')
+	cryptNum=CryptBook.index(leaf)
+	output=RefBook[cryptNum]
 	return output
 
 def get_command():
