@@ -58,48 +58,6 @@ def findSeedValue(keyHash,library):
 			continue
 	return seed
 
-def downstreamDecrypt():
-	userCiphertext = str(input("Enter ciphertext to be decrypted: "))
-	decryptedText=""
-	i=0
-	for x in range(len(userCiphertext)):
-		if i==0:
-			p1=seed1
-			p2=seed2
-		elif i==1:
-			p1=userCiphertext[x-1]
-			p2=seed1
-		else:
-			p1=userCiphertext[x-2]
-			p2=userCiphertext[x-1]
-		i+=1
-		refKey=math.fmod(hashLeaf(p1)*hashLeaf(p2)*keyHash_refMult,99)
-		cryptKey=math.fmod(hashLeaf(p1)+hashLeaf(p2)*keyHash_cryptMult,99)
-		z=decryptLeaf(userCiphertext[x],refKey,cryptKey)
-		decryptedText=str(decryptedText)+str(z)
-	print("Decryption complete: "+decryptedText)
-
-def downstreamEncrypt():
-	userPlaintext = str(input("Enter plaintext to be encrypted: "))
-	encryptedText=""
-	i=0
-	for x in range(len(userPlaintext)):
-		if i==0:
-			p1=seed1
-			p2=seed2
-		elif i==1:
-			p1=encryptedText[x-1]
-			p2=seed1
-		else:
-			p1=encryptedText[x-2]
-			p2=encryptedText[x-1]
-		i+=1
-		refKey=math.fmod(hashLeaf(p1)*hashLeaf(p2)*keyHash_refMult,99)
-		cryptKey=math.fmod(hashLeaf(p1)+hashLeaf(p2)*keyHash_cryptMult,99)
-		z=encryptLeaf(userPlaintext[x],refKey,cryptKey)
-		encryptedText=str(encryptedText)+str(z)
-	print("Encryption complete: "+encryptedText)
-
 def downstream(userInput,action):
 	outputText=""
 	if action=='decrypt':staticText=userInput
