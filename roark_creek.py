@@ -35,7 +35,7 @@ def processKey(userKey):
 		keyHash_cryptMult=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]*keyBit[3]+keyBit[4]*keyBit[5]+keyBit[6]*keyBit[7]+keyBit[8]*keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]*keyBit[13]+keyBit[14]*keyBit[15]+keyBit[16]*keyBit[17]+keyBit[18]*keyBit[19]+keyBit[20]*keyBit[21]+keyBit[22]*keyBit[23],211))
 		global keyHash_refMult
 		keyHash_refMult=int(math.fmod(keyBit[0]+keyBit[1]*keyBit[2]+keyBit[3]*keyBit[4]+keyBit[5]*keyBit[6]+keyBit[7]*keyBit[8]+keyBit[9]*keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]*keyBit[14]+keyBit[15]*keyBit[16]+keyBit[17]*keyBit[18]+keyBit[19]*keyBit[20]+keyBit[21]*keyBit[22]+keyBit[23],211))
-		keyHash_leafBook=int(math.fmod(keyBit[0]*keyBit[3],99))
+		keyHash_leafBook=int(math.fmod(keyBit[0]*keyBit[3],1010))
 		keyHash_seed1=int(math.fmod(keyBit[2]*keyBit[5],91))
 		keyHash_seed2=int(math.fmod(keyBit[3]*keyBit[6],91))
 		global leafBook
@@ -73,8 +73,8 @@ def downstream(userInput,action):
 			p1=staticText[x-2]
 			p2=staticText[x-1]
 		i+=1
-		refKey=math.fmod(hashLeaf(p1)*hashLeaf(p2)*keyHash_refMult,99)
-		cryptKey=math.fmod(hashLeaf(p1)+hashLeaf(p2)*keyHash_cryptMult,99)
+		refKey=math.fmod(hashLeaf(p1)*hashLeaf(p2)*keyHash_refMult,1010)
+		cryptKey=math.fmod(hashLeaf(p1)+hashLeaf(p2)*keyHash_cryptMult,1010)
 		if action=='encrypt': z=encryptLeaf(userInput[x],refKey,cryptKey)
 		if action=='decrypt': z=decryptLeaf(userInput[x],refKey,cryptKey)
 		outputText=str(outputText)+str(z)
