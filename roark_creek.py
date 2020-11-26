@@ -12,6 +12,7 @@
 	#A "sub-string not found" error typically means you used a character not included in the libraries.
 import math
 import random
+import datetime
 version_number = "0.2.4b"
 
 def greeting():
@@ -33,14 +34,14 @@ def processKey(userKey):
 		keyHashLib='mHUa?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
 		for x in userKey: keyBit.append(keyHashLib.index(x))
 		global keyHash_cryptMult
-		keyHash_cryptMult=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]*keyBit[3]+keyBit[4]*keyBit[5]+keyBit[6]*keyBit[7]+keyBit[8]*keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]*keyBit[13]+keyBit[14]*keyBit[15]+keyBit[16]*keyBit[17]+keyBit[18]*keyBit[19]+keyBit[20]*keyBit[21]+keyBit[22]*keyBit[23],1011))
+		keyHash_cryptMult=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]*keyBit[3]+keyBit[4]*keyBit[5]+keyBit[6]*keyBit[7]+keyBit[8]*keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]*keyBit[13]+keyBit[14]*keyBit[15]+keyBit[16]*keyBit[17]+keyBit[18]*keyBit[19]+keyBit[20]*keyBit[21]+keyBit[22]*keyBit[23],1010))
 		global keyHash_refMult
-		keyHash_refMult=int(math.fmod(keyBit[0]+keyBit[1]*keyBit[2]+keyBit[3]*keyBit[4]+keyBit[5]*keyBit[6]+keyBit[7]*keyBit[8]+keyBit[9]*keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]*keyBit[14]+keyBit[15]*keyBit[16]+keyBit[17]*keyBit[18]+keyBit[19]*keyBit[20]+keyBit[21]*keyBit[22]+keyBit[23],1011))
-		keyHash_leafBook=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23],1011))
+		keyHash_refMult=int(math.fmod(keyBit[0]+keyBit[1]*keyBit[2]+keyBit[3]*keyBit[4]+keyBit[5]*keyBit[6]+keyBit[7]*keyBit[8]+keyBit[9]*keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]*keyBit[14]+keyBit[15]*keyBit[16]+keyBit[17]*keyBit[18]+keyBit[19]*keyBit[20]+keyBit[21]*keyBit[22]+keyBit[23],1010))
+		keyHash_leafBook=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23],1010))
 		keyHash_seed1=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11],91))
 		keyHash_seed2=int(math.fmod(keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23],91))
-		keyHash_seedBook1=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]*keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23],1011))
-		keyHash_seedBook2=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]*keyBit[23],1011))
+		keyHash_seedBook1=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]*keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23],1010))
+		keyHash_seedBook2=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]*keyBit[23],1010))
 		global leafBook
 		leafBook=findNewBook(keyHash_leafBook,'leaf')
 		seedBook1=findNewBook(keyHash_seedBook1,'seed')
@@ -124,6 +125,24 @@ def generateRandomKey():
 		keyString=keyString+keyBit
 	return keyString
 
+def bruteForceAttack(ciphertext):
+	attackLog=open('attacklog.txt','w')
+	attackLog.write(str(datetime.datetime.now())+" Beginning brute force attack...\r")
+	y=0
+	attemptNumber=0
+	while y==0:
+		attemptNumber+=1
+		keyGuess=generateRandomKey()
+		processKey(keyGuess)
+		attempt=downstream(ciphertext,'decrypt')
+		print("Attempt number "+str(attemptNumber)+": "+attempt)
+		#Insert the text you're looking for in the decrypted output:
+		if attempt == 'your target':
+			attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+" on attempt number "+str(attemptNumber))
+			attackLog.close()
+			break
+		continue
+
 def get_command():
 	x = 0
 	while x == 0:
@@ -136,6 +155,8 @@ def get_command():
 			return 'decrypt'
 		elif command == 'g' or command == 'generate':
 			return 'generate'
+		elif command == 'b' or command == 'brute':
+			return 'brute'
 		elif command == 'q' or command == 'quit' or command == 'exit':
 			return 'quit'
 		else:
@@ -155,9 +176,14 @@ def task(selected_task):
 		decryptedText=downstream(userCiphertext,'decrypt')
 		print("Decryption complete: "+decryptedText)
 	elif selected_task == 'generate':
+		print("Generating random key...")
 		newKey=generateRandomKey()
-		print("Randomly generated key...")
+		print("Finished!")
 		processKey(newKey)
+	elif selected_task == 'brute':
+		userInput=input("Enter ciphertext to attack: ")
+		print("Initiating brute force attack...")
+		bruteForceAttack(userInput)
 	elif selected_task == 'quit':
 		global T
 		T = 1
