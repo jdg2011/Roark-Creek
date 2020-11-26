@@ -12,7 +12,7 @@
 	#A "sub-string not found" error typically means you used a character not included in the libraries.
 import math
 import random
-version_number = "0.2.4a"
+version_number = "0.2.4b"
 
 def greeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                                         |\n-------------------------------------------")
@@ -144,7 +144,8 @@ def get_command():
 
 def task(selected_task):
 	if selected_task == 'key':
-		acceptKey()
+		userKey=input("Enter 24-bit key: ")
+		processKey(userKey)
 	elif selected_task == 'encrypt':
 		userPlaintext = str(input("Enter plaintext to be encrypted: "))
 		encryptedText=downstream(userPlaintext,'encrypt')
@@ -155,7 +156,8 @@ def task(selected_task):
 		print("Decryption complete: "+decryptedText)
 	elif selected_task == 'generate':
 		newKey=generateRandomKey()
-		print("Randomly generated key: "+newKey)
+		print("Randomly generated key...")
+		processKey(newKey)
 	elif selected_task == 'quit':
 		global T
 		T = 1
