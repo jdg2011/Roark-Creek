@@ -13,7 +13,7 @@
 import math
 import random
 import datetime
-version_number = "0.2.6a"
+version_number = "0.3.0a"
 
 def greeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                                         |\n-------------------------------------------")
@@ -87,11 +87,11 @@ def findSeedValue(keyHash,library):
 
 def processString(string,action):
 	if action=='encrypt':
-		x=str(reversed(downstream(string,action)))
-		finalText=upstream(x,action)
+		x=downstream(string,action)
+		finalText=upstream(x[::-1],action)
 	elif action=='decrypt':
-		x=str(reversed(upstream(string,action)))
-		finalText=downstream(x,action)
+		x=upstream(string,action)
+		finalText=downstream(x[::-1],action)
 	return finalText
 
 def downstream(inputText,action):
@@ -201,12 +201,13 @@ def bruteForceAttack(ciphertext):
 		attemptNumber+=1
 		keyGuess=generateRandomKey()
 		processKey(keyGuess)
-		attempt=downstream(ciphertext,'decrypt')
+		attempt=processString(ciphertext,'decrypt')
 		print("Attempt number "+str(attemptNumber)+": "+attempt)
 		#Insert the text you're looking for in the decrypted output:
 		if 'your target' in attempt:
 			attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+" on attempt number "+str(attemptNumber))
 			attackLog.close()
+			print("Success!")
 			break
 		continue
 
@@ -237,11 +238,11 @@ def task(selected_task):
 		if check==1:print("Key accepted: "+str(userKey))
 	elif selected_task == 'encrypt':
 		userPlaintext = str(input("Enter plaintext to be encrypted: "))
-		encryptedText=downstream(userPlaintext,'encrypt')
+		encryptedText=processString(userPlaintext,'encrypt')
 		print("Encryption complete: "+encryptedText)
 	elif selected_task == 'decrypt':
 		userCiphertext = str(input("Enter ciphertext to be decrypted: "))
-		decryptedText=downstream(userCiphertext,'decrypt')
+		decryptedText=processString(userCiphertext,'decrypt')
 		print("Decryption complete: "+decryptedText)
 	elif selected_task == 'generate':
 		print("Generating random key...")
