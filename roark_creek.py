@@ -13,7 +13,7 @@
 import math
 import random
 import datetime
-version_number = "0.3.0a"
+version_number = "0.3.0b"
 
 def greeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                                         |\n-------------------------------------------")
@@ -30,7 +30,6 @@ def processKey(userKey):
 		print("Error! Key must be exactly 24 characters long.")
 		return 0
 	else:
-		print("Hashing key and finding books...")
 		keyBit=[]
 		keyHashLib='mHUa?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
 		for x in userKey: keyBit.append(keyHashLib.index(x))
@@ -192,7 +191,7 @@ def generateRandomKey():
 		keyString=keyString+keyBit
 	return keyString
 
-def bruteForceAttack(ciphertext):
+def floatFish(ciphertext):
 	attackLog=open('attacklog.txt','w')
 	attackLog.write(str(datetime.datetime.now())+" Beginning brute force attack...\r")
 	y=0
@@ -202,9 +201,9 @@ def bruteForceAttack(ciphertext):
 		keyGuess=generateRandomKey()
 		processKey(keyGuess)
 		attempt=processString(ciphertext,'decrypt')
-		print("Attempt number "+str(attemptNumber)+": "+attempt)
+		print("Guess number "+str(attemptNumber)+": "+keyGuess)
 		#Insert the text you're looking for in the decrypted output:
-		if 'your target' in attempt:
+		if 'Gloor' in attempt:
 			attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+" on attempt number "+str(attemptNumber))
 			attackLog.close()
 			print("Success!")
@@ -252,7 +251,7 @@ def task(selected_task):
 	elif selected_task == 'brute':
 		userInput=input("Enter ciphertext to attack: ")
 		print("Initiating brute force attack...")
-		bruteForceAttack(userInput)
+		floatFish(userInput)
 	elif selected_task == 'quit':
 		global T
 		T = 1
