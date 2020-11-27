@@ -28,29 +28,50 @@ def acceptKey():
 def processKey(userKey):
 	if len(userKey)!=24:
 		print("Error! Key must be exactly 24 characters long.")
+		return 0
 	else:
 		print("Hashing key and finding books...")
 		keyBit=[]
 		keyHashLib='mHUa?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
 		for x in userKey: keyBit.append(keyHashLib.index(x))
-		global keyHash_cryptMult
-		keyHash_cryptMult=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]*keyBit[3]+keyBit[4]*keyBit[5]+keyBit[6]*keyBit[7]+keyBit[8]*keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]*keyBit[13]+keyBit[14]*keyBit[15]+keyBit[16]*keyBit[17]+keyBit[18]*keyBit[19]+keyBit[20]*keyBit[21]+keyBit[22]*keyBit[23],1010))
-		global keyHash_refMult
-		keyHash_refMult=int(math.fmod(keyBit[0]+keyBit[1]*keyBit[2]+keyBit[3]*keyBit[4]+keyBit[5]*keyBit[6]+keyBit[7]*keyBit[8]+keyBit[9]*keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]*keyBit[14]+keyBit[15]*keyBit[16]+keyBit[17]*keyBit[18]+keyBit[19]*keyBit[20]+keyBit[21]*keyBit[22]+keyBit[23],1010))
+		global keyHash_cryptMult1
+		keyHash_cryptMult1=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]*keyBit[3]+keyBit[4]*keyBit[5]+keyBit[6]*keyBit[7]+keyBit[8]*keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]*keyBit[13]+keyBit[14]*keyBit[15]+keyBit[16]*keyBit[17]+keyBit[18]*keyBit[19]+keyBit[20]*keyBit[21]+keyBit[22]*keyBit[23],1010))
+		global keyHash_cryptMult2
+		keyHash_cryptMult2=int(math.fmod(keyBit[6]*keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]*keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]*keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]*keyBit[23]+keyBit[0]+keyBit[1]+keyBit[2]*keyBit[3]+keyBit[4]*keyBit[5],1010))
+		global keyHash_refMult1
+		keyHash_refMult1=int(math.fmod(keyBit[0]+keyBit[1]*keyBit[2]+keyBit[3]*keyBit[4]+keyBit[5]*keyBit[6]+keyBit[7]*keyBit[8]+keyBit[9]*keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]*keyBit[14]+keyBit[15]*keyBit[16]+keyBit[17]*keyBit[18]+keyBit[19]*keyBit[20]+keyBit[21]*keyBit[22]+keyBit[23],1010))
+		global keyHash_refMult2
+		keyHash_refMult2=int(math.fmod(keyBit[6]+keyBit[7]*keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]*keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]*keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23]*keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]*keyBit[4]+keyBit[5],1010))
 		keyHash_leafBook=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23],1010))
-		keyHash_seed1=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11],91))
-		keyHash_seed2=int(math.fmod(keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23],91))
+		keyHash_seed1=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7],91))
+		keyHash_seed2=int(math.fmod(keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15],91))
+		keyHash_seed3=int(math.fmod(keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23],91))
+		keyHash_seed4=int(math.fmod(keyBit[0]+keyBit[1]*keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]*keyBit[6]+keyBit[7],91))
+		keyHash_seed5=int(math.fmod(keyBit[8]+keyBit[9]*keyBit[10]+keyBit[11]+keyBit[12]+keyBit[13]*keyBit[14]+keyBit[15],91))
+		keyHash_seed6=int(math.fmod(keyBit[16]+keyBit[17]*keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]*keyBit[22]+keyBit[23],91))
 		keyHash_seedBook1=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]*keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23],1010))
 		keyHash_seedBook2=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]*keyBit[23],1010))
 		global leafBook
 		leafBook=findNewBook(keyHash_leafBook,'leaf')
 		seedBook1=findNewBook(keyHash_seedBook1,'seed')
 		seedBook2=findNewBook(keyHash_seedBook2,'seed')
+		seedBook3=findNewBook(keyHash_seedBook1,'seed')
+		seedBook4=findNewBook(keyHash_seedBook1,'seed')
+		seedBook5=findNewBook(keyHash_seedBook2,'seed')
+		seedBook6=findNewBook(keyHash_seedBook1,'seed')
 		global seed1
 		seed1=findSeedValue(keyHash_seed1,seedBook1)
 		global seed2
 		seed2=findSeedValue(keyHash_seed2,seedBook2)
-		print("Key accepted: "+str(userKey))
+		global seed3
+		seed3=findSeedValue(keyHash_seed3,seedBook1)
+		global seed4
+		seed4=findSeedValue(keyHash_seed4,seedBook1)
+		global seed5
+		seed5=findSeedValue(keyHash_seed5,seedBook2)
+		global seed6
+		seed6=findSeedValue(keyHash_seed6,seedBook1)
+		return 1
 
 def findSeedValue(keyHash,library):
 	i=0
@@ -64,25 +85,71 @@ def findSeedValue(keyHash,library):
 			continue
 	return seed
 
-def downstream(userInput,action):
+def processString(string,action):
+	if action=='encrypt':
+		x=str(reversed(downstream(string,action)))
+		finalText=upstream(x,action)
+	elif action=='decrypt':
+		x=str(reversed(upstream(string,action)))
+		finalText=downstream(x,action)
+	return finalText
+
+def downstream(inputText,action):
 	outputText=""
-	if action=='decrypt':staticText=userInput
+	if action=='decrypt':staticText=inputText
 	i=0
-	for x in range(len(userInput)):
+	for x in range(len(inputText)):
 		if i==0:
 			p1=seed1
 			p2=seed2
+			p3=seed3
 		elif i==1:
-			p1=staticText[x-1]
-			p2=seed1
-		else:
-			p1=staticText[x-2]
+			p1=seed2
+			p2=seed3
+			p3=staticText[x-1]
+		elif i==2:
+			p1=seed3
 			p2=staticText[x-1]
+			p3=staticText[x-2]
+		else:
+			p1=staticText[x-1]
+			p2=staticText[x-2]
+			p3=staticText[x-3]
 		i+=1
-		refKey=math.fmod(hashLeaf(p1)*hashLeaf(p2)*keyHash_refMult,1010)
-		cryptKey=math.fmod(hashLeaf(p1)+hashLeaf(p2)*keyHash_cryptMult,1010)
-		if action=='encrypt': z=encryptLeaf(userInput[x],refKey,cryptKey)
-		if action=='decrypt': z=decryptLeaf(userInput[x],refKey,cryptKey)
+		refKey=math.fmod(hashLeaf(p1)*hashLeaf(p2)*hashLeaf(p3)*keyHash_refMult1,1010)
+		cryptKey=math.fmod(hashLeaf(p1)+hashLeaf(p2)+hashLeaf(p3)*keyHash_cryptMult1,1010)
+		if action=='encrypt': z=encryptLeaf(inputText[x],refKey,cryptKey)
+		if action=='decrypt': z=decryptLeaf(inputText[x],refKey,cryptKey)
+		outputText=str(outputText)+str(z)
+		if action=='encrypt':staticText=outputText
+	return outputText
+
+def upstream(inputText,action):
+	outputText=""
+	if action=='decrypt':staticText=inputText
+	i=0
+	for x in range(len(inputText)):
+		if i==0:
+			p1=seed4
+			p2=seed5
+			p3=seed6
+		elif i==1:
+			p1=seed5
+			p2=seed6
+			p3=staticText[x-1]
+		elif i==2:
+			p1=seed6
+			p2=staticText[x-1]
+			p3=staticText[x-2]
+		else:
+			p1=staticText[x-1]
+			p2=staticText[x-2]
+			p3=staticText[x-3]
+		i+=1
+		refKey=math.fmod(hashLeaf(p1)*hashLeaf(p2)*hashLeaf(p3)*keyHash_refMult1,1010)
+		cryptKey=math.fmod(hashLeaf(p1)+hashLeaf(p2)+hashLeaf(p3)*keyHash_cryptMult1,1010)
+		if action=='encrypt': z=encryptLeaf(inputText[x],refKey,cryptKey)
+		if action=='decrypt': z=decryptLeaf(inputText[x],refKey,cryptKey)
 		outputText=str(outputText)+str(z)
 		if action=='encrypt':staticText=outputText
 	return outputText
@@ -137,7 +204,7 @@ def bruteForceAttack(ciphertext):
 		attempt=downstream(ciphertext,'decrypt')
 		print("Attempt number "+str(attemptNumber)+": "+attempt)
 		#Insert the text you're looking for in the decrypted output:
-		if attempt == 'your target':
+		if 'your target' in attempt:
 			attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+" on attempt number "+str(attemptNumber))
 			attackLog.close()
 			break
@@ -166,7 +233,8 @@ def get_command():
 def task(selected_task):
 	if selected_task == 'key':
 		userKey=input("Enter 24-bit key: ")
-		processKey(userKey)
+		check=processKey(userKey)
+		if check==1:print("Key accepted: "+str(userKey))
 	elif selected_task == 'encrypt':
 		userPlaintext = str(input("Enter plaintext to be encrypted: "))
 		encryptedText=downstream(userPlaintext,'encrypt')
@@ -178,8 +246,8 @@ def task(selected_task):
 	elif selected_task == 'generate':
 		print("Generating random key...")
 		newKey=generateRandomKey()
-		print("Finished!")
 		processKey(newKey)
+		print("New key "+str(newKey)+" generated and in place.")
 	elif selected_task == 'brute':
 		userInput=input("Enter ciphertext to attack: ")
 		print("Initiating brute force attack...")
