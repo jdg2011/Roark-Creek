@@ -1,14 +1,18 @@
-Commands:
+***Roark Creek Commands***
 [k]ey
-Enter a key to be used in encryption and decryption. It must be exactly 24 characters long and cannot contain spaces.
+	Enter a key to be used in encryption and decryption. It must be exactly 24 characters long and cannot contain spaces.
+[g]enerate
+	Randomly generate a key for use in encryption. It will be automatically set in place.
 [e]ncrypt
-Enter some plaintext to encrypt. All standard keyboard characters are supported, plus a few extra.
-Make sure when you encrypt something that you keep the key you used safe and accessible to yourself.
+	Enter some plaintext to encrypt. All standard keyboard characters are supported, plus a few extra.
+	Make sure when you encrypt something that you keep your key safe and accessible to yourself.
 [d]ecrypt
-Enter some ciphertext to decrypt. If the same key that was used to encrypt it is in place, you will get a garbled output.
+	Enter some ciphertext to decrypt. If the same key that was used to encrypt it is in place, the decrypted plaintext will be in the output. If not, you will see nonsense.
 [s]nagFish
-Initiate a brute force attack on some ciphertext. The snagFish protocol randomly generates keys, attempts decryption with them, and checks the output for a given target phrase. If it finds the target, snagFish will stop and give you both the key and the decrypted output.
+	Initiate a brute force attack on some ciphertext. The snagFish protocol randomly generates keys, attempts decryption with them, and checks the output for a given target phrase. If it finds the target, snagFish will stop and give you both the key and the decrypted output.
 [q]uit
-Exit Roark Creek. Any key in place will not be retained; make sure you have your safe and 
+	Exit Roark Creek. Any key in place will not be retained. 
 [h]elp
-View this help file.
+	View this help file.
+
+For more help, read the Roark Creek wiki at http://github.com/jdg2011/Roark-Creek/wiki
