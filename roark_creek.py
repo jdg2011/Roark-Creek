@@ -13,11 +13,11 @@
 import math
 import random
 import datetime
-version_number = "0.3.0b"
+version_number = "0.3.1a"
 
 def greeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                                         |\n-------------------------------------------")
-	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit")
+	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit [h]elp")
 	#This sets a default key to save time when testing
 	processKey("111111111111111111111111")
 
@@ -192,7 +192,7 @@ def generateRandomKey():
 	return keyString
 
 def floatFish(ciphertext):
-	attackLog=open('attacklog.txt','w')
+	attackLog=open('floatFishLog.txt','w')
 	attackLog.write(str(datetime.datetime.now())+" Beginning brute force attack...\r")
 	y=0
 	attemptNumber=0
@@ -210,22 +210,22 @@ def floatFish(ciphertext):
 			break
 		continue
 
+def printHelp():
+	helpFile = open('help.txt','r')
+	print(helpFile.read())
+	helpFile.close()
+
 def get_command():
 	x = 0
 	while x == 0:
 		command = str(input("\nEnter command: "))
-		if command == 'k' or command == 'key':
-			return 'key'
-		elif command == 'e' or command == 'encrypt':
-			return 'encrypt'
-		elif command == 'd' or command == 'decrypt':
-			return 'decrypt'
-		elif command == 'g' or command == 'generate':
-			return 'generate'
-		elif command == 'b' or command == 'brute':
-			return 'brute'
-		elif command == 'q' or command == 'quit' or command == 'exit':
-			return 'quit'
+		if command == 'k' or command == 'key': return 'key'
+		elif command == 'e' or command == 'encrypt': return 'encrypt'
+		elif command == 'd' or command == 'decrypt': return 'decrypt'
+		elif command == 'g' or command == 'generate': return 'generate'
+		elif command == 'b' or command == 'brute': return 'brute'
+		elif command == 'h' or command == 'help': return 'help'
+		elif command == 'q' or command == 'quit' or command == 'exit': return 'quit'
 		else:
 			print("\""+command+"\" bad input. Try again.")
 			continue
@@ -252,6 +252,8 @@ def task(selected_task):
 		userInput=input("Enter ciphertext to attack: ")
 		print("Initiating brute force attack...")
 		floatFish(userInput)
+	elif selected_task == 'help':
+		printHelp()
 	elif selected_task == 'quit':
 		global T
 		T = 1
