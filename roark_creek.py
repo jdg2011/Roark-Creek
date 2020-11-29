@@ -200,7 +200,7 @@ def generateRandomKey():
 		keyString=keyString+keyBit
 	return keyString
 
-def snagFish(ciphertext):
+def snagFish(ciphertext,target):
 	attackLog=open('snagFishLog.txt','w')
 	attackLog.write(str(datetime.datetime.now())+" Beginning brute force attack...\r")
 	y=0
@@ -211,8 +211,7 @@ def snagFish(ciphertext):
 		processKey(keyGuess)
 		attempt=processString(ciphertext,'decrypt')
 		print("Guess number "+str(attemptNumber)+": "+keyGuess)
-		#Insert the text you're looking for in the decrypted output:
-		if 'Gloor' in attempt:
+		if target in attempt:
 			attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+" on attempt number "+str(attemptNumber))
 			attackLog.close()
 			print("Success!")
@@ -232,7 +231,7 @@ def get_command():
 		elif command == 'e' or command == 'encrypt': return 'encrypt'
 		elif command == 'd' or command == 'decrypt': return 'decrypt'
 		elif command == 'g' or command == 'generate': return 'generate'
-		elif command == 'b' or command == 'brute': return 'brute'
+		elif command == 's' or command == 'snagFish': return 'snag'
 		elif command == 'h' or command == 'help': return 'help'
 		elif command == 'q' or command == 'quit' or command == 'exit': return 'quit'
 		else:
@@ -257,10 +256,11 @@ def task(selected_task):
 		newKey=generateRandomKey()
 		processKey(newKey)
 		print("New key "+str(newKey)+" generated and in place.")
-	elif selected_task == 'brute':
+	elif selected_task == 'snag':
 		userInput=input("Enter ciphertext to attack: ")
+		userTarget=input("Enter a target word or phrase: ")
 		print("Initiating brute force attack...")
-		snagFish(userInput)
+		snagFish(userInput,userTarget)
 	elif selected_task == 'help':
 		printHelp()
 	elif selected_task == 'quit':
