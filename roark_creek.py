@@ -18,7 +18,7 @@ version_number = "1.0.0a"
 def greeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                                         |\n-------------------------------------------")
 	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit [h]elp")
-	#This sets a default key to save time when testing
+	#Uncomment this to set a default key to save time when testing
 	#processKey("111111111111111111111111")
 
 def acceptKey():
