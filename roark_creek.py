@@ -30,6 +30,7 @@ def processKey(userKey):
 		print("Error! Key must be exactly 24 characters long.")
 		return 0
 	else:
+		global keyBit
 		keyBit=[]
 		keyHashLib='mHUa?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
 		for x in userKey: keyBit.append(keyHashLib.index(x))
@@ -96,7 +97,9 @@ def processString(string,action):
 def downstream(inputText,action):
 	outputText=""
 	if action=='decrypt':staticText=inputText
+	global keyBit
 	i=0
+	kT=0
 	for x in range(len(inputText)):
 		if i==0:
 			p1=seed1
@@ -115,18 +118,22 @@ def downstream(inputText,action):
 			p2=staticText[x-2]
 			p3=staticText[x-3]
 		i+=1
-		refKey=math.fmod(hashLeaf(p1)*hashLeaf(p2)*hashLeaf(p3)*keyHash_refMult1,1010)
-		cryptKey=math.fmod(hashLeaf(p1)+hashLeaf(p2)+hashLeaf(p3)*keyHash_cryptMult1,1010)
+		if kT>23: kT=0
+		refKey=math.fmod(hashLeaf(p1)*hashLeaf(p2)*hashLeaf(p3)*keyHash_refMult1+keyBit[kT],1010)
+		cryptKey=math.fmod(hashLeaf(p1)+hashLeaf(p2)+hashLeaf(p3)*keyHash_cryptMult1+keyBit[kT],1010)
 		if action=='encrypt': z=encryptLeaf(inputText[x],refKey,cryptKey)
 		if action=='decrypt': z=decryptLeaf(inputText[x],refKey,cryptKey)
 		outputText=str(outputText)+str(z)
 		if action=='encrypt':staticText=outputText
+		kT+=1
 	return outputText
 
 def upstream(inputText,action):
 	outputText=""
 	if action=='decrypt':staticText=inputText
+	global keyBit
 	i=0
+	kT=0
 	for x in range(len(inputText)):
 		if i==0:
 			p1=seed4
@@ -145,12 +152,14 @@ def upstream(inputText,action):
 			p2=staticText[x-2]
 			p3=staticText[x-3]
 		i+=1
-		refKey=math.fmod(hashLeaf(p1)*hashLeaf(p2)*hashLeaf(p3)*keyHash_refMult1,1010)
-		cryptKey=math.fmod(hashLeaf(p1)+hashLeaf(p2)+hashLeaf(p3)*keyHash_cryptMult1,1010)
+		if kT>23: kT=0
+		refKey=math.fmod(hashLeaf(p1)*hashLeaf(p2)*hashLeaf(p3)*keyHash_refMult1+keyBit[kT],1010)
+		cryptKey=math.fmod(hashLeaf(p1)+hashLeaf(p2)+hashLeaf(p3)*keyHash_cryptMult1+keyBit[kT],1010)
 		if action=='encrypt': z=encryptLeaf(inputText[x],refKey,cryptKey)
 		if action=='decrypt': z=decryptLeaf(inputText[x],refKey,cryptKey)
 		outputText=str(outputText)+str(z)
 		if action=='encrypt':staticText=outputText
+		kT+=1
 	return outputText
 
 def encryptLeaf(leaf,leafKey1,leafKey2):
