@@ -121,8 +121,8 @@ def downstream(inputText,action):
 		if kT>23: kT=0
 		refKey=math.fmod(hashLeaf(p1)*hashLeaf(p2)*hashLeaf(p3)*keyHash_refMult1+keyBit[kT],1010)
 		cryptKey=math.fmod(hashLeaf(p1)+hashLeaf(p2)+hashLeaf(p3)*keyHash_cryptMult1+keyBit[kT],1010)
-		if action=='encrypt': z=encryptLeaf(inputText[x],refKey,cryptKey)
-		if action=='decrypt': z=decryptLeaf(inputText[x],refKey,cryptKey)
+		if action=='encrypt': z=encryptLeaf(inputText[x],refKey,cryptKey,'1')
+		if action=='decrypt': z=decryptLeaf(inputText[x],refKey,cryptKey,'1')
 		outputText=str(outputText)+str(z)
 		if action=='encrypt':staticText=outputText
 		kT+=1
@@ -155,29 +155,29 @@ def upstream(inputText,action):
 		if kT>23: kT=0
 		refKey=math.fmod(hashLeaf(p1)*hashLeaf(p2)*hashLeaf(p3)*keyHash_refMult1+keyBit[kT],1010)
 		cryptKey=math.fmod(hashLeaf(p1)+hashLeaf(p2)+hashLeaf(p3)*keyHash_cryptMult1+keyBit[kT],1010)
-		if action=='encrypt': z=encryptLeaf(inputText[x],refKey,cryptKey)
-		if action=='decrypt': z=decryptLeaf(inputText[x],refKey,cryptKey)
+		if action=='encrypt': z=encryptLeaf(inputText[x],refKey,cryptKey,'2')
+		if action=='decrypt': z=decryptLeaf(inputText[x],refKey,cryptKey,'2')
 		outputText=str(outputText)+str(z)
 		if action=='encrypt':staticText=outputText
 		kT+=1
 	return outputText
 
-def encryptLeaf(leaf,leafKey1,leafKey2):
-	refBook=findNewBook(leafKey1,'ref')
-	cryptBook=findNewBook(leafKey2,'crypt')
+def encryptLeaf(leaf,leafKey1,leafKey2,sequence):
+	refBook=findNewBook(leafKey1,'ref'+sequence)
+	cryptBook=findNewBook(leafKey2,'crypt'+sequence)
 	refNum=refBook.index(leaf)
 	output=cryptBook[refNum]
 	return output
 
-def decryptLeaf(leaf,leafKey1,leafKey2):
-	RefBook=findNewBook(leafKey1,'ref')
-	CryptBook=findNewBook(leafKey2,'crypt')
+def decryptLeaf(leaf,leafKey1,leafKey2,sequence):
+	RefBook=findNewBook(leafKey1,'ref'+sequence)
+	CryptBook=findNewBook(leafKey2,'crypt'+sequence)
 	cryptNum=CryptBook.index(leaf)
 	output=RefBook[cryptNum]
 	return output
 
 def findNewBook(leafKey,library):
-	openLib=open('libraries/'+library+'Lib1.txt','r')
+	openLib=open('libraries/'+library+'.txt','r')
 	i=0
 	for x in openLib:
 		if i==leafKey:
