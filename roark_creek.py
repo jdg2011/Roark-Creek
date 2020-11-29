@@ -13,13 +13,13 @@
 import math
 import random
 import datetime
-version_number = "0.4.1a"
+version_number = "1.0.0a"
 
 def greeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                                         |\n-------------------------------------------")
 	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit [h]elp")
 	#This sets a default key to save time when testing
-	processKey("111111111111111111111111")
+	#processKey("111111111111111111111111")
 
 def acceptKey():
 	userKey=input("Enter 24-bit key: ")
@@ -71,6 +71,8 @@ def processKey(userKey):
 		seed5=findSeedValue(keyHash_seed5,seedBook2)
 		global seed6
 		seed6=findSeedValue(keyHash_seed6,seedBook1)
+		global keyEntered
+		keyEntered=True
 		return 1
 
 def findSeedValue(keyHash,library):
@@ -202,7 +204,8 @@ def generateRandomKey():
 
 def snagFish(ciphertext,target):
 	attackLog=open('snagFishLog.txt','w')
-	attackLog.write(str(datetime.datetime.now())+" Beginning brute force attack...\r")
+	attackLog.write(str(datetime.datetime.now())+" Beginning snagFish attack...\r")
+	attackLog.close()
 	y=0
 	attemptNumber=0
 	while y==0:
@@ -210,9 +213,10 @@ def snagFish(ciphertext,target):
 		keyGuess=generateRandomKey()
 		processKey(keyGuess)
 		attempt=processString(ciphertext,'decrypt')
-		print("Guess number "+str(attemptNumber)+": "+keyGuess)
+		print("Guess #"+str(attemptNumber)+": "+attempt)
 		if target in attempt:
-			attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+" on attempt number "+str(attemptNumber))
+			attackLog=open('snagFishLog.txt','a')
+			attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+"\rAttempt number: "+str(attemptNumber)+"\rKey used: "+keyGuess)
 			attackLog.close()
 			print("Success!")
 			break
@@ -228,8 +232,18 @@ def get_command():
 	while x == 0:
 		command = str(input("\nEnter command: "))
 		if command == 'k' or command == 'key': return 'key'
-		elif command == 'e' or command == 'encrypt': return 'encrypt'
-		elif command == 'd' or command == 'decrypt': return 'decrypt'
+		elif command == 'e' or command == 'encrypt':
+			if keyEntered==True:
+				return 'encrypt'
+			else:
+				print("No key entered. Use [k]ey or [g]enerate.")
+				continue
+		elif command == 'd' or command == 'decrypt':
+			if keyEntered==True:
+				return 'decrypt'
+			else:
+				print("No key entered. Use [k]ey or [g]enerate.")
+				continue
 		elif command == 'g' or command == 'generate': return 'generate'
 		elif command == 's' or command == 'snagFish': return 'snag'
 		elif command == 'h' or command == 'help': return 'help'
@@ -259,7 +273,7 @@ def task(selected_task):
 	elif selected_task == 'snag':
 		userInput=input("Enter ciphertext to attack: ")
 		userTarget=input("Enter a target word or phrase: ")
-		print("Initiating brute force attack...")
+		print("Initiating snagFish attack...")
 		snagFish(userInput,userTarget)
 	elif selected_task == 'help':
 		printHelp()
@@ -269,6 +283,7 @@ def task(selected_task):
 
 greeting()
 T = 0
+keyEntered=False
 while T == 0:
 	choice = get_command()
 	task(choice)
