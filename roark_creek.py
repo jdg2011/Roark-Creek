@@ -16,7 +16,7 @@ import datetime
 version_number = "1.0.0a"
 
 def greeting():
-	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                                         |\n-------------------------------------------")
+	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                \"Albatross\"              |\n-------------------------------------------")
 	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit [h]elp")
 	#Uncomment this to set a default key to save time when testing
 	#processKey("111111111111111111111111")
