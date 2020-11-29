@@ -13,7 +13,7 @@
 import math
 import random
 import datetime
-version_number = "0.4.0a"
+version_number = "0.4.1a"
 
 def greeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                                         |\n-------------------------------------------")
