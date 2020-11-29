@@ -13,7 +13,7 @@
 import math
 import random
 import datetime
-version_number = "0.3.1a"
+version_number = "0.4.0a"
 
 def greeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                                         |\n-------------------------------------------")
@@ -200,8 +200,8 @@ def generateRandomKey():
 		keyString=keyString+keyBit
 	return keyString
 
-def floatFish(ciphertext):
-	attackLog=open('floatFishLog.txt','w')
+def snagFish(ciphertext):
+	attackLog=open('snagFishLog.txt','w')
 	attackLog.write(str(datetime.datetime.now())+" Beginning brute force attack...\r")
 	y=0
 	attemptNumber=0
@@ -260,7 +260,7 @@ def task(selected_task):
 	elif selected_task == 'brute':
 		userInput=input("Enter ciphertext to attack: ")
 		print("Initiating brute force attack...")
-		floatFish(userInput)
+		snagFish(userInput)
 	elif selected_task == 'help':
 		printHelp()
 	elif selected_task == 'quit':
