@@ -14,7 +14,7 @@ import math
 import secrets
 import datetime
 from itertools import product
-version_number="1.0.1a"
+version_number="1.0.1b"
 keyBase='mHUa?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
 
 def greeting():
@@ -203,12 +203,6 @@ def convertTuple(tup):
 	str=''.join(tup)
 	return str
 
-def genCart():
-	perm = product(keyBase, repeat = 24)
-	for i in perm:
-		output = convertTuple(i)
-	return output
-
 def snagFish(ciphertext,target):
 	attackLog=open('snagFishLog.txt','w')
 	attackLog.write(str(datetime.datetime.now())+" Beginning snagFish attack...\r")
@@ -222,7 +216,7 @@ def snagFish(ciphertext,target):
 			keyGuess=convertTuple(i)
 			processKey(keyGuess)
 			attempt=processString(ciphertext,'decrypt')
-			print(">"+str(attemptNumber)+" key "+keyGuess+" results: "+attempt)
+			if argument1 == 'v': print(">"+str(attemptNumber)+" key "+keyGuess+" results: "+attempt)
 			if target in attempt:
 				attackLog=open('snagFishLog.txt','a')
 				attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+"\rAttempt number: "+str(attemptNumber)+"\rKey used: "+keyGuess)
@@ -236,7 +230,7 @@ def printHelp():
 	print(helpFile.read())
 	helpFile.close()
 
-def get_command():
+def getCommand():
 	x = 0
 	while x == 0:
 		command = str(input("\nEnter command: "))
@@ -255,38 +249,41 @@ def get_command():
 				continue
 		elif command == 'g' or command == 'generate': return 'generate'
 		elif command == 's' or command == 'snagFish': return 'snag'
+		elif command == 's -v' or command == 'snagFish -v':
+			argument1 = 'v'
+			return 'snag'
 		elif command == 'h' or command == 'help': return 'help'
 		elif command == 'q' or command == 'quit' or command == 'exit': return 'quit'
 		else:
 			print("\""+command+"\" bad input. Try again.")
 			continue
 
-def task(selected_task):
-	if selected_task == 'key':
+def task(selectedTask):
+	if selectedTask == 'key':
 		userKey=input("Enter 24-bit key: ")
 		check=processKey(userKey)
 		if check==1:print("Key accepted: "+str(userKey))
-	elif selected_task == 'encrypt':
+	elif selectedTask == 'encrypt':
 		userPlaintext = str(input("Enter plaintext to be encrypted: "))
 		encryptedText=processString(userPlaintext,'encrypt')
 		print("Encryption complete: "+encryptedText)
-	elif selected_task == 'decrypt':
+	elif selectedTask == 'decrypt':
 		userCiphertext = str(input("Enter ciphertext to be decrypted: "))
 		decryptedText=processString(userCiphertext,'decrypt')
 		print("Decryption complete: "+decryptedText)
-	elif selected_task == 'generate':
+	elif selectedTask == 'generate':
 		print("Generating random key...")
 		newKey=generateRandomKey()
 		processKey(newKey)
 		print("New key "+str(newKey)+" generated and in place.")
-	elif selected_task == 'snag':
+	elif selectedTask == 'snag':
 		userInput=input("Enter ciphertext to attack: ")
 		userTarget=input("Enter a target word or phrase: ")
 		print("Initiating snagFish attack...")
 		snagFish(userInput,userTarget)
-	elif selected_task == 'help':
+	elif selectedTask == 'help':
 		printHelp()
-	elif selected_task == 'quit':
+	elif selectedTask == 'quit':
 		global T
 		T = 1
 
@@ -294,5 +291,6 @@ greeting()
 T = 0
 keyEntered=False
 while T == 0:
-	choice = get_command()
+	argument1 = 0
+	choice = getCommand()
 	task(choice)
