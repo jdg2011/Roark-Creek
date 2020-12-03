@@ -4,7 +4,7 @@
 #
 # Author:      Jordan Gloor
 #
-# Created:     25/08/2020
+# Created:     08/25/2020
 # Copyright:   (c) Jordan Gloor 2020
 #-------------------------------------------------------------------------------
 
@@ -13,17 +13,14 @@
 import math
 import random
 import datetime
-version_number = "1.0.0a"
+from itertools import product
+version_number = "1.0.1a"
 
 def greeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                \"Albatross\"              |\n-------------------------------------------")
 	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit [h]elp")
 	#Uncomment this to set a default key to save time when testing
-	#processKey("111111111111111111111111")
-
-def acceptKey():
-	userKey=input("Enter 24-bit key: ")
-	processKey(userKey)
+	#processKey('111111111111111111111111')
 
 def processKey(userKey):
 	if len(userKey)!=24:
@@ -79,7 +76,6 @@ def findSeedValue(keyHash,library):
 	i=0
 	for x in library:
 		if i==keyHash:
-			global seed
 			seed=x
 			break
 		else:
@@ -202,6 +198,16 @@ def generateRandomKey():
 		keyString=keyString+keyBit
 	return keyString
 
+def convertTuple(tup):
+	str=''.join(tup)
+	return str
+
+def genCart():
+	perm = product('mHUa?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z', repeat = 24)
+	for i in perm:
+		output = convertTuple(i)
+	return output
+
 def snagFish(ciphertext,target):
 	attackLog=open('snagFishLog.txt','w')
 	attackLog.write(str(datetime.datetime.now())+" Beginning snagFish attack...\r")
@@ -209,18 +215,20 @@ def snagFish(ciphertext,target):
 	y=0
 	attemptNumber=0
 	while y==0:
-		attemptNumber+=1
-		keyGuess=generateRandomKey()
-		processKey(keyGuess)
-		attempt=processString(ciphertext,'decrypt')
-		print("Guess #"+str(attemptNumber)+": "+attempt)
-		if target in attempt:
-			attackLog=open('snagFishLog.txt','a')
-			attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+"\rAttempt number: "+str(attemptNumber)+"\rKey used: "+keyGuess)
-			attackLog.close()
-			print("Success!")
-			break
-		continue
+		cartesianKey = product('mHUa?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z', repeat = 24)
+		for i in cartesianKey:
+			attemptNumber+=1
+			keyGuess=convertTuple(i)
+			processKey(keyGuess)
+			attempt=processString(ciphertext,'decrypt')
+			print(">"+str(attemptNumber)+" key "+keyGuess+" results: "+attempt)
+			if target in attempt:
+				attackLog=open('snagFishLog.txt','a')
+				attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+"\rAttempt number: "+str(attemptNumber)+"\rKey used: "+keyGuess)
+				attackLog.close()
+				print("Success!")
+				break
+			continue
 
 def printHelp():
 	helpFile = open('help.txt','r')
