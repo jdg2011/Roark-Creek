@@ -4,26 +4,24 @@
 #
 # Author:      Jordan Gloor
 #
-# Created:     25/08/2020
+# Created:     08/25/2020
 # Copyright:   (c) Jordan Gloor 2020
 #-------------------------------------------------------------------------------
 
 #Notes
 	#A "sub-string not found" error typically means you used a character not included in the libraries.
 import math
-import random
+import secrets
 import datetime
-version_number = "1.0.0a"
+from itertools import product
+version_number="1.0.1a"
+keyBase='mHUa?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
 
 def greeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                \"Albatross\"              |\n-------------------------------------------")
 	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit [h]elp")
 	#Uncomment this to set a default key to save time when testing
-	#processKey("111111111111111111111111")
-
-def acceptKey():
-	userKey=input("Enter 24-bit key: ")
-	processKey(userKey)
+	#processKey('111111111111111111111111')
 
 def processKey(userKey):
 	if len(userKey)!=24:
@@ -32,7 +30,7 @@ def processKey(userKey):
 	else:
 		global keyBit
 		keyBit=[]
-		keyHashLib='mHUa?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
+		keyHashLib=keyBase
 		for x in userKey: keyBit.append(keyHashLib.index(x))
 		global keyHash_cryptMult1
 		keyHash_cryptMult1=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]*keyBit[3]+keyBit[4]*keyBit[5]+keyBit[6]*keyBit[7]+keyBit[8]*keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]*keyBit[13]+keyBit[14]*keyBit[15]+keyBit[16]*keyBit[17]+keyBit[18]*keyBit[19]+keyBit[20]*keyBit[21]+keyBit[22]*keyBit[23],1010))
@@ -79,7 +77,6 @@ def findSeedValue(keyHash,library):
 	i=0
 	for x in library:
 		if i==keyHash:
-			global seed
 			seed=x
 			break
 		else:
@@ -198,9 +195,19 @@ def hashLeaf(leaf):
 def generateRandomKey():
 	keyString=''
 	for x in range(24):
-		keyBit=random.choice('mHUa?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z')
+		keyBit=secrets.choice(keyBase)
 		keyString=keyString+keyBit
 	return keyString
+
+def convertTuple(tup):
+	str=''.join(tup)
+	return str
+
+def genCart():
+	perm = product(keyBase, repeat = 24)
+	for i in perm:
+		output = convertTuple(i)
+	return output
 
 def snagFish(ciphertext,target):
 	attackLog=open('snagFishLog.txt','w')
@@ -209,18 +216,20 @@ def snagFish(ciphertext,target):
 	y=0
 	attemptNumber=0
 	while y==0:
-		attemptNumber+=1
-		keyGuess=generateRandomKey()
-		processKey(keyGuess)
-		attempt=processString(ciphertext,'decrypt')
-		print("Guess #"+str(attemptNumber)+": "+attempt)
-		if target in attempt:
-			attackLog=open('snagFishLog.txt','a')
-			attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+"\rAttempt number: "+str(attemptNumber)+"\rKey used: "+keyGuess)
-			attackLog.close()
-			print("Success!")
-			break
-		continue
+		cartesianKey = product('eEaA012U?6|@xm>G7i}WNf.THR%zk=#nJovq:5DYXuVBsclb+F*3-$<{Q8y9(!~L&4P^COgSt,`rhpIdK wjM)ZñÑ', repeat = 24)
+		for i in cartesianKey:
+			attemptNumber+=1
+			keyGuess=convertTuple(i)
+			processKey(keyGuess)
+			attempt=processString(ciphertext,'decrypt')
+			print(">"+str(attemptNumber)+" key "+keyGuess+" results: "+attempt)
+			if target in attempt:
+				attackLog=open('snagFishLog.txt','a')
+				attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+"\rAttempt number: "+str(attemptNumber)+"\rKey used: "+keyGuess)
+				attackLog.close()
+				print("Success!")
+				break
+			continue
 
 def printHelp():
 	helpFile = open('help.txt','r')

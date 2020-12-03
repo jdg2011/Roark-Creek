@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/VSWorkspaceState.json
+/snagFish.py
+/snagFishLog.txt
+/__pycache__/snagFish.cpython-36.pyc
+/__pycache__/roark_creek.cpython-36.pyc
+/.vs/slnx.sqlite
+/.vs/ProjectSettings.json
+/.vs/Roark-Creek/v15/.suo
