@@ -216,7 +216,7 @@ def snagFish(ciphertext,target):
 	y=0
 	attemptNumber=0
 	while y==0:
-		cartesianKey = product('mHUa?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z', repeat = 24)
+		cartesianKey = product('eEaA012U?6|@xm>G7i}WNf.THR%zk=#nJovq:5DYXuVBsclb+F*3-$<{Q8y9(!~L&4P^COgSt,`rhpIdK wjM)ZñÑ', repeat = 24)
 		for i in cartesianKey:
 			attemptNumber+=1
 			keyGuess=convertTuple(i)
