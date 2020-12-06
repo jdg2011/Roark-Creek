@@ -14,7 +14,7 @@ import math
 import secrets
 import datetime
 from itertools import product
-version_number="1.0.1b"
+version_number="1.0.2a"
 keyBase='mHUa?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
 
 def greeting():
