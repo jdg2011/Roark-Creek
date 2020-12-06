@@ -232,7 +232,6 @@ def snagFish(ciphertext,target):
 					rate=round(1000/(toc-tic),1)
 					if option1 != 'v': print("(Processing "+str(rate)+" keys per seccond)")
 					snagClock=0
-				continue
 
 def printHelp():
 	helpFile = open('help.txt','r')
@@ -302,5 +301,4 @@ T = 0
 keyEntered=False
 while T == 0:
 	option1 = 0
-	choice = getCommand()
-	task(choice)
+	task(getCommand())
