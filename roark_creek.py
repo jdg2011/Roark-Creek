@@ -11,10 +11,11 @@
 #Notes
 	#A "sub-string not found" error typically means you used a character not included in the libraries.
 import math
+import time
 import secrets
 import datetime
 from itertools import product
-version_number="1.0.2a"
+version_number="1.0.3a"
 keyBase='mHUa?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
 
 def greeting():
@@ -210,20 +211,28 @@ def snagFish(ciphertext,target):
 	y=0
 	attemptNumber=0
 	while y==0:
-		cartesianKey = product('eEaA012U?6|@xm>G7i}WNf.THR%zk=#nJovq:5DYXuVBsclb+F*3-$<{Q8y9(!~L&4P^COgSt,`rhpIdK wjM)ZñÑ', repeat = 24)
-		for i in cartesianKey:
-			attemptNumber+=1
-			keyGuess=convertTuple(i)
-			processKey(keyGuess)
-			attempt=processString(ciphertext,'decrypt')
-			if option1 == 'v': print(">"+str(attemptNumber)+" key "+keyGuess+" results: "+attempt)
-			if target in attempt:
-				attackLog=open('snagFishLog.txt','a')
-				attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+"\rAttempt number: "+str(attemptNumber)+"\rKey used: "+keyGuess)
-				attackLog.close()
-				print("Success!")
-				break
-			continue
+			cartesianKey = product('eEaA012U?6|@xm>G7i}WNf.THR%zk=#nJovq:5DYXuVBsclb+F*3-$<{Q8y9(!~L&4P^COgSt,`rhpIdK wjM)ZñÑ', repeat = 24)
+			snagClock=0
+			for i in cartesianKey:
+				if snagClock==0: tic=time.perf_counter()
+				attemptNumber+=1
+				snagClock+=1
+				keyGuess=convertTuple(i)
+				processKey(keyGuess)
+				attempt=processString(ciphertext,'decrypt')
+				if option1 == 'v': print(">"+str(attemptNumber)+" key "+keyGuess+" results: "+attempt)
+				if target in attempt:
+					attackLog=open('snagFishLog.txt','a')
+					attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+"\rAttempt number: "+str(attemptNumber)+"\rKey used: "+keyGuess)
+					attackLog.close()
+					print("Success!")
+					break
+				if snagClock==1000:
+					toc=time.perf_counter()
+					rate=round(1000/(toc-tic),1)
+					if option1 != 'v': print("(Processing "+str(rate)+" keys per seccond)")
+					snagClock=0
+				continue
 
 def printHelp():
 	helpFile = open('help.txt','r')
@@ -252,7 +261,6 @@ def getCommand():
 		elif command == 's' or command == 'snagFish': return 'snag'
 		elif command == 's -v' or command == 'snagFish -v':
 			option1 = 'v'
-			print(option1)
 			return 'snag'
 		elif command == 'h' or command == 'help': return 'help'
 		elif command == 'q' or command == 'quit' or command == 'exit': return 'quit'
@@ -279,7 +287,6 @@ def task(selectedTask):
 		processKey(newKey)
 		print("New key "+str(newKey)+" generated and in place.")
 	elif selectedTask == 'snag':
-		print(option1)
 		userInput=input("Enter ciphertext to attack: ")
 		userTarget=input("Enter a target word or phrase: ")
 		print("Initiating snagFish attack. This usually takes a long time...")
