@@ -216,7 +216,7 @@ def snagFish(ciphertext,target):
 			keyGuess=convertTuple(i)
 			processKey(keyGuess)
 			attempt=processString(ciphertext,'decrypt')
-			if argument1 == 'v': print(">"+str(attemptNumber)+" key "+keyGuess+" results: "+attempt)
+			if option1 == 'v': print(">"+str(attemptNumber)+" key "+keyGuess+" results: "+attempt)
 			if target in attempt:
 				attackLog=open('snagFishLog.txt','a')
 				attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+"\rAttempt number: "+str(attemptNumber)+"\rKey used: "+keyGuess)
@@ -231,6 +231,7 @@ def printHelp():
 	helpFile.close()
 
 def getCommand():
+	global option1
 	x = 0
 	while x == 0:
 		command = str(input("\nEnter command: "))
@@ -250,7 +251,8 @@ def getCommand():
 		elif command == 'g' or command == 'generate': return 'generate'
 		elif command == 's' or command == 'snagFish': return 'snag'
 		elif command == 's -v' or command == 'snagFish -v':
-			argument1 = 'v'
+			option1 = 'v'
+			print(option1)
 			return 'snag'
 		elif command == 'h' or command == 'help': return 'help'
 		elif command == 'q' or command == 'quit' or command == 'exit': return 'quit'
@@ -277,9 +279,10 @@ def task(selectedTask):
 		processKey(newKey)
 		print("New key "+str(newKey)+" generated and in place.")
 	elif selectedTask == 'snag':
+		print(option1)
 		userInput=input("Enter ciphertext to attack: ")
 		userTarget=input("Enter a target word or phrase: ")
-		print("Initiating snagFish attack...")
+		print("Initiating snagFish attack. This usually takes a long time...")
 		snagFish(userInput,userTarget)
 	elif selectedTask == 'help':
 		printHelp()
@@ -291,6 +294,6 @@ greeting()
 T = 0
 keyEntered=False
 while T == 0:
-	argument1 = 0
+	option1 = 0
 	choice = getCommand()
 	task(choice)
