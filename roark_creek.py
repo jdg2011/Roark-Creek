@@ -229,7 +229,7 @@ def snagFish(ciphertext,target):
 			if snagClock==1000:
 				toc=time.perf_counter()
 				rate=round(1000/(toc-tic),1)
-				if option1 != 'v': print("(Processing "+str(rate)+" keys per seccond)")
+				if option1 != 'v': print("(Attempting "+str(rate)+" keys per second)")
 				snagClock=0
 			else:
 				snagClock+=1
@@ -254,12 +254,13 @@ def flyFish(ciphertext,attemptNumber):
 			if flyClock==1000:
 				toc=time.perf_counter()
 				rate=round(1000/(toc-tic),1)
-				print("(Attempting "+str(rate)+" keys per seccond)")
+				print("(Attempting "+str(rate)+" keys per second)")
 				flyClock=0
 			else:
 				flyClock+=1
-		attackLog.close()
 		print("FlyFish attack complete. See flyFishLog.txt for results.")
+	finally:
+		attackLog.close()
 
 def printHelp():
 	helpFile = open('help.txt','r')
@@ -322,9 +323,8 @@ def task(selectedTask):
 	elif selectedTask == 'fly':
 		userInput=input("Enter ciphertext to attack: ")
 		userAttempts=input("Enter number of guesses to attempt: ")
-		if isinstance(userAttempts,int) == True:
-			print("Initiating flyFish attack...")
-			flyFish(userInput,userAttempts)
+		print("Initiating flyFish attack...")
+		flyFish(userInput,userAttempts)
 	elif selectedTask == 'help':
 		printHelp()
 	elif selectedTask == 'quit':
