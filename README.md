@@ -2,12 +2,13 @@
 A command-line cryptography machine with a stream cipher engine.
 ## Features
 * Simple interface
+* 24-bit keys
 * Random key generator
-* Brute force attack utility
+* Brute force attack utilities
 * More in development
 ## Albatross
-The first complete version, nicknamed Albatross, has established the essential functions, which are designed to be easily modified and expanded.
-Focus for the time being will be on adding useful features and increasing efficiency.
+The first complete version, nicknamed Albatross, established the essential functions, which can be easily modified or expanded.
+Until 2.0, focus will be on adding useful features and increasing efficiency.
 ## Getting Started
 Download the latest version from the Releases page. Run roark_creek.py.
 Roark Creek will list its basic commands on startup. Use the help command to see a complete list of commands.

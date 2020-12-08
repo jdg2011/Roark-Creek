@@ -15,7 +15,7 @@ import time
 import secrets
 import datetime
 from itertools import product
-version_number="1.0.3a"
+version_number="1.1.0a"
 keyBase='mHUa?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
 
 def greeting():
@@ -206,32 +206,53 @@ def convertTuple(tup):
 
 def snagFish(ciphertext,target):
 	attackLog=open('snagFishLog.txt','w')
-	attackLog.write(str(datetime.datetime.now())+" Beginning snagFish attack...\r")
+	attackLog.write(str(datetime.datetime.now())+" Initiating snagFish attack...\r")
 	attackLog.close()
-	y=0
 	attemptNumber=0
-	while y==0:
-			cartesianKey = product('eEaA012U?6|@xm>G7i}WNf.THR%zk=#nJovq:5DYXuVBsclb+F*3-$<{Q8y9(!~L&4P^COgSt,`rhpIdK wjM)ZñÑ', repeat = 24)
+	cartesianKey = product('eEaA012U?6|@xm>G7i}WNf.THR%zk=#nJovq:5DYXuVBsclb+F*3-$<{Q8y9(!~L&4P^COgSt,`rhpIdK wjM)ZñÑ',repeat=24)
+	print("SnagFish attack started. This will take time, depending on your CPU and the length of your ciphertext...")
+	snagClock=0
+	for i in cartesianKey:
+		if snagClock==0: tic=time.perf_counter()
+		attemptNumber+=1
+		keyGuess=convertTuple(i)
+		processKey(keyGuess)
+		attempt=processString(ciphertext,'decrypt')
+		if option1 == 'v': print(">"+str(attemptNumber)+" key "+keyGuess+" results: "+attempt)
+		if target in attempt:
+			attackLog=open('snagFishLog.txt','a')
+			attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+"\rAttempt number: "+str(attemptNumber)+"\rKey used: "+keyGuess)
+			attackLog.close()
+			print("Success!")
+			break
+		if snagClock==1000:
+			toc=time.perf_counter()
+			rate=round(1000/(toc-tic),1)
+			if option1 != 'v': print("(Attempting "+str(rate)+" keys per second)")
 			snagClock=0
-			for i in cartesianKey:
-				if snagClock==0: tic=time.perf_counter()
-				attemptNumber+=1
-				snagClock+=1
-				keyGuess=convertTuple(i)
-				processKey(keyGuess)
-				attempt=processString(ciphertext,'decrypt')
-				if option1 == 'v': print(">"+str(attemptNumber)+" key "+keyGuess+" results: "+attempt)
-				if target in attempt:
-					attackLog=open('snagFishLog.txt','a')
-					attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+"\rAttempt number: "+str(attemptNumber)+"\rKey used: "+keyGuess)
-					attackLog.close()
-					print("Success!")
-					break
-				if snagClock==1000:
-					toc=time.perf_counter()
-					rate=round(1000/(toc-tic),1)
-					if option1 != 'v': print("(Processing "+str(rate)+" keys per seccond)")
-					snagClock=0
+		else:
+			snagClock+=1
+
+def flyFish(ciphertext,attemptNumber):
+	attackLog=open('flyFishLog.txt','w')
+	attackLog.write(str(datetime.datetime.now())+" Initiating flyFish attack...\r")
+	print("FlyFish attack started. This will take time, depending on the length of your ciphertext and number of attempts...")
+	flyClock=0
+	for x in range(int(attemptNumber)):
+		keyGuess=generateRandomKey()
+		if flyClock==0: tic=time.perf_counter()
+		processKey(keyGuess)
+		attempt=processString(ciphertext,'decrypt')
+		attackLog.write(str(datetime.datetime.now())+" Attempt #"+str(x)+": key "+keyGuess+" results: "+attempt+"\r")
+		if flyClock==1000:
+			toc=time.perf_counter()
+			rate=round(1000/(toc-tic),1)
+			print("(Attempting "+str(rate)+" keys per second)")
+			flyClock=0
+		else:
+			flyClock+=1
+	print("FlyFish attack complete. See flyFishLog.txt for results.")
+	attackLog.close()
 
 def printHelp():
 	helpFile = open('help.txt','r')
@@ -261,6 +282,7 @@ def getCommand():
 		elif command == 's -v' or command == 'snagFish -v':
 			option1 = 'v'
 			return 'snag'
+		elif command == 'f' or command == 'flyFish': return 'fly'
 		elif command == 'h' or command == 'help': return 'help'
 		elif command == 'q' or command == 'quit' or command == 'exit': return 'quit'
 		else:
@@ -288,8 +310,18 @@ def task(selectedTask):
 	elif selectedTask == 'snag':
 		userInput=input("Enter ciphertext to attack: ")
 		userTarget=input("Enter a target word or phrase: ")
-		print("Initiating snagFish attack. This usually takes a long time...")
+		print("Initiating snagFish attack...")
 		snagFish(userInput,userTarget)
+	elif selectedTask == 'fly':
+		userInput=input("Enter ciphertext to attack: ")
+		userAttempts=input("Enter number of guesses to attempt: ")
+		try:
+			attempts=int(userAttempts)
+		except:
+			print("Error! Number of guesses must be a whole number (e.g. 1000).")
+		else:
+			print("Initiating flyFish attack...")
+			flyFish(userInput,userAttempts)
 	elif selectedTask == 'help':
 		printHelp()
 	elif selectedTask == 'quit':

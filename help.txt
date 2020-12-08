@@ -15,8 +15,10 @@
 
 [s]nagFish
 	Initiate a brute force attack on some ciphertext. SnagFish computes every possible key combination and attempts decryption with them one-by-one, checking the output for a given target phrase. If it finds the target, snagFish will stop and give you both the key and the decrypted output.
-	
 	Add option -v to see a verbose printout of each attempt as it's happening. Otherwise, snagFish will update you every 1000 keys with the average number of keys processed per second.
+
+[f]lyFish
+	Initiate a brute force attack on ciphertext limited to a specified number of attempts. Unlike snagFish, flyFish will not check the output any specific text. Instead, it prints each key guess and the decrypted output in a file called "flyFishLog.txt". After a flyFish task is complete, you may review the file for matches yourself.
 
 [q]uit
 	Exit Roark Creek. Any key in place will not be retained. 
