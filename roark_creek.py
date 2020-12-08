@@ -208,36 +208,35 @@ def snagFish(ciphertext,target):
 	attackLog=open('snagFishLog.txt','w')
 	attackLog.write(str(datetime.datetime.now())+" Initiating snagFish attack...\r")
 	attackLog.close()
-	y=0
 	attemptNumber=0
-	while y==0:
-		cartesianKey = product('eEaA012U?6|@xm>G7i}WNf.THR%zk=#nJovq:5DYXuVBsclb+F*3-$<{Q8y9(!~L&4P^COgSt,`rhpIdK wjM)ZñÑ',repeat=24)
-		snagClock=0
-		for i in cartesianKey:
-			if snagClock==0: tic=time.perf_counter()
-			attemptNumber+=1
-			keyGuess=convertTuple(i)
-			processKey(keyGuess)
-			attempt=processString(ciphertext,'decrypt')
-			if option1 == 'v': print(">"+str(attemptNumber)+" key "+keyGuess+" results: "+attempt)
-			if target in attempt:
-				attackLog=open('snagFishLog.txt','a')
-				attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+"\rAttempt number: "+str(attemptNumber)+"\rKey used: "+keyGuess)
-				attackLog.close()
-				print("Success!")
-				break
-			if snagClock==1000:
-				toc=time.perf_counter()
-				rate=round(1000/(toc-tic),1)
-				if option1 != 'v': print("(Attempting "+str(rate)+" keys per second)")
-				snagClock=0
-			else:
-				snagClock+=1
+	cartesianKey = product('eEaA012U?6|@xm>G7i}WNf.THR%zk=#nJovq:5DYXuVBsclb+F*3-$<{Q8y9(!~L&4P^COgSt,`rhpIdK wjM)ZñÑ',repeat=24)
+	print("SnagFish attack started. This will take time, depending on your CPU and the length of your ciphertext...")
+	snagClock=0
+	for i in cartesianKey:
+		if snagClock==0: tic=time.perf_counter()
+		attemptNumber+=1
+		keyGuess=convertTuple(i)
+		processKey(keyGuess)
+		attempt=processString(ciphertext,'decrypt')
+		if option1 == 'v': print(">"+str(attemptNumber)+" key "+keyGuess+" results: "+attempt)
+		if target in attempt:
+			attackLog=open('snagFishLog.txt','a')
+			attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+"\rAttempt number: "+str(attemptNumber)+"\rKey used: "+keyGuess)
+			attackLog.close()
+			print("Success!")
+			break
+		if snagClock==1000:
+			toc=time.perf_counter()
+			rate=round(1000/(toc-tic),1)
+			if option1 != 'v': print("(Attempting "+str(rate)+" keys per second)")
+			snagClock=0
+		else:
+			snagClock+=1
 
 def flyFish(ciphertext,attemptNumber):
 	attackLog=open('flyFishLog.txt','w')
 	attackLog.write(str(datetime.datetime.now())+" Initiating flyFish attack...\r")
-	print("FlyFish attack begun. This will take time, depending on the length of your ciphertext and number of attempts...")
+	print("FlyFish attack started. This will take time, depending on the length of your ciphertext and number of attempts...")
 	flyClock=0
 	for x in range(int(attemptNumber)):
 		keyGuess=generateRandomKey()
