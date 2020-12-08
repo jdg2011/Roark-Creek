@@ -211,7 +211,7 @@ def snagFish(ciphertext,target):
 	y=0
 	attemptNumber=0
 	while y==0:
-		cartesianKey = product('eEaA012U?6|@xm>G7i}WNf.THR%zk=#nJovq:5DYXuVBsclb+F*3-$<{Q8y9(!~L&4P^COgSt,`rhpIdK wjM)ZñÑ', repeat = 24)
+		cartesianKey = product('eEaA012U?6|@xm>G7i}WNf.THR%zk=#nJovq:5DYXuVBsclb+F*3-$<{Q8y9(!~L&4P^COgSt,`rhpIdK wjM)ZñÑ',repeat=24)
 		snagClock=0
 		for i in cartesianKey:
 			if snagClock==0: tic=time.perf_counter()
@@ -237,30 +237,23 @@ def snagFish(ciphertext,target):
 def flyFish(ciphertext,attemptNumber):
 	attackLog=open('flyFishLog.txt','w')
 	attackLog.write(str(datetime.datetime.now())+" Initiating flyFish attack...\r")
-	try:
-		attempts=int(attemptNumber)
-	except:
-		print("Error! Number of guesses must be a whole number (e.g. 1000).")
-		attackLog.write(str(datetime.datetime.now())+" Attack failed.")
-	else:
-		print("FlyFish attack begun. This will take time, depending on the length of your ciphertext and number of attempts...")
-		flyClock=0
-		for x in range(int(attemptNumber)):
-			keyGuess=generateRandomKey()
-			if flyClock==0: tic=time.perf_counter()
-			processKey(keyGuess)
-			attempt=processString(ciphertext,'decrypt')
-			attackLog.write(str(datetime.datetime.now())+" Attempt #"+str(x)+": key "+keyGuess+" results: "+attempt+"\r")
-			if flyClock==1000:
-				toc=time.perf_counter()
-				rate=round(1000/(toc-tic),1)
-				print("(Attempting "+str(rate)+" keys per second)")
-				flyClock=0
-			else:
-				flyClock+=1
-		print("FlyFish attack complete. See flyFishLog.txt for results.")
-	finally:
-		attackLog.close()
+	print("FlyFish attack begun. This will take time, depending on the length of your ciphertext and number of attempts...")
+	flyClock=0
+	for x in range(int(attemptNumber)):
+		keyGuess=generateRandomKey()
+		if flyClock==0: tic=time.perf_counter()
+		processKey(keyGuess)
+		attempt=processString(ciphertext,'decrypt')
+		attackLog.write(str(datetime.datetime.now())+" Attempt #"+str(x)+": key "+keyGuess+" results: "+attempt+"\r")
+		if flyClock==1000:
+			toc=time.perf_counter()
+			rate=round(1000/(toc-tic),1)
+			print("(Attempting "+str(rate)+" keys per second)")
+			flyClock=0
+		else:
+			flyClock+=1
+	print("FlyFish attack complete. See flyFishLog.txt for results.")
+	attackLog.close()
 
 def printHelp():
 	helpFile = open('help.txt','r')
@@ -323,8 +316,13 @@ def task(selectedTask):
 	elif selectedTask == 'fly':
 		userInput=input("Enter ciphertext to attack: ")
 		userAttempts=input("Enter number of guesses to attempt: ")
-		print("Initiating flyFish attack...")
-		flyFish(userInput,userAttempts)
+		try:
+			attempts=int(userAttempts)
+		except:
+			print("Error! Number of guesses must be a whole number (e.g. 1000).")
+		else:
+			print("Initiating flyFish attack...")
+			flyFish(userInput,userAttempts)
 	elif selectedTask == 'help':
 		printHelp()
 	elif selectedTask == 'quit':
