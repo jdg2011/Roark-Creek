@@ -15,7 +15,7 @@ import time
 import secrets
 import datetime
 from itertools import product
-version_number="1.1.0a"
+version_number="1.1.0b"
 keyBase='mHUa?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
 
 def greeting():
@@ -177,7 +177,7 @@ def decryptLeaf(leaf,leafKey1,leafKey2,sequence):
 	return output
 
 def findNewBook(leafKey,library):
-	openLib=open('libraries/'+library+'.txt','r')
+	openLib=open('libraries/'+library+'.txt','r',encoding='utf8')
 	i=0
 	for x in openLib:
 		if i==leafKey:
@@ -205,7 +205,7 @@ def convertTuple(tup):
 	return str
 
 def snagFish(ciphertext,target):
-	attackLog=open('snagFishLog.txt','w')
+	attackLog=open('snagFishLog.txt','w',encoding='utf8')
 	attackLog.write(str(datetime.datetime.now())+" Initiating snagFish attack...\r")
 	attackLog.close()
 	attemptNumber=0
@@ -234,7 +234,7 @@ def snagFish(ciphertext,target):
 			snagClock+=1
 
 def flyFish(ciphertext,attemptNumber):
-	attackLog=open('flyFishLog.txt','w')
+	attackLog=open('flyFishLog.txt','w',encoding='utf8')
 	attackLog.write(str(datetime.datetime.now())+" Initiating flyFish attack...\r")
 	print("FlyFish attack started. This will take time, depending on the length of your ciphertext and number of attempts...")
 	flyClock=0
