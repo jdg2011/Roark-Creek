@@ -15,11 +15,11 @@ import time
 import secrets
 import datetime
 from itertools import product
-version_number="1.1.0b"
-keyBase='mHUa?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
+version_number="?.0.0a"
+keyBase='mHUa?6|@xe>G7i}Wf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8y9(!~ÑL&4P^COgSt,r0hpIdKwjM)1Z'
 
 def greeting():
-	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                \"Albatross\"              |\n-------------------------------------------")
+	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                \"Bufflehead\"              |\n-------------------------------------------")
 	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit [h]elp")
 	#Uncomment this to set a default key to save time when testing
 	#processKey('111111111111111111111111')
@@ -209,7 +209,7 @@ def snagFish(ciphertext,target):
 	attackLog.write(str(datetime.datetime.now())+" Initiating snagFish attack...\r")
 	attackLog.close()
 	attemptNumber=0
-	cartesianKey = product('eEaA012U?6|@xm>G7i}WNf.THR%zk=#nJovq:5DYXuVBsclb+F*3-$<{Q8y9(!~L&4P^COgSt,`rhpIdK wjM)ZñÑ',repeat=24)
+	cartesianKey = product(keyBase,repeat=24)
 	print("SnagFish attack started. This will take time, depending on your CPU and the length of your ciphertext...")
 	snagClock=0
 	for i in cartesianKey:
