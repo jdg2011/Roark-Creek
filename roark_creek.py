@@ -279,29 +279,27 @@ def getCommand():
 			continue
 
 def task(selectedTask):
-	if selectedTask == 'key':
+	if selectedTask=='key':
 		userKey=input("Enter 24-bit key: ")
 		check=processKey(userKey)
 		if check==1:print("Key accepted: "+str(userKey))
-	elif selectedTask == 'encrypt':
-		userPlaintext = str(input("Enter plaintext to be encrypted: "))
-		encryptedText=processString(userPlaintext,'encrypt')
+	elif selectedTask=='encrypt':
+		encryptedText=processString(str(input("Enter plaintext to be encrypted: ")),'encrypt')
 		print("Encryption complete: "+encryptedText)
-	elif selectedTask == 'decrypt':
-		userCiphertext = str(input("Enter ciphertext to be decrypted: "))
-		decryptedText=processString(userCiphertext,'decrypt')
+	elif selectedTask=='decrypt':
+		decryptedText=processString(str(input("Enter ciphertext to be decrypted: ")),'decrypt')
 		print("Decryption complete: "+decryptedText)
-	elif selectedTask == 'generate':
+	elif selectedTask=='generate':
 		print("Generating random key...")
 		newKey=generateRandomKey()
 		processKey(newKey)
 		print("New key "+str(newKey)+" generated and in place.")
-	elif selectedTask == 'snag':
+	elif selectedTask=='snag':
 		userInput=input("Enter ciphertext to attack: ")
 		userTarget=input("Enter a target word or phrase: ")
 		print("Initiating snagFish attack...")
 		snagFish(userInput,userTarget)
-	elif selectedTask == 'fly':
+	elif selectedTask=='fly':
 		userInput=input("Enter ciphertext to attack: ")
 		userAttempts=input("Enter number of guesses to attempt: ")
 		try:
@@ -311,11 +309,10 @@ def task(selectedTask):
 		else:
 			print("Initiating flyFish attack...")
 			flyFish(userInput,userAttempts)
-	elif selectedTask == 'help':
-		printHelp()
-	elif selectedTask == 'quit':
+	elif selectedTask=='help': printHelp()
+	elif selectedTask=='quit':
 		global T
-		T = 1
+		T=1
 
 greeting()
 T = 0
