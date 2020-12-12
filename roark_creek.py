@@ -16,10 +16,10 @@ import secrets
 import datetime
 from itertools import product
 version_number="?.0.0a"
-keyBase='mHUa?6|@xe>G7i}Wf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8y9(!~ÑL&4P^COgSt,r0hpIdKwjM)1Z'
+keyBase='nKi+T?d&OqAk<Y,4!SP-NZf[\E1MU/JwxHIsR@{r})Lvj]7(~mz0BV#y6tu:%3XGFbD;l.89C*$|^o5ga=Qc>peh2W'
 
 def greeting():
-	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                \"Bufflehead\"              |\n-------------------------------------------")
+	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|               \"Bufflehead\"              |\n-------------------------------------------")
 	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit [h]elp")
 	#Uncomment this to set a default key to save time when testing
 	#processKey('111111111111111111111111')
