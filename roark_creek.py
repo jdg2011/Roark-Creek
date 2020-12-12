@@ -59,31 +59,20 @@ def processKey(userKey):
 		seedBook5=findNewBook(keyHash_seedBook2,'seed')
 		seedBook6=findNewBook(keyHash_seedBook1,'seed')
 		global seed1
-		seed1=findSeedValue(keyHash_seed1,seedBook1)
+		seed1=seedBook1[keyHash_seed1]
 		global seed2
-		seed2=findSeedValue(keyHash_seed2,seedBook2)
+		seed2=seedBook2[keyHash_seed2]
 		global seed3
-		seed3=findSeedValue(keyHash_seed3,seedBook1)
+		seed3=seedBook3[keyHash_seed3]
 		global seed4
-		seed4=findSeedValue(keyHash_seed4,seedBook1)
+		seed4=seedBook1[keyHash_seed4]
 		global seed5
-		seed5=findSeedValue(keyHash_seed5,seedBook2)
+		seed5=seedBook2[keyHash_seed5]
 		global seed6
-		seed6=findSeedValue(keyHash_seed6,seedBook1)
+		seed6=seedBook3[keyHash_seed6]
 		global keyEntered
 		keyEntered=True
 		return 1
-
-def findSeedValue(keyHash,library):
-	i=0
-	for x in library:
-		if i==keyHash:
-			seed=x
-			break
-		else:
-			i+=1
-			continue
-	return seed
 
 def processString(string,action):
 	if action=='encrypt':
