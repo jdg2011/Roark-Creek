@@ -282,18 +282,18 @@ def task(selectedTask):
 	if selectedTask=='key':
 		userKey=input("Enter 24-bit key: ")
 		check=processKey(userKey)
-		if check==1:print("Key accepted: "+str(userKey))
+		if check==1:print("Key accepted.")
 	elif selectedTask=='encrypt':
 		encryptedText=processString(str(input("Enter plaintext to be encrypted: ")),'encrypt')
-		print("Encryption complete: "+encryptedText)
+		print("Encryption complete:\n"+encryptedText)
 	elif selectedTask=='decrypt':
 		decryptedText=processString(str(input("Enter ciphertext to be decrypted: ")),'decrypt')
-		print("Decryption complete: "+decryptedText)
+		print("Decryption complete:\n"+decryptedText)
 	elif selectedTask=='generate':
 		print("Generating random key...")
 		newKey=generateRandomKey()
 		processKey(newKey)
-		print("New key "+str(newKey)+" generated and in place.")
+		print("New key generated and in place:\n"+str(newKey))
 	elif selectedTask=='snag':
 		userInput=input("Enter ciphertext to attack: ")
 		userTarget=input("Enter a target word or phrase: ")
