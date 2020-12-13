@@ -15,24 +15,24 @@ import time
 import secrets
 import datetime
 from itertools import product
-version_number="2.0.0-001"
+version_number="2.0.0-002"
 keyBase='nKi+T?d&OqAk<Y,4!SP-NZf[\E1MU/JwxHIsR@{r})Lvj]7(~mz0BV#y6tu:%3XGFbD;l.89C*$|^o5ga=Qc>peh2W'
 
-def greeting():
+def printGreeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|               \"Bufflehead\"              |\n-------------------------------------------")
 	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit [h]elp")
 	#Uncomment this to set a default key to save time when testing
-	#processKey('111111111111111111111111')
+	#processKey('ABCDEFGHIJKLMNOP12345678')
 
-def processKey(userKey):
-	if len(userKey)!=24:
+def processKey(keyString):
+	if len(keyString)!=24:
 		print("Error! Key must be exactly 24 characters long.")
 		return 0
 	else:
 		global keyBit
 		keyBit=[]
 		keyHashLib=keyBase
-		for x in userKey: keyBit.append(keyHashLib.index(x))
+		for x in keyString: keyBit.append(keyHashLib.index(x))
 		global keyHash_cryptMult1
 		keyHash_cryptMult1=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]*keyBit[3]+keyBit[4]*keyBit[5]+keyBit[6]*keyBit[7]+keyBit[8]*keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]*keyBit[13]+keyBit[14]*keyBit[15]+keyBit[16]*keyBit[17]+keyBit[18]*keyBit[19]+keyBit[20]*keyBit[21]+keyBit[22]*keyBit[23],1010))
 		global keyHash_cryptMult2
@@ -108,8 +108,8 @@ def downstream(inputText,action):
 			p3=staticText[x-3]
 		i+=1
 		if kT>23: kT=0
-		refKey=math.fmod(hashLeaf(p1)*hashLeaf(p2)*hashLeaf(p3)*keyHash_refMult1+keyBit[kT],1010)
-		cryptKey=math.fmod(hashLeaf(p1)+hashLeaf(p2)+hashLeaf(p3)*keyHash_cryptMult1+keyBit[kT],1010)
+		refKey=math.fmod(findLeafValue(p1)*findLeafValue(p2)*findLeafValue(p3)*keyHash_refMult1+keyBit[kT],1010)
+		cryptKey=math.fmod(findLeafValue(p1)+findLeafValue(p2)+findLeafValue(p3)*keyHash_cryptMult1+keyBit[kT],1010)
 		if action=='encrypt': z=encryptLeaf(inputText[x],refKey,cryptKey,'1')
 		if action=='decrypt': z=decryptLeaf(inputText[x],refKey,cryptKey,'1')
 		outputText=str(outputText)+str(z)
@@ -142,8 +142,8 @@ def upstream(inputText,action):
 			p3=staticText[x-3]
 		i+=1
 		if kT>23: kT=0
-		refKey=math.fmod(hashLeaf(p1)*hashLeaf(p2)*hashLeaf(p3)*keyHash_refMult1+keyBit[kT],1010)
-		cryptKey=math.fmod(hashLeaf(p1)+hashLeaf(p2)+hashLeaf(p3)*keyHash_cryptMult1+keyBit[kT],1010)
+		refKey=math.fmod(findLeafValue(p1)*findLeafValue(p2)*findLeafValue(p3)*keyHash_refMult1+keyBit[kT],1010)
+		cryptKey=math.fmod(findLeafValue(p1)+findLeafValue(p2)+findLeafValue(p3)*keyHash_cryptMult1+keyBit[kT],1010)
 		if action=='encrypt': z=encryptLeaf(inputText[x],refKey,cryptKey,'2')
 		if action=='decrypt': z=decryptLeaf(inputText[x],refKey,cryptKey,'2')
 		outputText=str(outputText)+str(z)
@@ -178,7 +178,7 @@ def findNewBook(leafKey,library):
 	openLib.close()
 	return foundBook
 
-def hashLeaf(leaf):
+def findLeafValue(leaf):
 	hashProduct=leafBook.index(leaf)
 	return hashProduct
 
@@ -278,7 +278,7 @@ def getCommand():
 			print("\""+command+"\" bad input. Try again.")
 			continue
 
-def task(selectedTask):
+def runTask(selectedTask):
 	if selectedTask=='key':
 		userKey=input("Enter 24-bit key: ")
 		check=processKey(userKey)
@@ -314,9 +314,9 @@ def task(selectedTask):
 		global T
 		T=1
 
-greeting()
+printGreeting()
 T = 0
 keyEntered=False
 while T == 0:
 	option1 = 0
-	task(getCommand())
+	runTask(getCommand())
