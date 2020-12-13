@@ -15,14 +15,15 @@ import time
 import secrets
 import datetime
 from itertools import product
-version_number="2.0.0-002"
+version_number="2.0.0-beta002"
 keyBase='nKi+T?d&OqAk<Y,4!SP-NZf[\E1MU/JwxHIsR@{r})Lvj]7(~mz0BV#y6tu:%3XGFbD;l.89C*$|^o5ga=Qc>peh2W'
 
 def printGreeting():
-	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|               \"Bufflehead\"              |\n-------------------------------------------")
+	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"     |\n|               \"Bufflehead\"              |\n-------------------------------------------")
 	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit [h]elp")
-	#Uncomment this to set a default key to save time when testing
+	#Uncomment these two lines to set a default key to save time when testing
 	#processKey('ABCDEFGHIJKLMNOP12345678')
+	#keyEntered=True
 
 def processKey(keyString):
 	if len(keyString)!=24:
@@ -314,9 +315,9 @@ def runTask(selectedTask):
 		global T
 		T=1
 
+keyEntered=False
 printGreeting()
 T = 0
-keyEntered=False
 while T == 0:
 	option1 = 0
 	runTask(getCommand())
