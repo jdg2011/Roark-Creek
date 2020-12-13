@@ -15,15 +15,15 @@ import time
 import secrets
 import datetime
 from itertools import product
-version_number="2.0.0-beta002"
+version_number="2.0.0-beta003"
 keyBase='nKi+T?d&OqAk<Y,4!SP-NZf[\E1MU/JwxHIsR@{r})Lvj]7(~mz0BV#y6tu:%3XGFbD;l.89C*$|^o5ga=Qc>peh2W'
 
 def printGreeting():
-	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"     |\n|               \"Bufflehead\"              |\n-------------------------------------------")
+	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"    |\n|               \"Bufflehead\"              |\n-------------------------------------------")
 	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit [h]elp")
 	#Uncomment these two lines to set a default key to save time when testing
-	#processKey('ABCDEFGHIJKLMNOP12345678')
-	#keyEntered=True
+	processKey('ABCDEFGHIJKLMNOP12345678')
+	keyEntered=True
 
 def processKey(keyString):
 	if len(keyString)!=24:
@@ -90,6 +90,7 @@ def downstream(inputText,action):
 	global keyBit
 	i=0
 	kT=0
+	kTp=0
 	for x in range(len(inputText)):
 		if i==0:
 			p1=seed1
@@ -108,9 +109,10 @@ def downstream(inputText,action):
 			p2=staticText[x-2]
 			p3=staticText[x-3]
 		i+=1
+		kTp+=1
 		if kT>23: kT=0
-		refKey=math.fmod(findLeafValue(p1)*findLeafValue(p2)*findLeafValue(p3)*keyHash_refMult1+keyBit[kT],1010)
-		cryptKey=math.fmod(findLeafValue(p1)+findLeafValue(p2)+findLeafValue(p3)*keyHash_cryptMult1+keyBit[kT],1010)
+		refKey=math.fmod((findLeafValue(p1)*findLeafValue(p2)*findLeafValue(p3)*keyHash_refMult1)*(keyBit[kT]+kTp),1010)
+		cryptKey=math.fmod((findLeafValue(p1)+findLeafValue(p2)+findLeafValue(p3)*keyHash_cryptMult1)+(keyBit[kT]+kTp),1010)
 		if action=='encrypt': z=encryptLeaf(inputText[x],refKey,cryptKey,'1')
 		if action=='decrypt': z=decryptLeaf(inputText[x],refKey,cryptKey,'1')
 		outputText=str(outputText)+str(z)
@@ -124,6 +126,7 @@ def upstream(inputText,action):
 	global keyBit
 	i=0
 	kT=0
+	kTp=0
 	for x in range(len(inputText)):
 		if i==0:
 			p1=seed4
@@ -142,9 +145,11 @@ def upstream(inputText,action):
 			p2=staticText[x-2]
 			p3=staticText[x-3]
 		i+=1
-		if kT>23: kT=0
-		refKey=math.fmod(findLeafValue(p1)*findLeafValue(p2)*findLeafValue(p3)*keyHash_refMult1+keyBit[kT],1010)
-		cryptKey=math.fmod(findLeafValue(p1)+findLeafValue(p2)+findLeafValue(p3)*keyHash_cryptMult1+keyBit[kT],1010)
+		if kT>23:
+			kT=0
+			kTp+=1
+		refKey=math.fmod((findLeafValue(p1)*findLeafValue(p2)*findLeafValue(p3)*keyHash_refMult1)+(keyBit[kT]+kTp),1010)
+		cryptKey=math.fmod((findLeafValue(p1)+findLeafValue(p2)+findLeafValue(p3)*keyHash_cryptMult1)+(keyBit[kT]+kTp),1010)
 		if action=='encrypt': z=encryptLeaf(inputText[x],refKey,cryptKey,'2')
 		if action=='decrypt': z=decryptLeaf(inputText[x],refKey,cryptKey,'2')
 		outputText=str(outputText)+str(z)
