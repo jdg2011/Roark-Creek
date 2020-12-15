@@ -10,12 +10,16 @@
 
 #Notes
 	#A "sub-string not found" error typically means you used a character not included in the libraries.
+import configparser
+config=configparser.ConfigParser()
+config.read('config.ini')
+if config['clipboard']['Toggle']=='On': import pyperclip
 import math
 import time
 import secrets
 import datetime
 from itertools import product
-version_number="2.0.0-beta003"
+version_number="2.0.0-beta004"
 keyBase='nKi+T?d&OqAk<Y,4!SP-NZf[\E1MU/JwxHIsR@{r})Lvj]7(~mz0BV#y6tu:%3XGFbD;l.89C*$|^o5ga=Qc>peh2W'
 
 def printGreeting():
@@ -204,9 +208,10 @@ def snagFish(ciphertext,target):
 	attackLog.write(str(datetime.datetime.now())+" Initiating snagFish attack...\r")
 	attackLog.close()
 	attemptNumber=0
-	cartesianKey = product(keyBase,repeat=24)
+	cartesianKey = product(config['snagFish']['KeyString'],repeat=24)
 	print("SnagFish attack started. This will take time, depending on your CPU and the length of your ciphertext...")
 	snagClock=0
+	ClockInt=int(config['snagFish']['ClockingInterval'])
 	for i in cartesianKey:
 		if snagClock==0: tic=time.perf_counter()
 		attemptNumber+=1
@@ -220,9 +225,9 @@ def snagFish(ciphertext,target):
 			attackLog.close()
 			print("Success!")
 			break
-		if snagClock==1000:
+		if snagClock==ClockInt:
 			toc=time.perf_counter()
-			rate=round(1000/(toc-tic),1)
+			rate=round(ClockInt/(toc-tic),1)
 			if option1 != 'v': print("(Attempting "+str(rate)+" keys per second)")
 			snagClock=0
 		else:
@@ -233,6 +238,7 @@ def flyFish(ciphertext,attemptNumber):
 	attackLog.write(str(datetime.datetime.now())+" Initiating flyFish attack...\r")
 	print("FlyFish attack started. This will take time, depending on the length of your ciphertext and number of attempts...")
 	flyClock=0
+	ClockInt=int(config['flyFish']['ClockingInterval'])
 	for x in range(int(attemptNumber)):
 		keyGuess=generateRandomKey()
 		if flyClock==0: tic=time.perf_counter()
