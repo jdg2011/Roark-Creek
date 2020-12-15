@@ -292,6 +292,7 @@ def getCommand():
 			continue
 
 def runTask(selectedTask):
+	global cache1
 	if selectedTask=='key':
 		userKey=input("Enter 24-bit key: ")
 		check=processKey(userKey)
@@ -299,6 +300,7 @@ def runTask(selectedTask):
 	elif selectedTask=='encrypt':
 		encryptedText=processString(str(input("Enter plaintext to be encrypted: ")),'encrypt')
 		print("Encryption complete:\n"+encryptedText)
+		cache1=encryptedText
 	elif selectedTask=='decrypt':
 		decryptedText=processString(str(input("Enter ciphertext to be decrypted: ")),'decrypt')
 		print("Decryption complete:\n"+decryptedText)
@@ -308,7 +310,8 @@ def runTask(selectedTask):
 		processKey(newKey)
 		print("New key generated and in place:\n"+str(newKey))
 	elif selectedTask=='copy':
-		pass		
+		pyperclip.copy(cache1)
+		print(cache1+" copied to clipboard")
 	elif selectedTask=='snag':
 		userInput=input("Enter ciphertext to attack: ")
 		userTarget=input("Enter a target word or phrase: ")
