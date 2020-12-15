@@ -1,0 +1,3 @@
+numpy==1.19.2
+pyperclip==1.8.1
+
