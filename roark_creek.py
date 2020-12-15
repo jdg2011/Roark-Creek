@@ -13,7 +13,7 @@
 import configparser
 config=configparser.ConfigParser()
 config.read('config.ini')
-if config['clipboard']['UseClipboard']=='True': import pyperclip
+import pyperclip
 import math
 import time
 import secrets
