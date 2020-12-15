@@ -13,7 +13,7 @@
 import configparser
 config=configparser.ConfigParser()
 config.read('config.ini')
-if config['clipboard']['Toggle']=='On': import pyperclip
+if config['clipboard']['UseClipboard']=='True': import pyperclip
 import math
 import time
 import secrets
@@ -25,8 +25,8 @@ keyBase='nKi+T?d&OqAk<Y,4!SP-NZf[\E1MU/JwxHIsR@{r})Lvj]7(~mz0BV#y6tu:%3XGFbD;l.8
 def printGreeting():
 	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"    |\n|               \"Bufflehead\"              |\n-------------------------------------------")
 	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit [h]elp")
-	#Uncomment these two lines to set a default key to save time when testing
-	processKey('ABCDEFGHIJKLMNOP12345678')
+	if config['defaultKey']['UseDefaultKey']=='True':
+		processKey(config['defaultKey']['KeyValue'])
 	keyEntered=True
 
 def processKey(keyString):
