@@ -152,8 +152,8 @@ def upstream(inputText,action):
 		if kT>23:
 			kT=0
 			kTp+=1
-		refKey=math.fmod((findLeafValue(p1)*findLeafValue(p2)*findLeafValue(p3)*keyHash_refMult1)+(keyBit[kT]+kTp),1010)
-		cryptKey=math.fmod((findLeafValue(p1)+findLeafValue(p2)+findLeafValue(p3)*keyHash_cryptMult1)+(keyBit[kT]+kTp),1010)
+		refKey=math.fmod((findLeafValue(p1)*findLeafValue(p2)*findLeafValue(p3)*keyHash_refMult2)+(keyBit[kT]+kTp),1010)
+		cryptKey=math.fmod((findLeafValue(p1)+findLeafValue(p2)+findLeafValue(p3)*keyHash_cryptMult2)+(keyBit[kT]+kTp),1010)
 		if action=='encrypt': z=encryptLeaf(inputText[x],refKey,cryptKey,'2')
 		if action=='decrypt': z=decryptLeaf(inputText[x],refKey,cryptKey,'2')
 		outputText=str(outputText)+str(z)
