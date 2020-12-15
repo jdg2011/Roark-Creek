@@ -279,6 +279,7 @@ def getCommand():
 				print("No key entered. Use [k]ey or [g]enerate.")
 				continue
 		elif command == 'g' or command == 'generate': return 'generate'
+		elif command == 'c' or command == 'copy': return 'copy'
 		elif command == 's' or command == 'snagFish': return 'snag'
 		elif command == 's -v' or command == 'snagFish -v':
 			option1 = 'v'
@@ -306,6 +307,8 @@ def runTask(selectedTask):
 		newKey=generateRandomKey()
 		processKey(newKey)
 		print("New key generated and in place:\n"+str(newKey))
+	elif selectedTask=='copy':
+		pass		
 	elif selectedTask=='snag':
 		userInput=input("Enter ciphertext to attack: ")
 		userTarget=input("Enter a target word or phrase: ")
