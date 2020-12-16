@@ -117,8 +117,8 @@ def downstream(inputText,action):
 		if kT>23: kT=0
 		refKey=math.fmod((findLeafValue(p1)*findLeafValue(p2)*findLeafValue(p3)*keyHash_refMult1)*(keyBit[kT]+kTp),1010)
 		cryptKey=math.fmod((findLeafValue(p1)+findLeafValue(p2)+findLeafValue(p3)*keyHash_cryptMult1)+(keyBit[kT]+kTp),1010)
-		if action=='encrypt': z=encryptLeaf(inputText[x],refKey,cryptKey,'1')
-		if action=='decrypt': z=decryptLeaf(inputText[x],refKey,cryptKey,'1')
+		if action=='encrypt': z=encryptText(inputText[x],refKey,cryptKey,'1')
+		if action=='decrypt': z=decryptText(inputText[x],refKey,cryptKey,'1')
 		outputText=str(outputText)+str(z)
 		if action=='encrypt':staticText=outputText
 		kT+=1
@@ -154,25 +154,25 @@ def upstream(inputText,action):
 			kTp+=1
 		refKey=math.fmod((findLeafValue(p1)*findLeafValue(p2)*findLeafValue(p3)*keyHash_refMult2)+(keyBit[kT]+kTp),1010)
 		cryptKey=math.fmod((findLeafValue(p1)+findLeafValue(p2)+findLeafValue(p3)*keyHash_cryptMult2)+(keyBit[kT]+kTp),1010)
-		if action=='encrypt': z=encryptLeaf(inputText[x],refKey,cryptKey,'2')
-		if action=='decrypt': z=decryptLeaf(inputText[x],refKey,cryptKey,'2')
+		if action=='encrypt': z=encryptText(inputText[x],refKey,cryptKey,'2')
+		if action=='decrypt': z=decryptText(inputText[x],refKey,cryptKey,'2')
 		outputText=str(outputText)+str(z)
 		if action=='encrypt':staticText=outputText
 		kT+=1
 	return outputText
 
-def encryptLeaf(leaf,leafKey1,leafKey2,sequence):
+def encryptText(text,leafKey1,leafKey2,sequence):
 	refBook=findNewBook(leafKey1,'ref'+sequence)
 	cryptBook=findNewBook(leafKey2,'crypt'+sequence)
-	refNum=refBook.index(leaf)
+	refNum=refBook.index(text)
 	output=cryptBook[refNum]
 	return output
 
-def decryptLeaf(leaf,leafKey1,leafKey2,sequence):
-	RefBook=findNewBook(leafKey1,'ref'+sequence)
-	CryptBook=findNewBook(leafKey2,'crypt'+sequence)
-	cryptNum=CryptBook.index(leaf)
-	output=RefBook[cryptNum]
+def decryptText(text,leafKey1,leafKey2,sequence):
+	refBook=findNewBook(leafKey1,'ref'+sequence)
+	cryptBook=findNewBook(leafKey2,'crypt'+sequence)
+	cryptNum=cryptBook.index(text)
+	output=refBook[cryptNum]
 	return output
 
 def findNewBook(leafKey,library):
