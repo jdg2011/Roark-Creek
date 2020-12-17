@@ -59,9 +59,9 @@ def processKey(keyString):
 		seedBook1=findNewBook(keyHash_seedBook1,'seed')
 		seedBook2=findNewBook(keyHash_seedBook2,'seed')
 		seedBook3=findNewBook(keyHash_seedBook1,'seed')
-		seedBook4=findNewBook(keyHash_seedBook1,'seed')
-		seedBook5=findNewBook(keyHash_seedBook2,'seed')
-		seedBook6=findNewBook(keyHash_seedBook1,'seed')
+		seedBook4=findNewBook(keyHash_seedBook2,'seed')
+		seedBook5=findNewBook(keyHash_seedBook1,'seed')
+		seedBook6=findNewBook(keyHash_seedBook2,'seed')
 		global seedDict
 		seedDict={
 			'seed1':seedBook1[keyHash_seed1],
@@ -69,7 +69,7 @@ def processKey(keyString):
 			'seed3':seedBook1[keyHash_seed3],
 			'seed4':seedBook2[keyHash_seed4],
 			'seed5':seedBook1[keyHash_seed5],
-			'seed6':seedBook2[keyHash_seed2]
+			'seed6':seedBook2[keyHash_seed6]
 }
 		global keyEntered
 		keyEntered=True
