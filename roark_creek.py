@@ -44,14 +44,6 @@ def processKey(keyString):
 		leafMultiplier.update({'crypt2':int(math.fmod(keyBit[6]*keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]*keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]*keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]*keyBit[23]+keyBit[0]+keyBit[1]+keyBit[2]*keyBit[3]+keyBit[4]*keyBit[5],1010))})
 		leafMultiplier.update({'ref1':int(math.fmod(keyBit[0]+keyBit[1]*keyBit[2]+keyBit[3]*keyBit[4]+keyBit[5]*keyBit[6]+keyBit[7]*keyBit[8]+keyBit[9]*keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]*keyBit[14]+keyBit[15]*keyBit[16]+keyBit[17]*keyBit[18]+keyBit[19]*keyBit[20]+keyBit[21]*keyBit[22]+keyBit[23],1010))})
 		leafMultiplier.update({'ref2':int(math.fmod(keyBit[6]+keyBit[7]*keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]*keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]*keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23]*keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]*keyBit[4]+keyBit[5],1010))})
-		#global keyHash_cryptMult1
-		#keyHash_cryptMult1=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]*keyBit[3]+keyBit[4]*keyBit[5]+keyBit[6]*keyBit[7]+keyBit[8]*keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]*keyBit[13]+keyBit[14]*keyBit[15]+keyBit[16]*keyBit[17]+keyBit[18]*keyBit[19]+keyBit[20]*keyBit[21]+keyBit[22]*keyBit[23],1010))
-		#global keyHash_cryptMult2
-		#keyHash_cryptMult2=int(math.fmod(keyBit[6]*keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]*keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]*keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]*keyBit[23]+keyBit[0]+keyBit[1]+keyBit[2]*keyBit[3]+keyBit[4]*keyBit[5],1010))
-		#global keyHash_refMult1
-		#keyHash_refMult1=int(math.fmod(keyBit[0]+keyBit[1]*keyBit[2]+keyBit[3]*keyBit[4]+keyBit[5]*keyBit[6]+keyBit[7]*keyBit[8]+keyBit[9]*keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]*keyBit[14]+keyBit[15]*keyBit[16]+keyBit[17]*keyBit[18]+keyBit[19]*keyBit[20]+keyBit[21]*keyBit[22]+keyBit[23],1010))
-		#global keyHash_refMult2
-		#keyHash_refMult2=int(math.fmod(keyBit[6]+keyBit[7]*keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]*keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]*keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23]*keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]*keyBit[4]+keyBit[5],1010))
 		keyHash_leafBook=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23],1010))
 		keyHash_seed1=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7],98))
 		keyHash_seed2=int(math.fmod(keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15],98))
@@ -99,26 +91,26 @@ def downstream(inputText,action):
 	kTp=0
 	for x in range(len(inputText)):
 		if i==0:
-			p1=seedDict['seed1']
-			p2=seedDict['seed2']
-			p3=seedDict['seed3']
+			leaf1=seedDict['seed1']
+			leaf2=seedDict['seed2']
+			leaf3=seedDict['seed3']
 		elif i==1:
-			p1=seedDict['seed2']
-			p2=seedDict['seed3']
-			p3=staticText[x-1]
+			leaf1=seedDict['seed2']
+			leaf2=seedDict['seed3']
+			leaf3=staticText[x-1]
 		elif i==2:
-			p1=seedDict['seed3']
-			p2=staticText[x-1]
-			p3=staticText[x-2]
+			leaf1=seedDict['seed3']
+			leaf2=staticText[x-1]
+			leaf3=staticText[x-2]
 		else:
-			p1=staticText[x-1]
-			p2=staticText[x-2]
-			p3=staticText[x-3]
+			leaf1=staticText[x-1]
+			leaf2=staticText[x-2]
+			leaf3=staticText[x-3]
 		i+=1
 		kTp+=1
 		if kT>23: kT=0
-		refKey=math.fmod((findLeafValue(p1)*findLeafValue(p2)*findLeafValue(p3)*leafMultiplier['ref1'])*(keyBit[kT]+kTp),1010)
-		cryptKey=math.fmod((findLeafValue(p1)+findLeafValue(p2)+findLeafValue(p3)*leafMultiplier['crypt1'])+(keyBit[kT]+kTp),1010)
+		refKey=math.fmod((findLeafValue(leaf1)*findLeafValue(leaf2)*findLeafValue(leaf3)*leafMultiplier['ref1'])*(keyBit[kT]+kTp),1010)
+		cryptKey=math.fmod((findLeafValue(leaf1)+findLeafValue(leaf2)+findLeafValue(leaf3)*leafMultiplier['crypt1'])+(keyBit[kT]+kTp),1010)
 		if action=='encrypt': z=encryptText(inputText[x],refKey,cryptKey,'1')
 		if action=='decrypt': z=decryptText(inputText[x],refKey,cryptKey,'1')
 		outputText=str(outputText)+str(z)
@@ -135,27 +127,27 @@ def upstream(inputText,action):
 	kTp=0
 	for x in range(len(inputText)):
 		if i==0:
-			p1=seedDict['seed4']
-			p2=seedDict['seed5']
-			p3=seedDict['seed6']
+			leaf1=seedDict['seed4']
+			leaf2=seedDict['seed5']
+			leaf3=seedDict['seed6']
 		elif i==1:
-			p1=seedDict['seed5']
-			p2=seedDict['seed6']
-			p3=staticText[x-1]
+			leaf1=seedDict['seed5']
+			leaf2=seedDict['seed6']
+			leaf3=staticText[x-1]
 		elif i==2:
-			p1=seedDict['seed6']
-			p2=staticText[x-1]
-			p3=staticText[x-2]
+			leaf1=seedDict['seed6']
+			leaf2=staticText[x-1]
+			leaf3=staticText[x-2]
 		else:
-			p1=staticText[x-1]
-			p2=staticText[x-2]
-			p3=staticText[x-3]
+			leaf1=staticText[x-1]
+			leaf2=staticText[x-2]
+			leaf3=staticText[x-3]
 		i+=1
 		if kT>23:
 			kT=0
 			kTp+=1
-		refKey=math.fmod((findLeafValue(p1)*findLeafValue(p2)*findLeafValue(p3)*leafMultiplier['ref2'])+(keyBit[kT]+kTp),1010)
-		cryptKey=math.fmod((findLeafValue(p1)+findLeafValue(p2)+findLeafValue(p3)*leafMultiplier['crypt2'])+(keyBit[kT]+kTp),1010)
+		refKey=math.fmod((findLeafValue(leaf1)*findLeafValue(leaf2)*findLeafValue(leaf3)*leafMultiplier['ref2'])+(keyBit[kT]+kTp),1010)
+		cryptKey=math.fmod((findLeafValue(leaf1)+findLeafValue(leaf2)+findLeafValue(leaf3)*leafMultiplier['crypt2'])+(keyBit[kT]+kTp),1010)
 		if action=='encrypt': z=encryptText(inputText[x],refKey,cryptKey,'2')
 		if action=='decrypt': z=decryptText(inputText[x],refKey,cryptKey,'2')
 		outputText=str(outputText)+str(z)
