@@ -63,18 +63,14 @@ def processKey(keyString):
 		seedBook4=findNewBook(keyHash_seedBook1,'seed')
 		seedBook5=findNewBook(keyHash_seedBook2,'seed')
 		seedBook6=findNewBook(keyHash_seedBook1,'seed')
-		global seed1
-		seed1=seedBook1[keyHash_seed1]
-		global seed2
-		seed2=seedBook2[keyHash_seed2]
-		global seed3
-		seed3=seedBook3[keyHash_seed3]
-		global seed4
-		seed4=seedBook1[keyHash_seed4]
-		global seed5
-		seed5=seedBook2[keyHash_seed5]
-		global seed6
-		seed6=seedBook3[keyHash_seed6]
+		global seedDict
+		seedDict={}
+		seedDict.update({'seed1':seedBook1[keyHash_seed1]})
+		seedDict.update({'seed2':seedBook2[keyHash_seed2]})
+		seedDict.update({'seed3':seedBook1[keyHash_seed3]})
+		seedDict.update({'seed4':seedBook2[keyHash_seed4]})
+		seedDict.update({'seed5':seedBook1[keyHash_seed5]})
+		seedDict.update({'seed6':seedBook2[keyHash_seed6]})
 		global keyEntered
 		keyEntered=True
 		return 1
@@ -97,15 +93,15 @@ def downstream(inputText,action):
 	kTp=0
 	for x in range(len(inputText)):
 		if i==0:
-			p1=seed1
-			p2=seed2
-			p3=seed3
+			p1=seedDict['seed1']
+			p2=seedDict['seed2']
+			p3=seedDict['seed3']
 		elif i==1:
-			p1=seed2
-			p2=seed3
+			p1=seedDict['seed2']
+			p2=seedDict['seed3']
 			p3=staticText[x-1]
 		elif i==2:
-			p1=seed3
+			p1=seedDict['seed3']
 			p2=staticText[x-1]
 			p3=staticText[x-2]
 		else:
@@ -133,15 +129,15 @@ def upstream(inputText,action):
 	kTp=0
 	for x in range(len(inputText)):
 		if i==0:
-			p1=seed4
-			p2=seed5
-			p3=seed6
+			p1=seedDict['seed4']
+			p2=seedDict['seed5']
+			p3=seedDict['seed6']
 		elif i==1:
-			p1=seed5
-			p2=seed6
+			p1=seedDict['seed5']
+			p2=seedDict['seed6']
 			p3=staticText[x-1]
 		elif i==2:
-			p1=seed6
+			p1=seedDict['seed6']
 			p2=staticText[x-1]
 			p3=staticText[x-2]
 		else:
