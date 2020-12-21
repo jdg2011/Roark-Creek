@@ -10,16 +10,15 @@
 
 #Notes
 	#A "sub-string not found" error typically means you used a character not included in the libraries.
+import os
 import configparser
-config=configparser.ConfigParser()
-config.read('config.ini')
 import pyperclip
 import math
 import time
 import secrets
 import datetime
 from itertools import product
-version_number="2.0.0-beta006"
+version_number="2.0.0-beta007"
 keyBase='nKi+T?d&OqAk<Y,4!SP-NZf[\E1MU/JwxHIsR@{r})Lvj]7(~mz0BV#y6tu:%3XGFbD;l.89C*$|^o5ga=Qc>peh2W'
 firstNinetyPrimes=(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463)
 
@@ -29,6 +28,19 @@ def printGreeting():
 	if config['defaultKey']['UseDefaultKey']=='True':
 		processKey(config['defaultKey']['KeyValue'])
 	keyEntered=True
+
+def generateConfigFile():
+	config = configparser.ConfigParser()
+	config['defaultKey'] = {}
+	config['defaultKey']['UseDefaultKey'] = 'False'
+	config['defaultKey']['KeyValue'] = 'ABCDEFGHIJKLMNOP12345678'
+	config['snagFish'] = {}
+	config['snagFish']['KeyString'] = 'eEaAsStToOiInNdDK+?&qk<Y,4!P-Zf[\1MU/JwxHR@{r})Lvj]7(~mz0BV#y6u:%%3XGFb;l.89C*$|^5g=Qc>ph2W'
+	config['snagFish']['ClockingInterval'] = '1000'
+	config['flyFish'] = {}
+	config['flyFish']['ClockingInterval'] = '1000'
+	with open('config.ini', 'w') as configfile:
+		config.write(configfile)
 
 def processKey(keyString):
 	if len(keyString)!=24:
@@ -328,6 +340,9 @@ def runTask(selectedTask):
 		global T
 		T=1
 
+if bool(os.path.exists('config.ini')) is False: generateConfigFile()
+config=configparser.ConfigParser()
+config.read('config.ini')
 keyEntered=False
 printGreeting()
 T = 0
