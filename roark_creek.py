@@ -18,7 +18,7 @@ import time
 import secrets
 import datetime
 from itertools import product
-version_number="2.0.0-beta007"
+version_number="2.0.0-beta008"
 keyBase='nKi+T?d&OqAk<Y,4!SP-NZf[\E1MU/JwxHIsR@{r})Lvj]7(~mz0BV#y6tu:%3XGFbD;l.89C*$|^o5ga=Qc>peh2W'
 firstNinetyPrimes=(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463)
 
@@ -56,7 +56,7 @@ def processKey(keyString):
 		'crypt2':int(math.fmod(keyBit[6]*keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]*keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]*keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]*keyBit[23]+keyBit[0]+keyBit[1]+keyBit[2]*keyBit[3]+keyBit[4]*keyBit[5],1010)),
 		'ref1':int(math.fmod(keyBit[0]+keyBit[1]*keyBit[2]+keyBit[3]*keyBit[4]+keyBit[5]*keyBit[6]+keyBit[7]*keyBit[8]+keyBit[9]*keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]*keyBit[14]+keyBit[15]*keyBit[16]+keyBit[17]*keyBit[18]+keyBit[19]*keyBit[20]+keyBit[21]*keyBit[22]+keyBit[23],1010)),
 		'ref2':int(math.fmod(keyBit[6]+keyBit[7]*keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]*keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]*keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23]*keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]*keyBit[4]+keyBit[5],1010))
-}		
+}
 		keyHash_leafBook=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23],1010))
 		keyHash_seed1=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7],98))
 		keyHash_seed2=int(math.fmod(keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15],98))
@@ -88,15 +88,19 @@ def processKey(keyString):
 		return 1
 
 def processString(string,action):
+	ref_BransonLanding='(findLeafValue(leaf1)*findLeafValue(leaf2)*findLeafValue(leaf3)*leafMultiplier["ref1"])*(keyBit[kT]+kTp)'
+	crypt_BransonLanding='(findLeafValue(leaf1)+findLeafValue(leaf2)+findLeafValue(leaf3)*leafMultiplier["crypt1"])+(keyBit[kT]+kTp)'
+	ref_Veterans='(findLeafValue(leaf1)*findLeafValue(leaf2)*findLeafValue(leaf3)*leafMultiplier["ref2"])+(keyBit[kT]+kTp)'
+	crypt_Veterans='(findLeafValue(leaf1)+findLeafValue(leaf2)+findLeafValue(leaf3)*leafMultiplier["crypt2"])+(keyBit[kT]+kTp)'
 	if action=='encrypt':
-		x=downstream(string,action)
-		finalText=upstream(x[::-1],action)
+		x=stream(string,action,'seed1','seed2','seed3',ref_BransonLanding,crypt_BransonLanding)
+		finalText=stream(x[::-1],action,'seed4','seed5','seed6',ref_Veterans,crypt_Veterans)
 	elif action=='decrypt':
-		x=upstream(string,action)
-		finalText=downstream(x[::-1],action)
+		x=stream(string,action,'seed4','seed5','seed6',ref_Veterans,crypt_Veterans)
+		finalText=stream(x[::-1],action,'seed1','seed2','seed3',ref_BransonLanding,crypt_BransonLanding)
 	return finalText
 
-def downstream(inputText,action):
+def stream(inputText,action,seedA,seedB,seedC,expressionRefKey,expressionCryptKey):
 	outputText=""
 	if action=='decrypt':staticText=inputText
 	global keyBit
@@ -105,15 +109,15 @@ def downstream(inputText,action):
 	kTp=0
 	for x in range(len(inputText)):
 		if i==0:
-			leaf1=seedDict['seed1']
-			leaf2=seedDict['seed2']
-			leaf3=seedDict['seed3']
+			leaf1=seedDict[seedA]
+			leaf2=seedDict[seedB]
+			leaf3=seedDict[seedC]
 		elif i==1:
-			leaf1=seedDict['seed2']
-			leaf2=seedDict['seed3']
+			leaf1=seedDict[seedB]
+			leaf2=seedDict[seedC]
 			leaf3=staticText[x-1]
 		elif i==2:
-			leaf1=seedDict['seed3']
+			leaf1=seedDict[seedC]
 			leaf2=staticText[x-1]
 			leaf3=staticText[x-2]
 		else:
@@ -123,47 +127,10 @@ def downstream(inputText,action):
 		i+=1
 		kTp+=1
 		if kT>23: kT=0
-		refKey=math.fmod((findLeafValue(leaf1)*findLeafValue(leaf2)*findLeafValue(leaf3)*leafMultiplier['ref1'])*(keyBit[kT]+kTp),1010)
-		cryptKey=math.fmod((findLeafValue(leaf1)+findLeafValue(leaf2)+findLeafValue(leaf3)*leafMultiplier['crypt1'])+(keyBit[kT]+kTp),1010)
+		refKey=math.fmod(eval(expressionRefKey),1010)
+		cryptKey=math.fmod(eval(expressionCryptKey),1010)
 		if action=='encrypt': z=encryptText(inputText[x],refKey,cryptKey,'1')
 		if action=='decrypt': z=decryptText(inputText[x],refKey,cryptKey,'1')
-		outputText=str(outputText)+str(z)
-		if action=='encrypt':staticText=outputText
-		kT+=1
-	return outputText
-
-def upstream(inputText,action):
-	outputText=""
-	if action=='decrypt':staticText=inputText
-	global keyBit
-	i=0
-	kT=0
-	kTp=0
-	for x in range(len(inputText)):
-		if i==0:
-			leaf1=seedDict['seed4']
-			leaf2=seedDict['seed5']
-			leaf3=seedDict['seed6']
-		elif i==1:
-			leaf1=seedDict['seed5']
-			leaf2=seedDict['seed6']
-			leaf3=staticText[x-1]
-		elif i==2:
-			leaf1=seedDict['seed6']
-			leaf2=staticText[x-1]
-			leaf3=staticText[x-2]
-		else:
-			leaf1=staticText[x-1]
-			leaf2=staticText[x-2]
-			leaf3=staticText[x-3]
-		i+=1
-		if kT>23:
-			kT=0
-			kTp+=1
-		refKey=math.fmod((findLeafValue(leaf1)*findLeafValue(leaf2)*findLeafValue(leaf3)*leafMultiplier['ref2'])+(keyBit[kT]+kTp),1010)
-		cryptKey=math.fmod((findLeafValue(leaf1)+findLeafValue(leaf2)+findLeafValue(leaf3)*leafMultiplier['crypt2'])+(keyBit[kT]+kTp),1010)
-		if action=='encrypt': z=encryptText(inputText[x],refKey,cryptKey,'2')
-		if action=='decrypt': z=decryptText(inputText[x],refKey,cryptKey,'2')
 		outputText=str(outputText)+str(z)
 		if action=='encrypt':staticText=outputText
 		kT+=1
