@@ -91,14 +91,14 @@ def processKey(keyString):
 		#keyHash_seedBookD=int(math.fmod(keyBit[27]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]+keyBit[12]+keyBit[42],1010))
 		keyHash_seedBookA=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]*keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23],1010))
 		keyHash_seedBookB=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]*keyBit[23],1010))
-		#keyHash_refBookA=int(math.fmod(keyBit[29]+keyBit[31]+keyBit[33]+keyBit[35]+keyBit[37]+keyBit[39]+keyBit[41],11))
-		#keyHash_refBookB=int(math.fmod(keyBit[43]+keyBit[45]+keyBit[47]+keyBit[49]+keyBit[51]+keyBit[53]+keyBit[55],11))
-		#keyHash_refBookC=int(math.fmod(keyBit[0]+keyBit[2]+keyBit[4]+keyBit[6]+keyBit[8]+keyBit[10]+keyBit[12],11))
-		#keyHash_refBookD=int(math.fmod(keyBit[14]+keyBit[16]+keyBit[18]+keyBit[20]+keyBit[22]+keyBit[24]+keyBit[26],11))
-		#keyHash_cryptBookA=int(math.fmod(keyBit[28]+keyBit[30]+keyBit[32]+keyBit[34]+keyBit[36]+keyBit[38]+keyBit[40],11))
-		#keyHash_cryptBookB=int(math.fmod(keyBit[42]+keyBit[44]+keyBit[46]+keyBit[48]+keyBit[50]+keyBit[52]+keyBit[54],11))
-		#keyHash_cryptBookC=int(math.fmod(keyBit[1]+keyBit[3]+keyBit[5]+keyBit[7]+keyBit[9]+keyBit[11]+keyBit[13],11))
-		#keyHash_cryptBookD=int(math.fmod(keyBit[15]+keyBit[17]+keyBit[19]+keyBit[21]+keyBit[23]+keyBit[25]+keyBit[27],11))
+		#keyHash_refBookLanding=int(math.fmod(keyBit[29]+keyBit[31]+keyBit[33]+keyBit[35]+keyBit[37]+keyBit[39]+keyBit[41],11))
+		#keyHash_refBookVeterans=int(math.fmod(keyBit[43]+keyBit[45]+keyBit[47]+keyBit[49]+keyBit[51]+keyBit[53]+keyBit[55],11))
+		#keyHash_refBookGretna=int(math.fmod(keyBit[0]+keyBit[2]+keyBit[4]+keyBit[6]+keyBit[8]+keyBit[10]+keyBit[12],11))
+		#keyHash_refBookShepherd=int(math.fmod(keyBit[14]+keyBit[16]+keyBit[18]+keyBit[20]+keyBit[22]+keyBit[24]+keyBit[26],11))
+		#keyHash_cryptBookLanding=int(math.fmod(keyBit[28]+keyBit[30]+keyBit[32]+keyBit[34]+keyBit[36]+keyBit[38]+keyBit[40],11))
+		#keyHash_cryptBookVeterans=int(math.fmod(keyBit[42]+keyBit[44]+keyBit[46]+keyBit[48]+keyBit[50]+keyBit[52]+keyBit[54],11))
+		#keyHash_cryptBookGretna=int(math.fmod(keyBit[1]+keyBit[3]+keyBit[5]+keyBit[7]+keyBit[9]+keyBit[11]+keyBit[13],11))
+		#keyHash_cryptBookShepherd=int(math.fmod(keyBit[15]+keyBit[17]+keyBit[19]+keyBit[21]+keyBit[23]+keyBit[25]+keyBit[27],11))
 		global leafBook
 		leafBook=findNewBook(keyHash_leafBook,'leaf')
 		seedBookA=findNewBook(keyHash_seedBookA,'seed')
@@ -133,20 +133,20 @@ def processKey(keyString):
 		return 1
 
 def processString(string,action):
-	ref_BransonLanding='(findLeafValue(leaf1)*findLeafValue(leaf2)*findLeafValue(leaf3)*leafMultiplier["ref1"])*(keyBit[kT]+kTp)'
-	crypt_BransonLanding='(findLeafValue(leaf1)+findLeafValue(leaf2)+findLeafValue(leaf3)*leafMultiplier["crypt1"])+(keyBit[kT]+kTp)'
-	ref_Veterans='(findLeafValue(leaf1)*findLeafValue(leaf2)*findLeafValue(leaf3)*leafMultiplier["ref2"])+(keyBit[kT]+kTp)'
-	crypt_Veterans='(findLeafValue(leaf1)+findLeafValue(leaf2)*findLeafValue(leaf3)+leafMultiplier["crypt2"])+(keyBit[kT]+kTp)'
-	ref_Gretna='(findLeafValue(leaf1)*findLeafValue(leaf2)*findLeafValue(leaf3)+leafMultiplier["ref3"])*(keyBit[kT]+kTp)'
-	crypt_Gretna='(findLeafValue(leaf1)*findLeafValue(leaf2)+findLeafValue(leaf3)+leafMultiplier["crypt3"])+(keyBit[kT]+kTp)'
-	ref_ShepherdOfTheHills='(findLeafValue(leaf1)*findLeafValue(leaf2)+findLeafValue(leaf3)*leafMultiplier["ref4"])*(keyBit[kT]+kTp)'
-	crypt_ShepherdOfTheHills='(findLeafValue(leaf1)+findLeafValue(leaf2)+findLeafValue(leaf3)+leafMultiplier["crypt4"])*(keyBit[kT]+kTp)'
+	ref_landing='(findLeafValue(leaf1)*findLeafValue(leaf2)*findLeafValue(leaf3)*leafMultiplier["ref1"])*(keyBit[kT]+kTp)'
+	crypt_landing='(findLeafValue(leaf1)+findLeafValue(leaf2)+findLeafValue(leaf3)*leafMultiplier["crypt1"])+(keyBit[kT]+kTp)'
+	ref_veterans='(findLeafValue(leaf1)*findLeafValue(leaf2)*findLeafValue(leaf3)*leafMultiplier["ref2"])+(keyBit[kT]+kTp)'
+	crypt_veterans='(findLeafValue(leaf1)+findLeafValue(leaf2)*findLeafValue(leaf3)+leafMultiplier["crypt2"])+(keyBit[kT]+kTp)'
+	ref_gretna='(findLeafValue(leaf1)*findLeafValue(leaf2)*findLeafValue(leaf3)+leafMultiplier["ref3"])*(keyBit[kT]+kTp)'
+	crypt_gretna='(findLeafValue(leaf1)*findLeafValue(leaf2)+findLeafValue(leaf3)+leafMultiplier["crypt3"])+(keyBit[kT]+kTp)'
+	ref_shepherd='(findLeafValue(leaf1)*findLeafValue(leaf2)+findLeafValue(leaf3)*leafMultiplier["ref4"])*(keyBit[kT]+kTp)'
+	crypt_shepherd='(findLeafValue(leaf1)+findLeafValue(leaf2)+findLeafValue(leaf3)+leafMultiplier["crypt4"])*(keyBit[kT]+kTp)'
 	if action=='encrypt':
-		x=stream(string,action,'seed1','seed2','seed3',ref_BransonLanding,crypt_BransonLanding)
-		finalText=stream(x[::-1],action,'seed4','seed5','seed6',ref_Veterans,crypt_Veterans)
+		x=stream(string,action,'seed1','seed2','seed3',ref_landing,crypt_landing)
+		finalText=stream(x[::-1],action,'seed4','seed5','seed6',ref_veterans,crypt_veterans)
 	elif action=='decrypt':
-		x=stream(string,action,'seed4','seed5','seed6',ref_Veterans,crypt_Veterans)
-		finalText=stream(x[::-1],action,'seed1','seed2','seed3',ref_BransonLanding,crypt_BransonLanding)
+		x=stream(string,action,'seed4','seed5','seed6',ref_veterans,crypt_veterans)
+		finalText=stream(x[::-1],action,'seed1','seed2','seed3',ref_landing,crypt_landing)
 	return finalText
 
 def stream(inputText,action,seedA,seedB,seedC,expressionRefKey,expressionCryptKey):
