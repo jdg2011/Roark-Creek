@@ -91,14 +91,24 @@ def processKey(keyString):
 		#keyHash_seedBookD=int(math.fmod(keyBit[27]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]+keyBit[12]+keyBit[42],1010))
 		keyHash_seedBookA=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]*keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23],1010))
 		keyHash_seedBookB=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]*keyBit[23],1010))
-		#keyHash_refBookLanding=int(math.fmod(keyBit[29]+keyBit[31]+keyBit[33]+keyBit[35]+keyBit[37]+keyBit[39]+keyBit[41],11))
-		#keyHash_refBookVeterans=int(math.fmod(keyBit[43]+keyBit[45]+keyBit[47]+keyBit[49]+keyBit[51]+keyBit[53]+keyBit[55],11))
-		#keyHash_refBookGretna=int(math.fmod(keyBit[0]+keyBit[2]+keyBit[4]+keyBit[6]+keyBit[8]+keyBit[10]+keyBit[12],11))
-		#keyHash_refBookShepherd=int(math.fmod(keyBit[14]+keyBit[16]+keyBit[18]+keyBit[20]+keyBit[22]+keyBit[24]+keyBit[26],11))
-		#keyHash_cryptBookLanding=int(math.fmod(keyBit[28]+keyBit[30]+keyBit[32]+keyBit[34]+keyBit[36]+keyBit[38]+keyBit[40],11))
-		#keyHash_cryptBookVeterans=int(math.fmod(keyBit[42]+keyBit[44]+keyBit[46]+keyBit[48]+keyBit[50]+keyBit[52]+keyBit[54],11))
-		#keyHash_cryptBookGretna=int(math.fmod(keyBit[1]+keyBit[3]+keyBit[5]+keyBit[7]+keyBit[9]+keyBit[11]+keyBit[13],11))
-		#keyHash_cryptBookShepherd=int(math.fmod(keyBit[15]+keyBit[17]+keyBit[19]+keyBit[21]+keyBit[23]+keyBit[25]+keyBit[27],11))
+		#keyHash_refLibLanding=int(math.fmod(keyBit[29]+keyBit[31]+keyBit[33]+keyBit[35]+keyBit[37]+keyBit[39]+keyBit[41],11))
+		#keyHash_refLibVeterans=int(math.fmod(keyBit[43]+keyBit[45]+keyBit[47]+keyBit[49]+keyBit[51]+keyBit[53]+keyBit[55],11))
+		#keyHash_refLibGretna=int(math.fmod(keyBit[0]+keyBit[2]+keyBit[4]+keyBit[6]+keyBit[8]+keyBit[10]+keyBit[12],11))
+		#keyHash_refLibShepherd=int(math.fmod(keyBit[14]+keyBit[16]+keyBit[18]+keyBit[20]+keyBit[22]+keyBit[24]+keyBit[26],11))
+		#keyHash_cryptLibLanding=int(math.fmod(keyBit[28]+keyBit[30]+keyBit[32]+keyBit[34]+keyBit[36]+keyBit[38]+keyBit[40],11))
+		#keyHash_cryptLibVeterans=int(math.fmod(keyBit[42]+keyBit[44]+keyBit[46]+keyBit[48]+keyBit[50]+keyBit[52]+keyBit[54],11))
+		#keyHash_cryptLibGretna=int(math.fmod(keyBit[1]+keyBit[3]+keyBit[5]+keyBit[7]+keyBit[9]+keyBit[11]+keyBit[13],11))
+		#keyHash_cryptLibShepherd=int(math.fmod(keyBit[15]+keyBit[17]+keyBit[19]+keyBit[21]+keyBit[23]+keyBit[25]+keyBit[27],11))
+		global libraries
+		libraries={
+			'refLanding':'ref'+str(keyHash_refLibLanding),
+			'cryptLanding':'crypt'+str(keyHash_cryptLibLanding),
+			'refVeterans':'ref'+str(keyHash_refLibVeterans),
+			'cryptVeterans':'crypt'+str(keyHash_cryptLibVeterans),
+			'refGretna':'ref'+str(keyHash_refLibGretna),
+			'cryptGretna':'crypt'+str(keyHash_cryptLibGretna),
+			'refShepherd':'ref'+str(keyHash_refLibShepherd),
+			'cryptShepherd':'crypt'+str(keyHash_cryptLibShepherd),
 		global leafBook
 		leafBook=findNewBook(keyHash_leafBook,'leaf')
 		seedBookA=findNewBook(keyHash_seedBookA,'seed')
@@ -142,14 +152,14 @@ def processString(string,action):
 	ref_shepherd='(findLeafValue(leaf1)*findLeafValue(leaf2)+findLeafValue(leaf3)*leafMultiplier["ref4"])*(keyBit[kT]+kTp)'
 	crypt_shepherd='(findLeafValue(leaf1)+findLeafValue(leaf2)+findLeafValue(leaf3)+leafMultiplier["crypt4"])*(keyBit[kT]+kTp)'
 	if action=='encrypt':
-		x=stream(string,action,'seed1','seed2','seed3',ref_landing,crypt_landing)
-		finalText=stream(x[::-1],action,'seed4','seed5','seed6',ref_veterans,crypt_veterans)
+		x=stream(string,action,'seed1','seed2','seed3',ref_landing,crypt_landing,libraries['refLanding'],libraries['cryptLanding'])
+		finalText=stream(x[::-1],action,'seed4','seed5','seed6',ref_veterans,crypt_veterans,libraries['refVeterans'],libraries['cryptVeterans'])
 	elif action=='decrypt':
-		x=stream(string,action,'seed4','seed5','seed6',ref_veterans,crypt_veterans)
-		finalText=stream(x[::-1],action,'seed1','seed2','seed3',ref_landing,crypt_landing)
+		x=stream(string,action,'seed4','seed5','seed6',ref_veterans,crypt_veterans,libraries['refVeterans'],libraries['cryptVeterans'])
+		finalText=stream(x[::-1],action,'seed1','seed2','seed3',ref_landing,crypt_landing,libraries['refLanding'],libraries['cryptLanding'])
 	return finalText
 
-def stream(inputText,action,seedA,seedB,seedC,expressionRefKey,expressionCryptKey):
+def stream(inputText,action,seedA,seedB,seedC,expressionRefKey,expressionCryptKey,layerRefLib,layerCryptLib):
 	outputText=""
 	if action=='decrypt':staticText=inputText
 	global keyBit
@@ -178,23 +188,23 @@ def stream(inputText,action,seedA,seedB,seedC,expressionRefKey,expressionCryptKe
 		if kT>23: kT=0
 		refKey=math.fmod(eval(expressionRefKey),1010)
 		cryptKey=math.fmod(eval(expressionCryptKey),1010)
-		if action=='encrypt': z=encryptText(inputText[x],refKey,cryptKey,'1')
-		if action=='decrypt': z=decryptText(inputText[x],refKey,cryptKey,'1')
+		if action=='encrypt': z=encryptText(inputText[x],refKey,cryptKey,layerRefLib,layerCryptLib)
+		if action=='decrypt': z=decryptText(inputText[x],refKey,cryptKey,layerRefLib,layerCryptLib)
 		outputText=str(outputText)+str(z)
 		if action=='encrypt':staticText=outputText
 		kT+=1
 	return outputText
 
-def encryptText(text,leafKey1,leafKey2,sequence):
-	refBook=findNewBook(leafKey1,'ref'+sequence)
-	cryptBook=findNewBook(leafKey2,'crypt'+sequence)
+def encryptText(text,leafKey1,leafKey2,layerRef,layerCrypt):
+	refBook=findNewBook(leafKey1,layerRef)
+	cryptBook=findNewBook(leafKey2,layerCrypt)
 	refNum=refBook.index(text)
 	output=cryptBook[refNum]
 	return output
 
-def decryptText(text,leafKey1,leafKey2,sequence):
-	refBook=findNewBook(leafKey1,'ref'+sequence)
-	cryptBook=findNewBook(leafKey2,'crypt'+sequence)
+def decryptText(text,leafKey1,leafKey2,layerRef,layerCrypt):
+	refBook=findNewBook(leafKey1,layerRef)
+	cryptBook=findNewBook(leafKey2,layerCrypt)
 	cryptNum=cryptBook.index(text)
 	output=refBook[cryptNum]
 	return output
