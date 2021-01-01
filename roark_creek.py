@@ -39,7 +39,7 @@ def generateConfigFile():
 	config['snagFish']['ClockingInterval'] = '500'
 	config['flyFish'] = {}
 	config['flyFish']['ClockingInterval'] = '500'
-	with open('config.ini', 'w') as configfile:
+	with open('config', 'w') as configfile:
 		config.write(configfile)
 
 def processKey(keyString):
@@ -350,9 +350,9 @@ def runTask(selectedTask):
 		global T
 		T=1
 
-if bool(os.path.exists('config.ini')) is False: generateConfigFile()
+if bool(os.path.exists('config')) is False: generateConfigFile()
 config=configparser.ConfigParser()
-config.read('config.ini')
+config.read('config')
 keyEntered=False
 keyLength=56
 printGreeting()
