@@ -18,7 +18,7 @@ import time
 import secrets
 import datetime
 from itertools import product
-version_number="2.0.0-beta011"
+version_number="2.0.0-beta012"
 keyBase='nKi+T?d&OqAk<Y,4!SP-NZf[\E1MU/JwxHIsR@{r})Lvj]7(~mz0BV#y6tu:%3XGFbD;l.89C*$|^o5ga=Qc>peh2W'
 firstNinetyPrimes=(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463)
 
@@ -33,18 +33,18 @@ def generateConfigFile():
 	config = configparser.ConfigParser()
 	config['defaultKey'] = {}
 	config['defaultKey']['UseDefaultKey'] = 'False'
-	config['defaultKey']['KeyValue'] = 'ABCDEFGHIJKLMNOP12345678'
+	config['defaultKey']['KeyValue'] = '1234567890QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklz'
 	config['snagFish'] = {}
 	config['snagFish']['KeyString'] = 'eEaAsStToOiInNdDK+?&qk<Y,4!P-Zf[\1MU/JwxHR@{r})Lvj]7(~mz0BV#y6u:%%3XGFb;l.89C*$|^5g=Qc>ph2W'
-	config['snagFish']['ClockingInterval'] = '1000'
+	config['snagFish']['ClockingInterval'] = '500'
 	config['flyFish'] = {}
-	config['flyFish']['ClockingInterval'] = '1000'
+	config['flyFish']['ClockingInterval'] = '500'
 	with open('config.ini', 'w') as configfile:
 		config.write(configfile)
 
 def processKey(keyString):
-	if len(keyString)!=24:
-		print("Error! Key must be exactly 24 characters long.")
+	if len(keyString)!=keyLength:
+		print("Error! Key must be exactly "+str(keyLength)+" characters long.")
 		return 0
 	else:
 		global keyBit
@@ -108,7 +108,9 @@ def processKey(keyString):
 			'refGretna':'ref'+str(keyHash_refLibGretna),
 			'cryptGretna':'crypt'+str(keyHash_cryptLibGretna),
 			'refShepherd':'ref'+str(keyHash_refLibShepherd),
-			'cryptShepherd':'crypt'+str(keyHash_cryptLibShepherd),
+			'cryptShepherd':'crypt'+str(keyHash_cryptLibShepherd)
+}
+		print(libraries)
 		global leafBook
 		leafBook=findNewBook(keyHash_leafBook,'leaf')
 		seedBookA=findNewBook(keyHash_seedBookA,'seed')
@@ -185,7 +187,7 @@ def stream(inputText,action,seedA,seedB,seedC,expressionRefKey,expressionCryptKe
 			leaf3=staticText[x-3]
 		i+=1
 		kTp+=1
-		if kT>23: kT=0
+		if kT>(keyLength-1): kT=0
 		refKey=math.fmod(eval(expressionRefKey),1010)
 		cryptKey=math.fmod(eval(expressionCryptKey),1010)
 		if action=='encrypt': z=encryptText(inputText[x],refKey,cryptKey,layerRefLib,layerCryptLib)
@@ -195,16 +197,16 @@ def stream(inputText,action,seedA,seedB,seedC,expressionRefKey,expressionCryptKe
 		kT+=1
 	return outputText
 
-def encryptText(text,leafKey1,leafKey2,layerRef,layerCrypt):
-	refBook=findNewBook(leafKey1,layerRef)
-	cryptBook=findNewBook(leafKey2,layerCrypt)
+def encryptText(text,refKey,cryptKey,refLib,cryptLib):
+	refBook=findNewBook(refKey,refLib)
+	cryptBook=findNewBook(cryptKey,cryptLib)
 	refNum=refBook.index(text)
 	output=cryptBook[refNum]
 	return output
 
-def decryptText(text,leafKey1,leafKey2,layerRef,layerCrypt):
-	refBook=findNewBook(leafKey1,layerRef)
-	cryptBook=findNewBook(leafKey2,layerCrypt)
+def decryptText(text,refKey,cryptKey,refLib,cryptLib):
+	refBook=findNewBook(refKey,refLib)
+	cryptBook=findNewBook(cryptKey,cryptLib)
 	cryptNum=cryptBook.index(text)
 	output=refBook[cryptNum]
 	return output
@@ -228,7 +230,7 @@ def findLeafValue(leaf):
 
 def generateRandomKey():
 	keyString=''
-	for x in range(24):
+	for x in range(keyLength):
 		keyBit=secrets.choice(keyBase)
 		keyString=keyString+keyBit
 	return keyString
@@ -242,7 +244,7 @@ def snagFish(ciphertext,target):
 	attackLog.write(str(datetime.datetime.now())+" Initiating snagFish attack...\r")
 	attackLog.close()
 	attemptNumber=0
-	cartesianKey = product(config['snagFish']['KeyString'],repeat=24)
+	cartesianKey = product(config['snagFish']['KeyString'],repeat=keyLength)
 	print("SnagFish attack started. This will take time, depending on your CPU and the length of your ciphertext...")
 	snagClock=0
 	ClockInt=int(config['snagFish']['ClockingInterval'])
@@ -328,7 +330,7 @@ def getCommand():
 def runTask(selectedTask):
 	global cache1
 	if selectedTask=='key':
-		userKey=input("Enter 24-bit key: ")
+		userKey=input("Enter "+str(keyLength)+"-bit key: ")
 		check=processKey(userKey)
 		if check==1:print("Key accepted.")
 	elif selectedTask=='encrypt':
@@ -370,6 +372,7 @@ if bool(os.path.exists('config.ini')) is False: generateConfigFile()
 config=configparser.ConfigParser()
 config.read('config.ini')
 keyEntered=False
+keyLength=56
 printGreeting()
 T = 0
 while T == 0:
