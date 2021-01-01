@@ -35,7 +35,7 @@ def generateConfigFile():
 	config['defaultKey']['UseDefaultKey'] = 'False'
 	config['defaultKey']['KeyValue'] = '1234567890QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklz'
 	config['snagFish'] = {}
-	config['snagFish']['KeyString'] = 'eEaAsStToOiInNdDK+?&qk<Y,4!P-Zf[\1MU/JwxHR@{r})Lvj]7(~mz0BV#y6u:%%3XGFb;l.89C*$|^5g=Qc>ph2W'
+	config['snagFish']['KeyString'] = 'eEaAsStToOiInNdDK+?&qk<Y,4!P-Zf[\M1U/JwxHR@{r})Lvj]7(~mz0BV#y6u:%%3XGFb;l.89C*$|^5g=Qc>ph2W'
 	config['snagFish']['ClockingInterval'] = '500'
 	config['flyFish'] = {}
 	config['flyFish']['ClockingInterval'] = '500'
@@ -52,53 +52,40 @@ def processKey(keyString):
 		for x in keyString: keyBit.append(firstNinetyPrimes[keyBase.index(x)])
 		global leafMultiplier
 		leafMultiplier={
-		'crypt1':int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]*keyBit[3]+keyBit[4]*keyBit[5]+keyBit[6]*keyBit[7]+keyBit[8]*keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]*keyBit[13]+keyBit[14]*keyBit[15]+keyBit[16]*keyBit[17]+keyBit[18]*keyBit[19]+keyBit[20]*keyBit[21]+keyBit[22]*keyBit[23],1010)),
-		#'crypt1':int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]*keyBit[3]+keyBit[4]*keyBit[5]+keyBit[6],1010)),
-		'crypt2':int(math.fmod(keyBit[6]*keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]*keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]*keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]*keyBit[23]+keyBit[0]+keyBit[1]+keyBit[2]*keyBit[3]+keyBit[4]*keyBit[5],1010)),
-		#'crypt2':int(math.fmod(keyBit[7]*keyBit[8]+keyBit[9]*keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13],1010)),
-		#'crypt3':int(math.fmod(keyBit[14]*keyBit[15]+keyBit[16]*keyBit[17]+keyBit[18]*keyBit[19]+keyBit[20],1010)),
-		#'crypt4':int(math.fmod(keyBit[21]*keyBit[22]+keyBit[23]*keyBit[24]+keyBit[25]*keyBit[26]+keyBit[27],1010)),
-		'ref1':int(math.fmod(keyBit[0]+keyBit[1]*keyBit[2]+keyBit[3]*keyBit[4]+keyBit[5]*keyBit[6]+keyBit[7]*keyBit[8]+keyBit[9]*keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]*keyBit[14]+keyBit[15]*keyBit[16]+keyBit[17]*keyBit[18]+keyBit[19]*keyBit[20]+keyBit[21]*keyBit[22]+keyBit[23],1010)),
-		'ref2':int(math.fmod(keyBit[6]+keyBit[7]*keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]*keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]*keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23]*keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]*keyBit[4]+keyBit[5],1010))
-		#'ref1':int(math.fmod(keyBit[28]*keyBit[29]+keyBit[30]*keyBit[31]+keyBit[32]*keyBit[33]+keyBit[34],1010)),
-		#'ref2':int(math.fmod(keyBit[35]*keyBit[36]+keyBit[37]*keyBit[38]+keyBit[39]*keyBit[40]+keyBit[41],1010)),
-		#'ref3':int(math.fmod(keyBit[42]*keyBit[43]+keyBit[44]*keyBit[45]+keyBit[46]*keyBit[47]+keyBit[48],1010)),
-		#'ref4':int(math.fmod(keyBit[49]*keyBit[50]+keyBit[51]*keyBit[52]+keyBit[53]*keyBit[54]+keyBit[55],1010)),
+		'crypt1':int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]*keyBit[3]+keyBit[4]*keyBit[5]+keyBit[6],1010)),
+		'crypt2':int(math.fmod(keyBit[7]*keyBit[8]+keyBit[9]*keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13],1010)),
+		'crypt3':int(math.fmod(keyBit[14]*keyBit[15]+keyBit[16]*keyBit[17]+keyBit[18]*keyBit[19]+keyBit[20],1010)),
+		'crypt4':int(math.fmod(keyBit[21]*keyBit[22]+keyBit[23]*keyBit[24]+keyBit[25]*keyBit[26]+keyBit[27],1010)),
+		'ref1':int(math.fmod(keyBit[28]*keyBit[29]+keyBit[30]*keyBit[31]+keyBit[32]*keyBit[33]+keyBit[34],1010)),
+		'ref2':int(math.fmod(keyBit[35]*keyBit[36]+keyBit[37]*keyBit[38]+keyBit[39]*keyBit[40]+keyBit[41],1010)),
+		'ref3':int(math.fmod(keyBit[42]*keyBit[43]+keyBit[44]*keyBit[45]+keyBit[46]*keyBit[47]+keyBit[48],1010)),
+		'ref4':int(math.fmod(keyBit[49]*keyBit[50]+keyBit[51]*keyBit[52]+keyBit[53]*keyBit[54]+keyBit[55],1010))
 }
-		keyHash_leafBook=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23],1010))
-		#keyHash_leafBook=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]*keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]*keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]*keyBit[22]+keyBit[23]+keyBit[24]+keyBit[25]+keyBit[26]+keyBit[27]+keyBit[28]*keyBit[29]+keyBit[30]+keyBit[31]+keyBit[32]+keyBit[33]+keyBit[34]+keyBit[35]*keyBit[36]+keyBit[37]+keyBit[38]+keyBit[39]+keyBit[40]+keyBit[41]+keyBit[42]*keyBit[43]+keyBit[44]+keyBit[45]+keyBit[46]+keyBit[47]+keyBit[48]+keyBit[49]*keyBit[50]+keyBit[51]+keyBit[52]+keyBit[53]+keyBit[54]+keyBit[55],1010))
-		keyHash_seed1=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7],98))
-		#keyHash_seed1=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]+keyBit[3]+keyBit[54]+keyBit[16],98))
-		#keyHash_seed2=int(math.fmod(keyBit[4]+keyBit[5]*keyBit[6]+keyBit[7]+keyBit[54]+keyBit[16],98))
-		#keyHash_seed3=int(math.fmod(keyBit[8]+keyBit[9]+keyBit[10]*keyBit[12]+keyBit[49]+keyBit[16],98))
-		#keyHash_seed4=int(math.fmod(keyBit[13]+keyBit[14]+keyBit[15]+keyBit[17]*keyBit[49]+keyBit[11],98))
-		#keyHash_seed5=int(math.fmod(keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[41]*keyBit[11],98))
-		#keyHash_seed6=int(math.fmod(keyBit[22]+keyBit[23]+keyBit[24]+keyBit[26]*keyBit[41]+keyBit[11],98))
-		#keyHash_seed7=int(math.fmod(keyBit[28]+keyBit[29]+keyBit[30]*keyBit[31]+keyBit[34]+keyBit[11],98))
-		#keyHash_seed8=int(math.fmod(keyBit[32]+keyBit[33]*keyBit[35]+keyBit[36]+keyBit[34]+keyBit[11],98))
-		#keyHash_seed9=int(math.fmod(keyBit[37]*keyBit[38]+keyBit[39]+keyBit[40]+keyBit[27]+keyBit[11],98))
-		#keyHash_seed10=int(math.fmod(keyBit[42]+keyBit[43]*keyBit[44]+keyBit[45]+keyBit[27]+keyBit[16],98))
-		#keyHash_seed11=int(math.fmod(keyBit[46]+keyBit[47]+keyBit[48]*keyBit[50]+keyBit[25]+keyBit[16],98))
-		#keyHash_seed12=int(math.fmod(keyBit[51]+keyBit[52]+keyBit[53]+keyBit[55]*keyBit[25]+keyBit[16],98))
-		keyHash_seed2=int(math.fmod(keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15],98))
-		keyHash_seed3=int(math.fmod(keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23],98))
-		keyHash_seed4=int(math.fmod(keyBit[0]+keyBit[1]*keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]*keyBit[6]+keyBit[7],98))
-		keyHash_seed5=int(math.fmod(keyBit[8]+keyBit[9]*keyBit[10]+keyBit[11]+keyBit[12]+keyBit[13]*keyBit[14]+keyBit[15],98))
-		keyHash_seed6=int(math.fmod(keyBit[16]+keyBit[17]*keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]*keyBit[22]+keyBit[23],98))
-		#keyHash_seedBookA=int(math.fmod(keyBit[13]+keyBit[43]+keyBit[44]+keyBit[45]+keyBit[46]+keyBit[47]+keyBit[48]+keyBit[49]+keyBit[50]+keyBit[51]+keyBit[52]+keyBit[53]+keyBit[54]+keyBit[28],1010))
-		#keyHash_seedBookB=int(math.fmod(keyBit[55]+keyBit[29]+keyBit[30]+keyBit[31]+keyBit[32]+keyBit[33]+keyBit[34]+keyBit[35]+keyBit[36]+keyBit[37]+keyBit[38]+keyBit[39]+keyBit[40]+keyBit[14],1010))
-		#keyHash_seedBookC=int(math.fmod(keyBit[41]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23]+keyBit[24]+keyBit[25]+keyBit[26]+keyBit[0],1010))
-		#keyHash_seedBookD=int(math.fmod(keyBit[27]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]+keyBit[12]+keyBit[42],1010))
-		keyHash_seedBookA=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]*keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23],1010))
-		keyHash_seedBookB=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]*keyBit[23],1010))
-		#keyHash_refLibLanding=int(math.fmod(keyBit[29]+keyBit[31]+keyBit[33]+keyBit[35]+keyBit[37]+keyBit[39]+keyBit[41],11))
-		#keyHash_refLibVeterans=int(math.fmod(keyBit[43]+keyBit[45]+keyBit[47]+keyBit[49]+keyBit[51]+keyBit[53]+keyBit[55],11))
-		#keyHash_refLibGretna=int(math.fmod(keyBit[0]+keyBit[2]+keyBit[4]+keyBit[6]+keyBit[8]+keyBit[10]+keyBit[12],11))
-		#keyHash_refLibShepherd=int(math.fmod(keyBit[14]+keyBit[16]+keyBit[18]+keyBit[20]+keyBit[22]+keyBit[24]+keyBit[26],11))
-		#keyHash_cryptLibLanding=int(math.fmod(keyBit[28]+keyBit[30]+keyBit[32]+keyBit[34]+keyBit[36]+keyBit[38]+keyBit[40],11))
-		#keyHash_cryptLibVeterans=int(math.fmod(keyBit[42]+keyBit[44]+keyBit[46]+keyBit[48]+keyBit[50]+keyBit[52]+keyBit[54],11))
-		#keyHash_cryptLibGretna=int(math.fmod(keyBit[1]+keyBit[3]+keyBit[5]+keyBit[7]+keyBit[9]+keyBit[11]+keyBit[13],11))
-		#keyHash_cryptLibShepherd=int(math.fmod(keyBit[15]+keyBit[17]+keyBit[19]+keyBit[21]+keyBit[23]+keyBit[25]+keyBit[27],11))
+		keyHash_leafBook=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]*keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]*keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]*keyBit[22]+keyBit[23]+keyBit[24]+keyBit[25]+keyBit[26]+keyBit[27]+keyBit[28]*keyBit[29]+keyBit[30]+keyBit[31]+keyBit[32]+keyBit[33]+keyBit[34]+keyBit[35]*keyBit[36]+keyBit[37]+keyBit[38]+keyBit[39]+keyBit[40]+keyBit[41]+keyBit[42]*keyBit[43]+keyBit[44]+keyBit[45]+keyBit[46]+keyBit[47]+keyBit[48]+keyBit[49]*keyBit[50]+keyBit[51]+keyBit[52]+keyBit[53]+keyBit[54]+keyBit[55],1010))
+		keyHash_seed1=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]+keyBit[3]+keyBit[54]+keyBit[16],99))
+		keyHash_seed2=int(math.fmod(keyBit[4]+keyBit[5]*keyBit[6]+keyBit[7]+keyBit[54]+keyBit[16],99))
+		keyHash_seed3=int(math.fmod(keyBit[8]+keyBit[9]+keyBit[10]*keyBit[12]+keyBit[49]+keyBit[16],99))
+		keyHash_seed4=int(math.fmod(keyBit[13]+keyBit[14]+keyBit[15]+keyBit[17]*keyBit[49]+keyBit[11],99))
+		keyHash_seed5=int(math.fmod(keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[41]*keyBit[11],99))
+		keyHash_seed6=int(math.fmod(keyBit[22]+keyBit[23]+keyBit[24]+keyBit[26]*keyBit[41]+keyBit[11],99))
+		keyHash_seed7=int(math.fmod(keyBit[28]+keyBit[29]+keyBit[30]*keyBit[31]+keyBit[34]+keyBit[11],99))
+		keyHash_seed8=int(math.fmod(keyBit[32]+keyBit[33]*keyBit[35]+keyBit[36]+keyBit[34]+keyBit[11],99))
+		keyHash_seed9=int(math.fmod(keyBit[37]*keyBit[38]+keyBit[39]+keyBit[40]+keyBit[27]+keyBit[11],99))
+		keyHash_seed10=int(math.fmod(keyBit[42]+keyBit[43]*keyBit[44]+keyBit[45]+keyBit[27]+keyBit[16],99))
+		keyHash_seed11=int(math.fmod(keyBit[46]+keyBit[47]+keyBit[48]*keyBit[50]+keyBit[25]+keyBit[16],99))
+		keyHash_seed12=int(math.fmod(keyBit[51]+keyBit[52]+keyBit[53]+keyBit[55]*keyBit[25]+keyBit[16],99))
+		keyHash_seedBookA=int(math.fmod(keyBit[13]+keyBit[43]+keyBit[44]+keyBit[45]+keyBit[46]+keyBit[47]+keyBit[48]+keyBit[49]+keyBit[50]+keyBit[51]+keyBit[52]+keyBit[53]+keyBit[54]+keyBit[28],1010))
+		keyHash_seedBookB=int(math.fmod(keyBit[55]+keyBit[29]+keyBit[30]+keyBit[31]+keyBit[32]+keyBit[33]+keyBit[34]+keyBit[35]+keyBit[36]+keyBit[37]+keyBit[38]+keyBit[39]+keyBit[40]+keyBit[14],1010))
+		keyHash_seedBookC=int(math.fmod(keyBit[41]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23]+keyBit[24]+keyBit[25]+keyBit[26]+keyBit[0],1010))
+		keyHash_seedBookD=int(math.fmod(keyBit[27]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]+keyBit[12]+keyBit[42],1010))
+		keyHash_refLibLanding=int(math.fmod(keyBit[29]+keyBit[31]+keyBit[33]+keyBit[35]+keyBit[37]+keyBit[39]+keyBit[41],12))
+		keyHash_refLibVeterans=int(math.fmod(keyBit[43]+keyBit[45]+keyBit[47]+keyBit[49]+keyBit[51]+keyBit[53]+keyBit[55],12))
+		keyHash_refLibGretna=int(math.fmod(keyBit[0]+keyBit[2]+keyBit[4]+keyBit[6]+keyBit[8]+keyBit[10]+keyBit[12],12))
+		keyHash_refLibShepherd=int(math.fmod(keyBit[14]+keyBit[16]+keyBit[18]+keyBit[20]+keyBit[22]+keyBit[24]+keyBit[26],12))
+		keyHash_cryptLibLanding=int(math.fmod(keyBit[28]+keyBit[30]+keyBit[32]+keyBit[34]+keyBit[36]+keyBit[38]+keyBit[40],12))
+		keyHash_cryptLibVeterans=int(math.fmod(keyBit[42]+keyBit[44]+keyBit[46]+keyBit[48]+keyBit[50]+keyBit[52]+keyBit[54],12))
+		keyHash_cryptLibGretna=int(math.fmod(keyBit[1]+keyBit[3]+keyBit[5]+keyBit[7]+keyBit[9]+keyBit[11]+keyBit[13],12))
+		keyHash_cryptLibShepherd=int(math.fmod(keyBit[15]+keyBit[17]+keyBit[19]+keyBit[21]+keyBit[23]+keyBit[25]+keyBit[27],12))
 		global libraries
 		libraries={
 			'refLanding':'ref'+str(keyHash_refLibLanding),
@@ -110,36 +97,27 @@ def processKey(keyString):
 			'refShepherd':'ref'+str(keyHash_refLibShepherd),
 			'cryptShepherd':'crypt'+str(keyHash_cryptLibShepherd)
 }
-		print(libraries)
 		global leafBook
 		leafBook=findNewBook(keyHash_leafBook,'leaf')
 		seedBookA=findNewBook(keyHash_seedBookA,'seed')
 		seedBookB=findNewBook(keyHash_seedBookB,'seed')
-		#seedBookC=findNewBook(keyHash_seedBookC,'seed')
-		#seedBookD=findNewBook(keyHash_seedBookD,'seed')
+		seedBookC=findNewBook(keyHash_seedBookC,'seed')
+		seedBookD=findNewBook(keyHash_seedBookD,'seed')
 		global seedDict
 		seedDict={
 			'seed1':seedBookA[keyHash_seed1],
 			'seed2':seedBookB[keyHash_seed2],
-			'seed3':seedBookA[keyHash_seed3],
-			'seed4':seedBookB[keyHash_seed4],
+			'seed3':seedBookC[keyHash_seed3],
+			'seed4':seedBookD[keyHash_seed4],
 			'seed5':seedBookA[keyHash_seed5],
-			'seed6':seedBookB[keyHash_seed6]
+			'seed6':seedBookB[keyHash_seed6],
+			'seed7':seedBookC[keyHash_seed7],
+			'seed8':seedBookD[keyHash_seed8],
+			'seed9':seedBookA[keyHash_seed9],
+			'seed10':seedBookB[keyHash_seed10],
+			'seed11':seedBookC[keyHash_seed11],
+			'seed12':seedBookD[keyHash_seed12]
 }
-		# seedDict={
-			# 'seed1':seedBookA[keyHash_seed1],
-			# 'seed2':seedBookB[keyHash_seed2],
-			# 'seed3':seedBookC[keyHash_seed3],
-			# 'seed4':seedBookD[keyHash_seed4],
-			# 'seed5':seedBookA[keyHash_seed5],
-			# 'seed6':seedBookB[keyHash_seed6],
-			# 'seed7':seedBookC[keyHash_seed7],
-			# 'seed8':seedBookD[keyHash_seed8],
-			# 'seed9':seedBookA[keyHash_seed9],
-			# 'seed10':seedBookB[keyHash_seed10],
-			# 'seed11':seedBookC[keyHash_seed11],
-			# 'seed12':seedBookD[keyHash_seed12]
-# }
 		global keyEntered
 		keyEntered=True
 		return 1
