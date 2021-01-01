@@ -23,7 +23,7 @@ keyBase='nKi+T?d&OqAk<Y,4!SP-NZf[\E1MU/JwxHIsR@{r})Lvj]7(~mz0BV#y6tu:%3XGFbD;l.8
 firstNinetyPrimes=(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463)
 
 def printGreeting():
-	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"    |\n|               \"Bufflehead\"              |\n-------------------------------------------")
+	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"            |\n|               \"Bufflehead\"              |\n-------------------------------------------")
 	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit [h]elp")
 	if config['defaultKey']['UseDefaultKey']=='True':
 		processKey(config['defaultKey']['KeyValue'])
@@ -135,9 +135,9 @@ def processString(string,action):
 		w=stream(string,action,'seed1','seed2','seed3',ref_landing,crypt_landing,libraries['refLanding'],libraries['cryptLanding'])
 		x=stream(w[::-1],action,'seed4','seed5','seed6',ref_veterans,crypt_veterans,libraries['refVeterans'],libraries['cryptVeterans'])
 		y=stream(x[::-1],action,'seed7','seed8','seed9',ref_gretna,crypt_gretna,libraries['refGretna'],libraries['cryptGretna'])
-		z=stream(y[::-1],action,'seed10','seed11','seed12',ref_shepherd,crypt_shepherd,libraries['refShepherd'],libraries['cryptShepherd'])
+		z=stream(y[::-1],action,'seed10','seed11','seed12',ref_shepherd,crypt_shepherd,libraries['refShepherd'],'crypt12')
 	elif action=='decrypt':
-		w=stream(string,action,'seed10','seed11','seed12',ref_shepherd,crypt_shepherd,libraries['refShepherd'],libraries['cryptShepherd'])
+		w=stream(string,action,'seed10','seed11','seed12',ref_shepherd,crypt_shepherd,libraries['refShepherd'],'crypt12')
 		x=stream(w[::-1],action,'seed7','seed8','seed9',ref_gretna,crypt_gretna,libraries['refGretna'],libraries['cryptGretna'])
 		y=stream(x[::-1],action,'seed4','seed5','seed6',ref_veterans,crypt_veterans,libraries['refVeterans'],libraries['cryptVeterans'])
 		z=stream(y[::-1],action,'seed1','seed2','seed3',ref_landing,crypt_landing,libraries['refLanding'],libraries['cryptLanding'])
@@ -236,7 +236,7 @@ def snagFish(ciphertext,target):
 		keyGuess=convertTuple(i)
 		processKey(keyGuess)
 		attempt=processString(ciphertext,'decrypt')
-		if option1 == 'v': print(">"+str(attemptNumber)+" key "+keyGuess+" results: "+attempt)
+		if option1 == 'v': print(">"+str(attemptNumber)+" key "+keyGuess+" results: \r"+attempt)
 		if target in attempt:
 			attackLog=open('snagFishLog.txt','a')
 			attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+"\rAttempt number: "+str(attemptNumber)+"\rKey used: "+keyGuess)
