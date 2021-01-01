@@ -132,12 +132,16 @@ def processString(string,action):
 	ref_shepherd='(findLeafValue(leaf1)*findLeafValue(leaf2)+findLeafValue(leaf3)*leafMultiplier["ref4"])*(keyBit[kT]+kTp)'
 	crypt_shepherd='(findLeafValue(leaf1)+findLeafValue(leaf2)+findLeafValue(leaf3)+leafMultiplier["crypt4"])*(keyBit[kT]+kTp)'
 	if action=='encrypt':
-		x=stream(string,action,'seed1','seed2','seed3',ref_landing,crypt_landing,libraries['refLanding'],libraries['cryptLanding'])
-		finalText=stream(x[::-1],action,'seed4','seed5','seed6',ref_veterans,crypt_veterans,libraries['refVeterans'],libraries['cryptVeterans'])
+		w=stream(string,action,'seed1','seed2','seed3',ref_landing,crypt_landing,libraries['refLanding'],libraries['cryptLanding'])
+		x=stream(w[::-1],action,'seed4','seed5','seed6',ref_veterans,crypt_veterans,libraries['refVeterans'],libraries['cryptVeterans'])
+		y=stream(x[::-1],action,'seed7','seed8','seed9',ref_gretna,crypt_gretna,libraries['refGretna'],libraries['cryptGretna'])
+		z=stream(y[::-1],action,'seed10','seed11','seed12',ref_shepherd,crypt_shepherd,libraries['refShepherd'],libraries['cryptShepherd'])
 	elif action=='decrypt':
-		x=stream(string,action,'seed4','seed5','seed6',ref_veterans,crypt_veterans,libraries['refVeterans'],libraries['cryptVeterans'])
-		finalText=stream(x[::-1],action,'seed1','seed2','seed3',ref_landing,crypt_landing,libraries['refLanding'],libraries['cryptLanding'])
-	return finalText
+		w=stream(string,action,'seed10','seed11','seed12',ref_shepherd,crypt_shepherd,libraries['refShepherd'],libraries['cryptShepherd'])
+		x=stream(w[::-1],action,'seed7','seed8','seed9',ref_gretna,crypt_gretna,libraries['refGretna'],libraries['cryptGretna'])
+		y=stream(x[::-1],action,'seed4','seed5','seed6',ref_veterans,crypt_veterans,libraries['refVeterans'],libraries['cryptVeterans'])
+		z=stream(y[::-1],action,'seed1','seed2','seed3',ref_landing,crypt_landing,libraries['refLanding'],libraries['cryptLanding'])
+	return z
 
 def stream(inputText,action,seedA,seedB,seedC,expressionRefKey,expressionCryptKey,layerRefLib,layerCryptLib):
 	outputText=""
