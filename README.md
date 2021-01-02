@@ -1,6 +1,6 @@
 # Roark Creek
 A command-line cryptography machine with a stream cipher engine.
-![Roark Creek version 2.0.0 "Bufflehead"](https://imgur.com/TRuAIzN)
+![Roark Creek version 2.0.0 "Bufflehead"](https://i.imgur.com/TRuAIzN.png)
 ## Features
 * Simple interface
 * 56-bit keys
