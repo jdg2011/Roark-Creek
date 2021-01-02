@@ -10,170 +10,187 @@
 
 #Notes
 	#A "sub-string not found" error typically means you used a character not included in the libraries.
+import os
+import configparser
+import pyperclip
 import math
 import time
 import secrets
 import datetime
 from itertools import product
-version_number="1.1.0b"
-keyBase='mHUa?6|@xe>G7i}WNf.TER%zk=#nJovq:5DYXuV2BscAlb+F*3-$<{Q8ñy9(!~ÑL&4P^COgSt,`r0hpIdK wjM)1Z'
+version_number="2.0.0"
+keyBase='nKi+T?d&OqAk<Y,4!SP-NZf[\E1MU/JwxHIsR@{r})Lvj]7(~mz0BV#y6tu:%3XGFbD;l.89C*$|^o5ga=Qc>peh2W'
+firstNinetyPrimes=(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463)
 
-def greeting():
-	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"           |\n|                \"Albatross\"              |\n-------------------------------------------")
+def printGreeting():
+	print("-------------------------------------------\n|                                         |\n|            Roark Creek "+version_number+"            |\n|               \"Bufflehead\"              |\n-------------------------------------------")
 	print("\nCommands: [k]ey [e]ncrypt [d]ecrypt [q]uit [h]elp")
-	#Uncomment this to set a default key to save time when testing
-	#processKey('111111111111111111111111')
+	if config['defaultKey']['UseDefaultKey']=='True':
+		processKey(config['defaultKey']['KeyValue'])
+	keyEntered=True
 
-def processKey(userKey):
-	if len(userKey)!=24:
-		print("Error! Key must be exactly 24 characters long.")
+def generateConfigFile():
+	config = configparser.ConfigParser()
+	config['defaultKey'] = {}
+	config['defaultKey']['UseDefaultKey'] = 'False'
+	config['defaultKey']['KeyValue'] = '1234567890QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklz'
+	config['snagFish'] = {}
+	config['snagFish']['KeyString'] = 'eEaAsStToOiInNdDK+?&qk<Y,4!P-Zf[\M1U/JwxHR@{r})Lvj]7(~mz0BV#y6u:%%3XGFb;l.89C*$|^5g=Qc>ph2W'
+	config['snagFish']['ClockingInterval'] = '500'
+	config['flyFish'] = {}
+	config['flyFish']['ClockingInterval'] = '500'
+	with open('config', 'w') as configfile:
+		config.write(configfile)
+
+def processKey(keyString):
+	if len(keyString)!=keyLength:
+		print("Error! Key must be exactly "+str(keyLength)+" characters long.")
 		return 0
 	else:
 		global keyBit
 		keyBit=[]
-		keyHashLib=keyBase
-		for x in userKey: keyBit.append(keyHashLib.index(x))
-		global keyHash_cryptMult1
-		keyHash_cryptMult1=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]*keyBit[3]+keyBit[4]*keyBit[5]+keyBit[6]*keyBit[7]+keyBit[8]*keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]*keyBit[13]+keyBit[14]*keyBit[15]+keyBit[16]*keyBit[17]+keyBit[18]*keyBit[19]+keyBit[20]*keyBit[21]+keyBit[22]*keyBit[23],1010))
-		global keyHash_cryptMult2
-		keyHash_cryptMult2=int(math.fmod(keyBit[6]*keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]*keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]*keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]*keyBit[23]+keyBit[0]+keyBit[1]+keyBit[2]*keyBit[3]+keyBit[4]*keyBit[5],1010))
-		global keyHash_refMult1
-		keyHash_refMult1=int(math.fmod(keyBit[0]+keyBit[1]*keyBit[2]+keyBit[3]*keyBit[4]+keyBit[5]*keyBit[6]+keyBit[7]*keyBit[8]+keyBit[9]*keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]*keyBit[14]+keyBit[15]*keyBit[16]+keyBit[17]*keyBit[18]+keyBit[19]*keyBit[20]+keyBit[21]*keyBit[22]+keyBit[23],1010))
-		global keyHash_refMult2
-		keyHash_refMult2=int(math.fmod(keyBit[6]+keyBit[7]*keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]*keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]*keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23]*keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]*keyBit[4]+keyBit[5],1010))
-		keyHash_leafBook=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23],1010))
-		keyHash_seed1=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7],91))
-		keyHash_seed2=int(math.fmod(keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15],91))
-		keyHash_seed3=int(math.fmod(keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23],91))
-		keyHash_seed4=int(math.fmod(keyBit[0]+keyBit[1]*keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]*keyBit[6]+keyBit[7],91))
-		keyHash_seed5=int(math.fmod(keyBit[8]+keyBit[9]*keyBit[10]+keyBit[11]+keyBit[12]+keyBit[13]*keyBit[14]+keyBit[15],91))
-		keyHash_seed6=int(math.fmod(keyBit[16]+keyBit[17]*keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]*keyBit[22]+keyBit[23],91))
-		keyHash_seedBook1=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]*keyBit[11]+keyBit[12]*keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23],1010))
-		keyHash_seedBook2=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]*keyBit[23],1010))
+		for x in keyString: keyBit.append(firstNinetyPrimes[keyBase.index(x)])
+		global leafMultiplier
+		leafMultiplier={
+		'crypt1':int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]*keyBit[3]+keyBit[4]*keyBit[5]+keyBit[6],1010)),
+		'crypt2':int(math.fmod(keyBit[7]*keyBit[8]+keyBit[9]*keyBit[10]+keyBit[11]*keyBit[12]+keyBit[13],1010)),
+		'crypt3':int(math.fmod(keyBit[14]*keyBit[15]+keyBit[16]*keyBit[17]+keyBit[18]*keyBit[19]+keyBit[20],1010)),
+		'crypt4':int(math.fmod(keyBit[21]*keyBit[22]+keyBit[23]*keyBit[24]+keyBit[25]*keyBit[26]+keyBit[27],1010)),
+		'ref1':int(math.fmod(keyBit[28]*keyBit[29]+keyBit[30]*keyBit[31]+keyBit[32]*keyBit[33]+keyBit[34],1010)),
+		'ref2':int(math.fmod(keyBit[35]*keyBit[36]+keyBit[37]*keyBit[38]+keyBit[39]*keyBit[40]+keyBit[41],1010)),
+		'ref3':int(math.fmod(keyBit[42]*keyBit[43]+keyBit[44]*keyBit[45]+keyBit[46]*keyBit[47]+keyBit[48],1010)),
+		'ref4':int(math.fmod(keyBit[49]*keyBit[50]+keyBit[51]*keyBit[52]+keyBit[53]*keyBit[54]+keyBit[55],1010))
+}
+		keyHash_leafBook=int(math.fmod(keyBit[0]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]*keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]+keyBit[12]+keyBit[13]+keyBit[14]*keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]*keyBit[22]+keyBit[23]+keyBit[24]+keyBit[25]+keyBit[26]+keyBit[27]+keyBit[28]*keyBit[29]+keyBit[30]+keyBit[31]+keyBit[32]+keyBit[33]+keyBit[34]+keyBit[35]*keyBit[36]+keyBit[37]+keyBit[38]+keyBit[39]+keyBit[40]+keyBit[41]+keyBit[42]*keyBit[43]+keyBit[44]+keyBit[45]+keyBit[46]+keyBit[47]+keyBit[48]+keyBit[49]*keyBit[50]+keyBit[51]+keyBit[52]+keyBit[53]+keyBit[54]+keyBit[55],1010))
+		keyHash_seed1=int(math.fmod(keyBit[0]*keyBit[1]+keyBit[2]+keyBit[3]+keyBit[54]+keyBit[16],99))
+		keyHash_seed2=int(math.fmod(keyBit[4]+keyBit[5]*keyBit[6]+keyBit[7]+keyBit[54]+keyBit[16],99))
+		keyHash_seed3=int(math.fmod(keyBit[8]+keyBit[9]+keyBit[10]*keyBit[12]+keyBit[49]+keyBit[16],99))
+		keyHash_seed4=int(math.fmod(keyBit[13]+keyBit[14]+keyBit[15]+keyBit[17]*keyBit[49]+keyBit[11],99))
+		keyHash_seed5=int(math.fmod(keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[41]*keyBit[11],99))
+		keyHash_seed6=int(math.fmod(keyBit[22]+keyBit[23]+keyBit[24]+keyBit[26]*keyBit[41]+keyBit[11],99))
+		keyHash_seed7=int(math.fmod(keyBit[28]+keyBit[29]+keyBit[30]*keyBit[31]+keyBit[34]+keyBit[11],99))
+		keyHash_seed8=int(math.fmod(keyBit[32]+keyBit[33]*keyBit[35]+keyBit[36]+keyBit[34]+keyBit[11],99))
+		keyHash_seed9=int(math.fmod(keyBit[37]*keyBit[38]+keyBit[39]+keyBit[40]+keyBit[27]+keyBit[11],99))
+		keyHash_seed10=int(math.fmod(keyBit[42]+keyBit[43]*keyBit[44]+keyBit[45]+keyBit[27]+keyBit[16],99))
+		keyHash_seed11=int(math.fmod(keyBit[46]+keyBit[47]+keyBit[48]*keyBit[50]+keyBit[25]+keyBit[16],99))
+		keyHash_seed12=int(math.fmod(keyBit[51]+keyBit[52]+keyBit[53]+keyBit[55]*keyBit[25]+keyBit[16],99))
+		keyHash_seedBookA=int(math.fmod(keyBit[13]+keyBit[43]+keyBit[44]+keyBit[45]+keyBit[46]+keyBit[47]+keyBit[48]+keyBit[49]+keyBit[50]+keyBit[51]+keyBit[52]+keyBit[53]+keyBit[54]+keyBit[28],1010))
+		keyHash_seedBookB=int(math.fmod(keyBit[55]+keyBit[29]+keyBit[30]+keyBit[31]+keyBit[32]+keyBit[33]+keyBit[34]+keyBit[35]+keyBit[36]+keyBit[37]+keyBit[38]+keyBit[39]+keyBit[40]+keyBit[14],1010))
+		keyHash_seedBookC=int(math.fmod(keyBit[41]+keyBit[15]+keyBit[16]+keyBit[17]+keyBit[18]+keyBit[19]+keyBit[20]+keyBit[21]+keyBit[22]+keyBit[23]+keyBit[24]+keyBit[25]+keyBit[26]+keyBit[0],1010))
+		keyHash_seedBookD=int(math.fmod(keyBit[27]+keyBit[1]+keyBit[2]+keyBit[3]+keyBit[4]+keyBit[5]+keyBit[6]+keyBit[7]+keyBit[8]+keyBit[9]+keyBit[10]+keyBit[11]+keyBit[12]+keyBit[42],1010))
+		keyHash_refLibLanding=int(math.fmod(keyBit[29]+keyBit[31]+keyBit[33]+keyBit[35]+keyBit[37]+keyBit[39]+keyBit[41],12))
+		keyHash_refLibVeterans=int(math.fmod(keyBit[43]+keyBit[45]+keyBit[47]+keyBit[49]+keyBit[51]+keyBit[53]+keyBit[55],12))
+		keyHash_refLibGretna=int(math.fmod(keyBit[0]+keyBit[2]+keyBit[4]+keyBit[6]+keyBit[8]+keyBit[10]+keyBit[12],12))
+		keyHash_refLibShepherd=int(math.fmod(keyBit[14]+keyBit[16]+keyBit[18]+keyBit[20]+keyBit[22]+keyBit[24]+keyBit[26],12))
+		keyHash_cryptLibLanding=int(math.fmod(keyBit[28]+keyBit[30]+keyBit[32]+keyBit[34]+keyBit[36]+keyBit[38]+keyBit[40],12))
+		keyHash_cryptLibVeterans=int(math.fmod(keyBit[42]+keyBit[44]+keyBit[46]+keyBit[48]+keyBit[50]+keyBit[52]+keyBit[54],12))
+		keyHash_cryptLibGretna=int(math.fmod(keyBit[1]+keyBit[3]+keyBit[5]+keyBit[7]+keyBit[9]+keyBit[11]+keyBit[13],12))
+		keyHash_cryptLibShepherd=int(math.fmod(keyBit[15]+keyBit[17]+keyBit[19]+keyBit[21]+keyBit[23]+keyBit[25]+keyBit[27],12))
+		global libraries
+		libraries={
+			'refLanding':'ref'+str(keyHash_refLibLanding),
+			'cryptLanding':'crypt'+str(keyHash_cryptLibLanding),
+			'refVeterans':'ref'+str(keyHash_refLibVeterans),
+			'cryptVeterans':'crypt'+str(keyHash_cryptLibVeterans),
+			'refGretna':'ref'+str(keyHash_refLibGretna),
+			'cryptGretna':'crypt'+str(keyHash_cryptLibGretna),
+			'refShepherd':'ref'+str(keyHash_refLibShepherd),
+			'cryptShepherd':'crypt'+str(keyHash_cryptLibShepherd)
+}
 		global leafBook
 		leafBook=findNewBook(keyHash_leafBook,'leaf')
-		seedBook1=findNewBook(keyHash_seedBook1,'seed')
-		seedBook2=findNewBook(keyHash_seedBook2,'seed')
-		seedBook3=findNewBook(keyHash_seedBook1,'seed')
-		seedBook4=findNewBook(keyHash_seedBook1,'seed')
-		seedBook5=findNewBook(keyHash_seedBook2,'seed')
-		seedBook6=findNewBook(keyHash_seedBook1,'seed')
-		global seed1
-		seed1=findSeedValue(keyHash_seed1,seedBook1)
-		global seed2
-		seed2=findSeedValue(keyHash_seed2,seedBook2)
-		global seed3
-		seed3=findSeedValue(keyHash_seed3,seedBook1)
-		global seed4
-		seed4=findSeedValue(keyHash_seed4,seedBook1)
-		global seed5
-		seed5=findSeedValue(keyHash_seed5,seedBook2)
-		global seed6
-		seed6=findSeedValue(keyHash_seed6,seedBook1)
+		seedBookA=findNewBook(keyHash_seedBookA,'seed')
+		seedBookB=findNewBook(keyHash_seedBookB,'seed')
+		seedBookC=findNewBook(keyHash_seedBookC,'seed')
+		seedBookD=findNewBook(keyHash_seedBookD,'seed')
+		global seedDict
+		seedDict={
+			'seed1':seedBookA[keyHash_seed1],
+			'seed2':seedBookB[keyHash_seed2],
+			'seed3':seedBookC[keyHash_seed3],
+			'seed4':seedBookD[keyHash_seed4],
+			'seed5':seedBookA[keyHash_seed5],
+			'seed6':seedBookB[keyHash_seed6],
+			'seed7':seedBookC[keyHash_seed7],
+			'seed8':seedBookD[keyHash_seed8],
+			'seed9':seedBookA[keyHash_seed9],
+			'seed10':seedBookB[keyHash_seed10],
+			'seed11':seedBookC[keyHash_seed11],
+			'seed12':seedBookD[keyHash_seed12]
+}
 		global keyEntered
 		keyEntered=True
 		return 1
 
-def findSeedValue(keyHash,library):
-	i=0
-	for x in library:
-		if i==keyHash:
-			seed=x
-			break
-		else:
-			i+=1
-			continue
-	return seed
-
 def processString(string,action):
+	ref_landing='(findLeafValue(leaf1)*findLeafValue(leaf2)*findLeafValue(leaf3)*leafMultiplier["ref1"])*(keyBit[kT]+kTp)'
+	crypt_landing='(findLeafValue(leaf1)+findLeafValue(leaf2)+findLeafValue(leaf3)*leafMultiplier["crypt1"])+(keyBit[kT]+kTp)'
+	ref_veterans='(findLeafValue(leaf1)*findLeafValue(leaf2)*findLeafValue(leaf3)*leafMultiplier["ref2"])+(keyBit[kT]+kTp)'
+	crypt_veterans='(findLeafValue(leaf1)+findLeafValue(leaf2)*findLeafValue(leaf3)+leafMultiplier["crypt2"])+(keyBit[kT]+kTp)'
+	ref_gretna='(findLeafValue(leaf1)*findLeafValue(leaf2)*findLeafValue(leaf3)+leafMultiplier["ref3"])*(keyBit[kT]+kTp)'
+	crypt_gretna='(findLeafValue(leaf1)*findLeafValue(leaf2)+findLeafValue(leaf3)+leafMultiplier["crypt3"])+(keyBit[kT]+kTp)'
+	ref_shepherd='(findLeafValue(leaf1)*findLeafValue(leaf2)+findLeafValue(leaf3)*leafMultiplier["ref4"])*(keyBit[kT]+kTp)'
+	crypt_shepherd='(findLeafValue(leaf1)+findLeafValue(leaf2)+findLeafValue(leaf3)+leafMultiplier["crypt4"])*(keyBit[kT]+kTp)'
 	if action=='encrypt':
-		x=downstream(string,action)
-		finalText=upstream(x[::-1],action)
+		w=stream(string,action,'seed1','seed2','seed3',ref_landing,crypt_landing,libraries['refLanding'],libraries['cryptLanding'])
+		x=stream(w[::-1],action,'seed4','seed5','seed6',ref_veterans,crypt_veterans,libraries['refVeterans'],libraries['cryptVeterans'])
+		y=stream(x[::-1],action,'seed7','seed8','seed9',ref_gretna,crypt_gretna,libraries['refGretna'],libraries['cryptGretna'])
+		z=stream(y[::-1],action,'seed10','seed11','seed12',ref_shepherd,crypt_shepherd,libraries['refShepherd'],'crypt12')
 	elif action=='decrypt':
-		x=upstream(string,action)
-		finalText=downstream(x[::-1],action)
-	return finalText
+		w=stream(string,action,'seed10','seed11','seed12',ref_shepherd,crypt_shepherd,libraries['refShepherd'],'crypt12')
+		x=stream(w[::-1],action,'seed7','seed8','seed9',ref_gretna,crypt_gretna,libraries['refGretna'],libraries['cryptGretna'])
+		y=stream(x[::-1],action,'seed4','seed5','seed6',ref_veterans,crypt_veterans,libraries['refVeterans'],libraries['cryptVeterans'])
+		z=stream(y[::-1],action,'seed1','seed2','seed3',ref_landing,crypt_landing,libraries['refLanding'],libraries['cryptLanding'])
+	return z
 
-def downstream(inputText,action):
+def stream(inputText,action,seedA,seedB,seedC,expressionRefKey,expressionCryptKey,layerRefLib,layerCryptLib):
 	outputText=""
 	if action=='decrypt':staticText=inputText
 	global keyBit
 	i=0
 	kT=0
+	kTp=0
 	for x in range(len(inputText)):
 		if i==0:
-			p1=seed1
-			p2=seed2
-			p3=seed3
+			leaf1=seedDict[seedA]
+			leaf2=seedDict[seedB]
+			leaf3=seedDict[seedC]
 		elif i==1:
-			p1=seed2
-			p2=seed3
-			p3=staticText[x-1]
+			leaf1=seedDict[seedB]
+			leaf2=seedDict[seedC]
+			leaf3=staticText[x-1]
 		elif i==2:
-			p1=seed3
-			p2=staticText[x-1]
-			p3=staticText[x-2]
+			leaf1=seedDict[seedC]
+			leaf2=staticText[x-1]
+			leaf3=staticText[x-2]
 		else:
-			p1=staticText[x-1]
-			p2=staticText[x-2]
-			p3=staticText[x-3]
+			leaf1=staticText[x-1]
+			leaf2=staticText[x-2]
+			leaf3=staticText[x-3]
 		i+=1
-		if kT>23: kT=0
-		refKey=math.fmod(hashLeaf(p1)*hashLeaf(p2)*hashLeaf(p3)*keyHash_refMult1+keyBit[kT],1010)
-		cryptKey=math.fmod(hashLeaf(p1)+hashLeaf(p2)+hashLeaf(p3)*keyHash_cryptMult1+keyBit[kT],1010)
-		if action=='encrypt': z=encryptLeaf(inputText[x],refKey,cryptKey,'1')
-		if action=='decrypt': z=decryptLeaf(inputText[x],refKey,cryptKey,'1')
+		kTp+=1
+		if kT>(keyLength-1): kT=0
+		refKey=math.fmod(eval(expressionRefKey),1010)
+		cryptKey=math.fmod(eval(expressionCryptKey),1010)
+		if action=='encrypt': z=encryptText(inputText[x],refKey,cryptKey,layerRefLib,layerCryptLib)
+		if action=='decrypt': z=decryptText(inputText[x],refKey,cryptKey,layerRefLib,layerCryptLib)
 		outputText=str(outputText)+str(z)
 		if action=='encrypt':staticText=outputText
 		kT+=1
 	return outputText
 
-def upstream(inputText,action):
-	outputText=""
-	if action=='decrypt':staticText=inputText
-	global keyBit
-	i=0
-	kT=0
-	for x in range(len(inputText)):
-		if i==0:
-			p1=seed4
-			p2=seed5
-			p3=seed6
-		elif i==1:
-			p1=seed5
-			p2=seed6
-			p3=staticText[x-1]
-		elif i==2:
-			p1=seed6
-			p2=staticText[x-1]
-			p3=staticText[x-2]
-		else:
-			p1=staticText[x-1]
-			p2=staticText[x-2]
-			p3=staticText[x-3]
-		i+=1
-		if kT>23: kT=0
-		refKey=math.fmod(hashLeaf(p1)*hashLeaf(p2)*hashLeaf(p3)*keyHash_refMult1+keyBit[kT],1010)
-		cryptKey=math.fmod(hashLeaf(p1)+hashLeaf(p2)+hashLeaf(p3)*keyHash_cryptMult1+keyBit[kT],1010)
-		if action=='encrypt': z=encryptLeaf(inputText[x],refKey,cryptKey,'2')
-		if action=='decrypt': z=decryptLeaf(inputText[x],refKey,cryptKey,'2')
-		outputText=str(outputText)+str(z)
-		if action=='encrypt':staticText=outputText
-		kT+=1
-	return outputText
-
-def encryptLeaf(leaf,leafKey1,leafKey2,sequence):
-	refBook=findNewBook(leafKey1,'ref'+sequence)
-	cryptBook=findNewBook(leafKey2,'crypt'+sequence)
-	refNum=refBook.index(leaf)
+def encryptText(text,refKey,cryptKey,refLib,cryptLib):
+	refBook=findNewBook(refKey,refLib)
+	cryptBook=findNewBook(cryptKey,cryptLib)
+	refNum=refBook.index(text)
 	output=cryptBook[refNum]
 	return output
 
-def decryptLeaf(leaf,leafKey1,leafKey2,sequence):
-	RefBook=findNewBook(leafKey1,'ref'+sequence)
-	CryptBook=findNewBook(leafKey2,'crypt'+sequence)
-	cryptNum=CryptBook.index(leaf)
-	output=RefBook[cryptNum]
+def decryptText(text,refKey,cryptKey,refLib,cryptLib):
+	refBook=findNewBook(refKey,refLib)
+	cryptBook=findNewBook(cryptKey,cryptLib)
+	cryptNum=cryptBook.index(text)
+	output=refBook[cryptNum]
 	return output
 
 def findNewBook(leafKey,library):
@@ -189,13 +206,13 @@ def findNewBook(leafKey,library):
 	openLib.close()
 	return foundBook
 
-def hashLeaf(leaf):
+def findLeafValue(leaf):
 	hashProduct=leafBook.index(leaf)
 	return hashProduct
 
 def generateRandomKey():
 	keyString=''
-	for x in range(24):
+	for x in range(keyLength):
 		keyBit=secrets.choice(keyBase)
 		keyString=keyString+keyBit
 	return keyString
@@ -209,25 +226,26 @@ def snagFish(ciphertext,target):
 	attackLog.write(str(datetime.datetime.now())+" Initiating snagFish attack...\r")
 	attackLog.close()
 	attemptNumber=0
-	cartesianKey = product('eEaA012U?6|@xm>G7i}WNf.THR%zk=#nJovq:5DYXuVBsclb+F*3-$<{Q8y9(!~L&4P^COgSt,`rhpIdK wjM)ZñÑ',repeat=24)
+	cartesianKey = product(config['snagFish']['KeyString'],repeat=keyLength)
 	print("SnagFish attack started. This will take time, depending on your CPU and the length of your ciphertext...")
 	snagClock=0
+	ClockInt=int(config['snagFish']['ClockingInterval'])
 	for i in cartesianKey:
 		if snagClock==0: tic=time.perf_counter()
 		attemptNumber+=1
 		keyGuess=convertTuple(i)
 		processKey(keyGuess)
 		attempt=processString(ciphertext,'decrypt')
-		if option1 == 'v': print(">"+str(attemptNumber)+" key "+keyGuess+" results: "+attempt)
+		if option1 == 'v': print(">"+str(attemptNumber)+" key "+keyGuess+" results: \r"+attempt)
 		if target in attempt:
 			attackLog=open('snagFishLog.txt','a')
 			attackLog.write(str(datetime.datetime.now())+" Successfully found target: "+attempt+"\rAttempt number: "+str(attemptNumber)+"\rKey used: "+keyGuess)
 			attackLog.close()
 			print("Success!")
 			break
-		if snagClock==1000:
+		if snagClock==ClockInt:
 			toc=time.perf_counter()
-			rate=round(1000/(toc-tic),1)
+			rate=round(ClockInt/(toc-tic),1)
 			if option1 != 'v': print("(Attempting "+str(rate)+" keys per second)")
 			snagClock=0
 		else:
@@ -238,6 +256,7 @@ def flyFish(ciphertext,attemptNumber):
 	attackLog.write(str(datetime.datetime.now())+" Initiating flyFish attack...\r")
 	print("FlyFish attack started. This will take time, depending on the length of your ciphertext and number of attempts...")
 	flyClock=0
+	ClockInt=int(config['flyFish']['ClockingInterval'])
 	for x in range(int(attemptNumber)):
 		keyGuess=generateRandomKey()
 		if flyClock==0: tic=time.perf_counter()
@@ -278,6 +297,7 @@ def getCommand():
 				print("No key entered. Use [k]ey or [g]enerate.")
 				continue
 		elif command == 'g' or command == 'generate': return 'generate'
+		elif command == 'c' or command == 'copy': return 'copy'
 		elif command == 's' or command == 'snagFish': return 'snag'
 		elif command == 's -v' or command == 'snagFish -v':
 			option1 = 'v'
@@ -289,30 +309,33 @@ def getCommand():
 			print("\""+command+"\" bad input. Try again.")
 			continue
 
-def task(selectedTask):
-	if selectedTask == 'key':
-		userKey=input("Enter 24-bit key: ")
+def runTask(selectedTask):
+	global cache1
+	if selectedTask=='key':
+		userKey=input("Enter "+str(keyLength)+"-bit key: ")
 		check=processKey(userKey)
-		if check==1:print("Key accepted: "+str(userKey))
-	elif selectedTask == 'encrypt':
-		userPlaintext = str(input("Enter plaintext to be encrypted: "))
-		encryptedText=processString(userPlaintext,'encrypt')
-		print("Encryption complete: "+encryptedText)
-	elif selectedTask == 'decrypt':
-		userCiphertext = str(input("Enter ciphertext to be decrypted: "))
-		decryptedText=processString(userCiphertext,'decrypt')
-		print("Decryption complete: "+decryptedText)
-	elif selectedTask == 'generate':
+		if check==1:print("Key accepted.")
+	elif selectedTask=='encrypt':
+		encryptedText=processString(str(input("Enter plaintext to be encrypted: ")),'encrypt')
+		print("Encryption complete:\n"+encryptedText)
+		cache1=encryptedText
+	elif selectedTask=='decrypt':
+		decryptedText=processString(str(input("Enter ciphertext to be decrypted: ")),'decrypt')
+		print("Decryption complete:\n"+decryptedText)
+	elif selectedTask=='generate':
 		print("Generating random key...")
 		newKey=generateRandomKey()
 		processKey(newKey)
-		print("New key "+str(newKey)+" generated and in place.")
-	elif selectedTask == 'snag':
+		print("New key generated and in place:\n"+str(newKey))
+	elif selectedTask=='copy':
+		pyperclip.copy(cache1)
+		print(cache1+" copied to clipboard")
+	elif selectedTask=='snag':
 		userInput=input("Enter ciphertext to attack: ")
 		userTarget=input("Enter a target word or phrase: ")
 		print("Initiating snagFish attack...")
 		snagFish(userInput,userTarget)
-	elif selectedTask == 'fly':
+	elif selectedTask=='fly':
 		userInput=input("Enter ciphertext to attack: ")
 		userAttempts=input("Enter number of guesses to attempt: ")
 		try:
@@ -322,15 +345,18 @@ def task(selectedTask):
 		else:
 			print("Initiating flyFish attack...")
 			flyFish(userInput,userAttempts)
-	elif selectedTask == 'help':
-		printHelp()
-	elif selectedTask == 'quit':
+	elif selectedTask=='help': printHelp()
+	elif selectedTask=='quit':
 		global T
-		T = 1
+		T=1
 
-greeting()
-T = 0
+if bool(os.path.exists('config')) is False: generateConfigFile()
+config=configparser.ConfigParser()
+config.read('config')
 keyEntered=False
+keyLength=56
+printGreeting()
+T = 0
 while T == 0:
 	option1 = 0
-	task(getCommand())
+	runTask(getCommand())
