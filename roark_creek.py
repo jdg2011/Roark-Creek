@@ -278,6 +278,15 @@ def printHelp():
 	print(helpFile.read())
 	helpFile.close()
 
+def encryptFile():
+	targetFile=open('testfile.txt','r',encoding='utf8')
+	encryptedText=''
+	for x in targetFile:
+		print(x)
+		encryptedText=encryptedText+processString(x,'encrypt')
+	targetFile.close()
+	print(encryptedText)
+
 def getCommand():
 	global option1
 	x = 0
@@ -290,7 +299,7 @@ def getCommand():
 			else:
 				print("No key entered. Use [k]ey or [g]enerate.")
 				continue
-		elif command == 'e -f'
+		elif command == 'e -f':
 			if keyEntered==True:
 				return 'fEncrypt'
 			else:
@@ -326,7 +335,7 @@ def runTask(selectedTask):
 		print("Encryption complete:\n"+encryptedText)
 		cache1=encryptedText
 	elif selectedTask=='fEncrypt':
-		pass
+		encryptFile()
 	elif selectedTask=='decrypt':
 		decryptedText=processString(str(input("Enter ciphertext to be decrypted: ")),'decrypt')
 		print("Decryption complete:\n"+decryptedText)
