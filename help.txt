@@ -2,7 +2,7 @@
 
 [k]ey
 	Enter a key to be used in encryption and decryption. It must be exactly 56 characters long and cannot contain spaces, quote marks, or apostrohphes.
-	
+
 [g]enerate
 	Randomly generate a key for use in encryption. It will be automatically set in place.
 
