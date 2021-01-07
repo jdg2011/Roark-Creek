@@ -18,7 +18,7 @@ import time
 import secrets
 import datetime
 from itertools import product
-version_number="2.0.0"
+version_number="2.0.0b"
 keyBase='nKi+T?d&OqAk<Y,4!SP-NZf[\E1MU/JwxHIsR@{r})Lvj]7(~mz0BV#y6tu:%3XGFbD;l.89C*$|^o5ga=Qc>peh2W'
 firstNinetyPrimes=(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463)
 
@@ -290,6 +290,12 @@ def getCommand():
 			else:
 				print("No key entered. Use [k]ey or [g]enerate.")
 				continue
+		elif command == 'e -f'
+			if keyEntered==True:
+				return 'fEncrypt'
+			else:
+				print("No key entered. Use [k]ey or [g]enerate.")
+				continue
 		elif command == 'd' or command == 'decrypt':
 			if keyEntered==True:
 				return 'decrypt'
@@ -319,6 +325,8 @@ def runTask(selectedTask):
 		encryptedText=processString(str(input("Enter plaintext to be encrypted: ")),'encrypt')
 		print("Encryption complete:\n"+encryptedText)
 		cache1=encryptedText
+	elif selectedTask=='fEncrypt':
+		pass
 	elif selectedTask=='decrypt':
 		decryptedText=processString(str(input("Enter ciphertext to be decrypted: ")),'decrypt')
 		print("Decryption complete:\n"+decryptedText)
